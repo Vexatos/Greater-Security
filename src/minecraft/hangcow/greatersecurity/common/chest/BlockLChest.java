@@ -375,7 +375,7 @@ public class BlockLChest extends BlockContainer
 
                         if (var9.hasTagCompound())
                         {
-                            itemEntity.func_92014_d().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
+                            itemEntity.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
                         }
 
                         float var15 = 0.05F;
