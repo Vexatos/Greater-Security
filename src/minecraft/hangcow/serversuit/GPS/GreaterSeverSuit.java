@@ -53,7 +53,9 @@ public class GreaterSeverSuit
         FileManager.fileCheck();
         config.save();
     }
+    
     Logger logger = Logger.getLogger(NAME);
+    
     @PreInit
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -78,7 +80,7 @@ public class GreaterSeverSuit
         server = ModLoader.getMinecraftServerInstance();
         
         server.worldServers[0].getGameRules().setOrCreateGameRule("mobGriefing", "false");
-        server.worldServers[0].getGameRules().setOrCreateGameRule("doFireTick", "false");
+        //server.worldServers[0].getGameRules().setOrCreateGameRule("doFireTick", "false");
         
         ICommandManager commandManager = server.getCommandManager();
         ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
