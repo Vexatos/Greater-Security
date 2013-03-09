@@ -8,12 +8,11 @@ import net.minecraft.util.DamageSource;
 
 public enum EnumDeathTypes
 {
-        UNKOWN("unkown", "GPUKDeaths"),
-        PVP("pvp", "GPPVPKills"),
-        PVPSPREE("PvP Spree", "GPPVPKillspree"), 
-        CREEPER("creeper", "GPCrDeaths"), 
+        UNKOWN("General", "GPUKDeaths"),
+        PVP("PVP", "GPPVPKills"),
+        CREEPER("creepers", "GPCrDeaths"), 
         ENVIRONMENTAL("Environmental", "GPErDeaths"), 
-        MOBS("Mobs", "GPmobDeaths");
+        MOBS("mobs", "GPmobDeaths");
         public String name;
         public String saveName;
        

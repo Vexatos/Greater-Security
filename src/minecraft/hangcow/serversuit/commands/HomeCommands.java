@@ -48,7 +48,7 @@ public class HomeCommands extends CommandBase
                 data.setDouble("HomeGPZ", player.posZ);
                 EventHandlerPlayer.saveToPlayerSave(player, data);
             }
-            player.sendChatToPlayer("Set To : " + player.chunkCoordX + "x " + player.chunkCoordY + "y " + player.chunkCoordZ + "z ");
+            player.sendChatToPlayer("Set To : " + (int)player.posX + "x " + (int)player.posY + "y " + (int)player.posZ + "z ");
         }
 
         else if (player instanceof EntityPlayerMP && var2.length == 0)
@@ -71,7 +71,7 @@ public class HomeCommands extends CommandBase
                     double xx = data.getDouble("HomeGPX");
                     double yy = data.getDouble("HomeGPY");
                     double zz = data.getDouble("HomeGPZ");
-                    player.sendChatToPlayer("Teleporting To : " + xx + "x " + yy + "y " + zz + "z ");
+                    player.sendChatToPlayer("Teleporting To : " + (int)xx + "x " + (int)yy + "y " + (int)zz + "z ");
                     TeleportationManager.addTeleport((EntityPlayerMP) player, new Loc(xx, yy, zz));
                 }
 
