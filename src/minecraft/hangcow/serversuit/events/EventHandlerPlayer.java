@@ -1,6 +1,7 @@
-package hangcow.serversuit.commands.Managers;
+package hangcow.serversuit.events;
 
-import hangcow.serversuit.commands.Managers.ActionInstance.action;
+import hangcow.serversuit.commands.blockLogger.FileManager;
+import hangcow.serversuit.commands.blockLogger.ActionInstance.ClickAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,18 +151,18 @@ public class EventHandlerPlayer
                             {
                                 if (ent.getClass() == TileEntityChest.class)
                                 {
-                                    FileManager.addEvent(loc, action.OPENED, player, block);
+                                    FileManager.addEvent(loc, ClickAction.OPENED, player, block);
                                 }
-                                FileManager.addEvent(loc, action.OPENED, player, block);
+                                FileManager.addEvent(loc, ClickAction.OPENED, player, block);
                             }
                             else
                             {
-                                FileManager.addEvent(loc, action.RCLICKED, player, block);
+                                FileManager.addEvent(loc, ClickAction.RIGHT, player, block);
                             }
                         }
                         else if (event.action == Action.LEFT_CLICK_BLOCK)
                         {
-                            FileManager.addEvent(loc, action.LCLICKED, player, block);
+                            FileManager.addEvent(loc, ClickAction.LEFT, player, block);
                         }
                         else if (event.action == Action.RIGHT_CLICK_AIR)
                         {

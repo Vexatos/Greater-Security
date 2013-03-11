@@ -1,4 +1,4 @@
-package hangcow.serversuit.commands.Managers;
+package hangcow.serversuit.teleportation;
 
 import hangcow.serversuit.common.GreaterSeverSuit;
 

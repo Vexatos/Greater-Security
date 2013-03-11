@@ -1,9 +1,9 @@
 package hangcow.serversuit.commands;
 
-import hangcow.serversuit.commands.Managers.EventHandlerPlayer;
 import hangcow.serversuit.commands.Managers.RankManager;
 import hangcow.serversuit.commands.Managers.RankManager.Ranks;
-import hangcow.serversuit.commands.Managers.TeleportationManager;
+import hangcow.serversuit.events.EventHandlerPlayer;
+import hangcow.serversuit.teleportation.TeleportationManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

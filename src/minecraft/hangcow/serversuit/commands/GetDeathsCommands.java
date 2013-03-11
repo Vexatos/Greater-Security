@@ -1,7 +1,7 @@
 package hangcow.serversuit.commands;
 
-import hangcow.serversuit.commands.Managers.EnumDeathTypes;
-import hangcow.serversuit.commands.Managers.EventHandlerPlayer;
+import hangcow.serversuit.events.EnumDeathTypes;
+import hangcow.serversuit.events.EventHandlerPlayer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

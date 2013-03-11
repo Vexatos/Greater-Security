@@ -1,4 +1,4 @@
-package hangcow.serversuit.commands.Managers;
+package hangcow.serversuit.events;
 
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;

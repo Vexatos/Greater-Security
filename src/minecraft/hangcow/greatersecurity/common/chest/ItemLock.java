@@ -5,8 +5,12 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.world.World;
 
 /**
  * 
@@ -50,23 +54,42 @@ public class ItemLock extends Item
 	{
 		par3List.add(new ItemStack(this, 1, 0));
 	}
-	/**
-	 * public boolean tryPlaceIntoWorld(ItemStack itemstack, EntityPlayer entityplayer, World world,
-	 * int i, int j, int k, int l, float par8, float par9, float par10) { if(entityplayer != null &&
-	 * !world.isRemote) { TileEntity entity = world.getBlockTileEntity(i, j, k); if(entity
-	 * instanceof TileEntityChest) { TileEntityChest chest = ((TileEntityChest)entity); int
-	 * chestSize = chest.getSizeInventory(); ItemStack[] chestItems = new ItemStack[chestSize]; int
-	 * lockSize = ((TileEntityLockedChest)entity).getSizeInventory(); for(int slot = 0; slot <
-	 * chestSize && slot < lockSize;slot++) { chestItems[slot] = chest.getStackInSlot(slot); }
-	 * world.setBlockAndMetadataWithUpdate(i, j, k, 0, 0, true); world.removeBlockTileEntity(i, j,
-	 * k); world.setBlockAndMetadataWithUpdate(i, j, j,
-	 * GreaterSecurityMain.BlockLockedChest.blockID, 0, true);
-	 * GreaterSecurityMain.BlockLockedChest.onBlockPlacedBy(world, i, j, k, entityplayer);
-	 * TileEntity entity2 = world.getBlockTileEntity(i, j, k); if(entity2 instanceof
-	 * TileEntityLockedChest) { for(int b = 0; b< lockSize; b++) { ((TileEntityLockedChest)
-	 * entity2).setInventorySlotContents(b, chestItems[b]); } }
-	 * entityplayer.sendChatToPlayer("Chest Locked"); } } return true;
-	 * 
-	 * }
-	 */
+
+	@Override
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float par8, float par9, float par10)
+	{
+		if (entityplayer != null && !world.isRemote)
+		{
+			TileEntity entity = world.getBlockTileEntity(i, j, k);
+			
+			if (entity instanceof TileEntityChest)
+			{
+				TileEntityChest chest = ((TileEntityChest) entity);
+				int chestSize = chest.getSizeInventory();
+				
+				ItemStack[] chestItems = new ItemStack[chestSize];
+				int lockSize = ((TileEntityLockedChest) entity).getSizeInventory();
+				
+				for (int slot = 0; slot < chestSize && slot < lockSize; slot++)
+				{
+					chestItems[slot] = chest.getStackInSlot(slot);
+				}
+				world.setBlockAndMetadataWithUpdate(i, j, k, 0, 0, true);
+				world.removeBlockTileEntity(i, j, k);
+				world.setBlockAndMetadataWithUpdate(i, j, j, GreaterSecurity.blockLockedChest.blockID, 0, true);
+				GreaterSecurity.blockLockedChest.onBlockPlacedBy(world, i, j, k, entityplayer);
+				TileEntity entity2 = world.getBlockTileEntity(i, j, k);
+				if (entity2 instanceof TileEntityLockedChest)
+				{
+					for (int b = 0; b < lockSize; b++)
+					{
+						((TileEntityLockedChest) entity2).setInventorySlotContents(b, chestItems[b]);
+					}
+				}
+				entityplayer.sendChatToPlayer("Chest Locked");
+			}
+		}
+		return true;
+
+	}
 }

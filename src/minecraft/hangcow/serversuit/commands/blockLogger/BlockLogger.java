@@ -1,4 +1,5 @@
-package hangcow.serversuit.commands.Managers;
+package hangcow.serversuit.commands.blockLogger;
+
 
 import java.io.File;
 

@@ -4,10 +4,10 @@ import hangcow.serversuit.commands.FlyCommand;
 import hangcow.serversuit.commands.GetDeathsCommands;
 import hangcow.serversuit.commands.HomeCommands;
 import hangcow.serversuit.commands.SmiteCommands;
-import hangcow.serversuit.commands.Managers.Clock;
-import hangcow.serversuit.commands.Managers.EventHandlerPlayer;
-import hangcow.serversuit.commands.Managers.FileManager;
-import hangcow.serversuit.commands.Managers.TeleportationManager;
+import hangcow.serversuit.commands.blockLogger.FileManager;
+import hangcow.serversuit.commands.blockLogger.FileSaveTimer;
+import hangcow.serversuit.events.EventHandlerPlayer;
+import hangcow.serversuit.teleportation.TeleportationManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +74,7 @@ public class GreaterSeverSuit
     {
         this.ConfigurationProperties();
         MinecraftForge.EVENT_BUS.register(new EventHandlerPlayer());
-        TickRegistry.registerTickHandler(new Clock(), Side.SERVER);
+        TickRegistry.registerTickHandler(new FileSaveTimer(), Side.SERVER);
         
         server = ModLoader.getMinecraftServerInstance();
         

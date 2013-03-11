@@ -1,6 +1,7 @@
-package hangcow.serversuit.commands.Managers;
+package hangcow.serversuit.commands.blockLogger;
 
-import hangcow.serversuit.commands.Managers.ActionInstance.action;
+
+import hangcow.serversuit.commands.blockLogger.ActionInstance.ClickAction;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -49,7 +50,7 @@ public class FileManager
             for (ActionInstance blocks : breakEventList)
             {
 
-                String str = blocks.time + " " + blocks.loc.intX() + "x " + blocks.loc.intY() + "y " + blocks.loc.intZ() + "z " + blocks.player.username + " " + blocks.act.name + " " + blocks.block.getBlockName();
+                String str = blocks.time + " " + blocks.location.intX() + "x " + blocks.location.intY() + "y " + blocks.location.intZ() + "z " + blocks.player.username + " " + blocks.action.name + " " + blocks.block.getBlockName();
                 writer.write(str + System.getProperty("line.separator"));
 
             }
@@ -62,7 +63,7 @@ public class FileManager
         }
     }
 
-    public static void addEvent(Vector3 loc, action act, EntityPlayer player, Block block)
+    public static void addEvent(Vector3 loc, ClickAction act, EntityPlayer player, Block block)
     {
         String timeStamp = new SimpleDateFormat("MM_dd_HH.mm.ss").format(Calendar.getInstance().getTime());
         breakEventList.add(new ActionInstance(loc, block, act, timeStamp, player));

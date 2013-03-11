@@ -1,7 +1,5 @@
 package hangcow.greatersecurity.common.portcuils;
 
-import universalelectricity.prefab.BlockMachine;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -11,6 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.prefab.BlockMachine;
 
 public class BlockPort extends BlockMachine
 {
