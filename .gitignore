@@ -8,6 +8,8 @@ CHANGELOG
 /src/minecraft/*
 
 !/src/minecraft/hangcow/
+!/src/minecraft/dark/
+!/src/minecraft/universalelectricity/
 !/resources/
 !info.txt
 !mcmod.info

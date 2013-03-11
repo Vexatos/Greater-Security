@@ -27,6 +27,9 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "hangcow\greatersecurity"
 "..\..\..\7za.exe" a "..\..\builds\%FILE2_NAME%" "hangcow\serversuit"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "universalelectricity"
+"..\..\..\7za.exe" a "..\..\builds\%FILE2_NAME%" "universalelectricity"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "dark"
+"..\..\..\7za.exe" a "..\..\builds\%FILE2_NAME%" "dark"
 cd ..\..\
 cd src\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "hangcow\greatersecurity\resources"
