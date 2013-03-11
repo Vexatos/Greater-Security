@@ -61,32 +61,40 @@ public class ItemLock extends Item
 		if (entityplayer != null && !world.isRemote)
 		{
 			TileEntity entity = world.getBlockTileEntity(i, j, k);
-			
+
 			if (entity instanceof TileEntityChest)
 			{
 				TileEntityChest chest = ((TileEntityChest) entity);
 				int chestSize = chest.getSizeInventory();
-				
+
 				ItemStack[] chestItems = new ItemStack[chestSize];
-				int lockSize = ((TileEntityLockedChest) entity).getSizeInventory();
-				
+				int lockSize = ((TileEntityChest) entity).getSizeInventory();
+
 				for (int slot = 0; slot < chestSize && slot < lockSize; slot++)
 				{
 					chestItems[slot] = chest.getStackInSlot(slot);
+					chest.setInventorySlotContents(slot, null);
 				}
-				world.setBlockAndMetadataWithUpdate(i, j, k, 0, 0, true);
-				world.removeBlockTileEntity(i, j, k);
-				world.setBlockAndMetadataWithUpdate(i, j, j, GreaterSecurity.blockLockedChest.blockID, 0, true);
-				GreaterSecurity.blockLockedChest.onBlockPlacedBy(world, i, j, k, entityplayer);
-				TileEntity entity2 = world.getBlockTileEntity(i, j, k);
-				if (entity2 instanceof TileEntityLockedChest)
+				if (world.setBlockAndMetadataWithUpdate(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, true))
 				{
-					for (int b = 0; b < lockSize; b++)
+
+					TileEntity newChest = world.getBlockTileEntity(i, j, k);
+					if (newChest instanceof TileEntityLockedChest)
 					{
-						((TileEntityLockedChest) entity2).setInventorySlotContents(b, chestItems[b]);
+						TileEntityLockedChest lockedChest = (TileEntityLockedChest) newChest;
+						lockedChest.setOwner(entityplayer);
+						for (int b = 0; b < lockSize; b++)
+						{
+							lockedChest.setInventorySlotContents(b, chestItems[b]);
+							
+						}
 					}
+					entityplayer.sendChatToPlayer("Chest Locked");
 				}
-				entityplayer.sendChatToPlayer("Chest Locked");
+				else
+				{
+					entityplayer.sendChatToPlayer("Failed to lock chest");
+				}
 			}
 		}
 		return true;
