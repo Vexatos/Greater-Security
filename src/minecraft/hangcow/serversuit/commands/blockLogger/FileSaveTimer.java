@@ -8,16 +8,25 @@ import cpw.mods.fml.common.TickType;
 
 public class FileSaveTimer implements ITickHandler
 {
-	Long ticks;
-	int saveTime = 72000;
+	protected static long ticks = 0;
+	private static int saveTime = 72000;
+	private static int entrySize = 1000;
+
+	/**
+	 * sets the save interval for the logs in minutes
+	 */
+	public void setSaveTimer(int mins)
+	{
+		this.saveTime = (mins * 60 * 20);
+	}
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData)
 	{
 		ticks++;
-		if (ticks == Long.MAX_VALUE)
+		if (ticks >= Long.MAX_VALUE)
 		{
-			ticks = Long.MIN_VALUE;
+			ticks = 1;
 		}
 
 	}
@@ -25,7 +34,7 @@ public class FileSaveTimer implements ITickHandler
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData)
 	{
-		if (ticks % saveTime == 0 || FileManager.breakEventList.size() >= 1000)
+		if (ticks % saveTime == 0 || FileManager.breakEventList.size() >= entrySize)
 		{
 
 			try
