@@ -1,4 +1,4 @@
-package dark.locking;
+package dark.library.locking;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -8,8 +8,8 @@ import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.Mod.ServerStopping;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import dark.saving.INbtSave;
-import dark.saving.SaveManager;
+import dark.library.saving.INbtSave;
+import dark.library.saving.SaveManager;
 
 public class GlobalAccessLoader implements INbtSave
 {

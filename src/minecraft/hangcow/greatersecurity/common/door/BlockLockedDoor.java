@@ -1,156 +1,109 @@
 package hangcow.greatersecurity.common.door;
 
+import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
+
+import java.util.Random;
+
+import universalelectricity.prefab.BlockMachine;
+
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.locking.AccessLevel;
 
-public class BlockLockedDoor extends BlockContainer
+public class BlockLockedDoor extends BlockMachine
 {
-	public BlockLockedDoor(int par1)
+	public BlockLockedDoor(int id)
 	{
-		super(par1, Material.wood);
-		this.setHardness(10f);
-		float var3 = 0.5F;
-		float var4 = 1.0F;
-		this.setBlockBounds(0, 0, 0, .5f, .4f, .2f);
-		this.setBlockBoundsForItemRender();
+		super(id, Material.iron);
+		this.blockIndexInTexture = 2;
+
+		float width = 0.5F;
+		float height = 1.0F;
+		this.setBlockBounds(0.5F - width, 0.0F, 0.5F - width, 0.5F + width, height, 0.5F + width);
 		this.setResistance(10f);
-		this.setTextureFile(GreaterSecurity.RESOURCE_PATH + "blocks.png");
-
+		this.setTextureFile(GreaterSecurity.BLOCK_File_PATH);
 	}
 
-	public void setBlockBoundsForItemRender()
-	{
-		this.setBlockBounds(0, 0, 0, 1, 1f, .2f);
-	}
-
+	@SideOnly(Side.CLIENT)
 	/**
-	 * Returns the bounding box of the wired rectangular prism to render.
+	 * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
 	 */
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-	{
-		this.setBlockBoundsBasedOnState(par1World, par2, par3, par4);
-		return super.getSelectedBoundingBoxFromPool(par1World, par2, par3, par4);
-	}
-
-	public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-	{
-		return true;
-
-	}
-
+	@Override
 	public int getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
 	{
-		int meta = world.getBlockMetadata(x, y, z);
-		int aMeta = 14;
-		if (meta < 8)
+		if (side != 0 && side != 1)
 		{
-			aMeta = world.getBlockMetadata(x, y + 1, z);
-			switch (meta)
+			int fullMeta = this.getFullMetadata(world, x, y, z);
+			int textureID = this.blockIndexInTexture;
+
+			if ((fullMeta & 8) != 0)
 			{
-				case 0:
-				case 1:
-				case 2:
-				case 3:
+				textureID -= 16;
 			}
-		}
 
-		return 1;
-	}
+			int var8 = fullMeta & 3;
+			boolean var9 = (fullMeta & 4) != 0;
 
-	/**
-	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
-	 * the pool has been cleared to be reused)
-	 */
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-	{
-		this.setBlockBoundsBasedOnState(par1World, par2, par3, par4);
-		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
-	}
-
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-	{
-		int meta = world.getBlockMetadata(x, y, z);
-		int aboveMeta = 14;
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
-		if (meta < 8)
-		{
-			aboveMeta = world.getBlockMetadata(x, y + 1, z);
-		}
-
-		if (meta < 4)
-		{
-			switch (meta)
+			if (var9)
 			{
-				case 2:
-					setBlockBounds(0, 0, 0, 1, 2, .2f);
-					break;
-				case 3:
-					setBlockBounds(.8f, 0, 0, 1, 2, 1);
-					break;
-				case 0:
-					setBlockBounds(0, 0, .8f, 1, 2, 1);
-					break;
-				case 1:
-					setBlockBounds(0, 0, 0, .2f, 2, 1);
-					break;
-			}
-		}
-		else if (meta > 3 && meta < 8)
-		{
-			if (aboveMeta == 14)
-			{
-				switch (meta)
+				if (var8 == 0 && side == 2)
 				{
-					case 5:
-						setBlockBounds(0, 0, 0, 1, 2, .2f);
-						break;
-					case 6:
-						setBlockBounds(.8f, 0, 0, 1, 2, 1);
-						break;
-					case 7:
-						setBlockBounds(0, 0, .8f, 1, 2, 1);
-						break;
-					case 4:
-						setBlockBounds(0, 0, 0, .2f, 2, 1);
-						break;
+					textureID = -textureID;
+				}
+				else if (var8 == 1 && side == 5)
+				{
+					textureID = -textureID;
+				}
+				else if (var8 == 2 && side == 3)
+				{
+					textureID = -textureID;
+				}
+				else if (var8 == 3 && side == 4)
+				{
+					textureID = -textureID;
 				}
 			}
 			else
 			{
-				switch (meta)
+				if (var8 == 0 && side == 5)
 				{
-					case 7:
-						setBlockBounds(0, 0, 0, 1, 2, .2f);
-						break;
-					case 4:
-						setBlockBounds(.8f, 0, 0, 1, 2, 1);
-						break;
-					case 5:
-						setBlockBounds(0, 0, .8f, 1, 2, 1);
-						break;
-					case 6:
-						setBlockBounds(0, 0, 0, .2f, 2, 1);
-						break;
+					textureID = -textureID;
+				}
+				else if (var8 == 1 && side == 3)
+				{
+					textureID = -textureID;
+				}
+				else if (var8 == 2 && side == 4)
+				{
+					textureID = -textureID;
+				}
+				else if (var8 == 3 && side == 2)
+				{
+					textureID = -textureID;
 				}
 
+				if ((fullMeta & 16) != 0)
+				{
+					textureID = -textureID;
+				}
 			}
-		}
-		else if (meta > 13)
-		{
-			setBlockBounds(0, .9f, 0, 0, 1f, 0);
+
+			return textureID;
 		}
 		else
 		{
-			setBlockBounds(0, 0, 0, 1, 2, 1);
+			return this.blockIndexInTexture;
 		}
 	}
 
@@ -159,15 +112,24 @@ public class BlockLockedDoor extends BlockContainer
 	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
 	 * wire, etc to this block.
 	 */
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
+	}
+
+	@Override
+	public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int x, int y, int z)
+	{
+		int var5 = this.getFullMetadata(par1IBlockAccess, x, y, z);
+		return (var5 & 4) != 0;
 	}
 
 	/**
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
 	 * buttons, stairs, etc)
 	 */
+	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
@@ -179,197 +141,282 @@ public class BlockLockedDoor extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return 0;
+		return 7;
+	}
+
+	@SideOnly(Side.CLIENT)
+	/**
+	 * Returns the bounding box of the wired rectangular prism to render.
+	 */
+	@Override
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+	{
+		this.setBlockBoundsBasedOnState(world, x, y, z);
+		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
 	}
 
 	/**
-	 * Checks if block can be placed
+	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
+	 * the pool has been cleared to be reused)
 	 */
-	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
-		return par3 >= 255 ? false : par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) && super.canPlaceBlockAt(par1World, par2, par3, par4) && super.canPlaceBlockAt(par1World, par2, par3 + 1, par4);
-	}
-
-	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
-	{
-		super.breakBlock(world, x, y, z, par5, par6);
-		int meta = world.getBlockMetadata(x, y, z);
-		if (meta < 8)
-		{
-			if (world.getBlockId(x, y + 1, z) == this.blockID && world.getBlockMetadata(x, y + 1, z) > 13)
-			{
-				world.setBlockAndMetadataWithUpdate(x, y, z, 0, 0, true);
-			}
-		}
-		else if (meta > 13)
-		{
-			if (world.getBlockId(x, y - 1, z) == this.blockID && world.getBlockMetadata(x, y - 1, z) < 8)
-			{
-				world.setBlockAndMetadataWithUpdate(x, y, z, 0, 0, true);
-			}
-		}
+		this.setBlockBoundsBasedOnState(par1World, par2, par3, par4);
+		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 	}
 
 	/**
-	 * Called when the block is clicked by a player. Args: x, y, z, entityPlayer
+	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
-	public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		this.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, 0, 0.0F, 0.0F, 0.0F);
+		this.setDoorRotation(this.getFullMetadata(par1IBlockAccess, par2, par3, par4));
+	}
+
+	/**
+	 * Returns 0, 1, 2 or 3 depending on where the hinge is.
+	 */
+	public int getDoorOrientation(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	{
+		return this.getFullMetadata(par1IBlockAccess, par2, par3, par4) & 3;
+	}
+
+	public static boolean isDoorOpen(IBlockAccess world, int x, int y, int z)
+	{
+		return (getFullMetadata(world, x, y, z) & 4) != 0;
+	}
+
+	private void setDoorRotation(int angle)
+	{
+		float var2 = 0.1875F;
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
+		int var3 = angle & 3;
+		boolean var4 = (angle & 4) != 0;
+		boolean var5 = (angle & 16) != 0;
+
+		if (var3 == 0)
+		{
+			if (var4)
+			{
+				if (!var5)
+				{
+					this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
+				}
+				else
+				{
+					this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
+				}
+			}
+			else
+			{
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
+			}
+		}
+		else if (var3 == 1)
+		{
+			if (var4)
+			{
+				if (!var5)
+				{
+					this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				}
+				else
+				{
+					this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
+				}
+			}
+			else
+			{
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
+			}
+		}
+		else if (var3 == 2)
+		{
+			if (var4)
+			{
+				if (!var5)
+				{
+					this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
+				}
+				else
+				{
+					this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
+				}
+			}
+			else
+			{
+				this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			}
+		}
+		else if (var3 == 3)
+		{
+			if (var4)
+			{
+				if (!var5)
+				{
+					this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
+				}
+				else
+				{
+					this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				}
+			}
+			else
+			{
+				this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
+			}
+		}
 	}
 
 	/**
 	 * Called upon block activation (right click on the block.)
 	 */
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
+	@Override
+	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		int meta = world.getBlockMetadata(x, y, z);
-		int angle = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if (world.isRemote)
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if (!world.isRemote && ent instanceof TileEntityLockedDoor)
 		{
-			return true;
-		}
-		else if (meta > 13 && te instanceof TileEntityLockedDoor)
-		{
-			boolean canOpen = ((TileEntityLockedDoor) te).canOpen(player);
-			if (canOpen && !player.isSneaking())
+			if (((TileEntityLockedDoor) ent).canAccess(player))
 			{
-				activateDoor(world, x, y, z);
-				return true;
-			}
-			else if (canOpen && player.isSneaking())
-			{
-				player.openGui(GreaterSecurity.instance, 3, world, x, y, z);
-				return true;
-			}
-			else
-			{
-				player.sendChatToPlayer("Door is Locked");
+				this.activateDoor(world, x, y, z);
 			}
 		}
-		else
-		{
-			if (world.getBlockTileEntity(x, y + 1, z) instanceof TileEntityLockedDoor)
-			{
-				onBlockActivated(world, x, y + 1, z, player, par6, par7, par8, par9);
-				return true;
-			}
+		return true;
+	}
 
+	public boolean onSneakMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+	{
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if (!world.isRemote && ent instanceof TileEntityLockedDoor)
+		{
+			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
+			{
+				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, world, x, y, z);
+			}
 		}
-
-		return false;
+		return true;
 	}
 
 	public static void activateDoor(World world, int x, int y, int z)
 	{
-		int metaB = world.getBlockMetadata(x, y - 1, z);
-		if (metaB < 8)
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if (!world.isRemote && ent instanceof TileEntityLockedDoor)
 		{
-			if (metaB < 4)
+			int fullMeta = getFullMetadata(world, x, y, z);
+			int newMeta = fullMeta & 7;
+			newMeta ^= 4;
+
+			if (!isDoorOpen(world, x, y, z))
 			{
-				world.setBlockMetadataWithNotify(x, y - 1, z, metaB + 4);
+				((TileEntityLockedDoor) ent).isOpen = true;
 			}
 			else
 			{
-				world.setBlockMetadataWithNotify(x, y - 1, z, metaB - 4);
+				((TileEntityLockedDoor) ent).isOpen = false;
 			}
-		}
 
-		world.markBlockForUpdate(x, y, z);
-		world.playAuxSFX(1003, x, y, z, 0);
-	}
-
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
-	{
-		int meta = par1World.getBlockMetadata(par2, par3, par4);
-		if (meta < 8)
-		{
-			if (par1World.getBlockId(par2, par3 + 1, par4) != this.blockID)
+			if ((fullMeta & 8) == 0)
 			{
-				par1World.setBlockWithNotify(par2, par3, par4, 0);
+				world.setBlockMetadataWithNotify(x, y, z, newMeta);
+				world.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
 			}
-		}
-		else if (meta > 13)
-		{
-			if (par1World.getBlockId(par2, par3 - 1, par4) != this.blockID)
+			else
 			{
-				par1World.setBlockWithNotify(par2, par3, par4, 0);
+				world.setBlockMetadataWithNotify(x, y - 1, z, newMeta);
+				world.markBlockRangeForRenderUpdate(x, y - 1, z, x, y, z);
 			}
 		}
-
 	}
 
-	public void onBlockPlacedBy(World par1World, int i, int j, int k, EntityLiving par7E)
+	/**
+	 * Returns the ID of the items to drop on destruction.
+	 */
+	@Override
+	public int idDropped(int par1, Random par2Random, int par3)
 	{
-		int angle = MathHelper.floor_double((double) (par7E.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		placeDoorBlock(par1World, par7E, i, j, k, angle, this);
-		TileEntity te = par1World.getBlockTileEntity(i, j + 1, k);
-		if (te instanceof TileEntityLockedDoor && par7E instanceof EntityPlayer)
-		{
-			((TileEntityLockedDoor) te).setOwner((EntityPlayer) par7E);
-		}
+		return (par1 & 8) != 0 ? 0 : GreaterSecurity.itemLockedDoor.itemID;
 	}
 
-	public void placeDoorBlock(World world, EntityLiving entity, int x, int y, int z, int angle, Block par5Block)
+	/**
+	 * Ray traces through the blocks collision from start vector to end vector returning a ray trace
+	 * hit. Args: world, x, y, z, startVec, endVec
+	 */
+	@Override
+	public MovingObjectPosition collisionRayTrace(World world, int par2, int par3, int par4, Vec3 par5Vec3, Vec3 par6Vec3)
 	{
-		byte var6 = 0;
-		byte var7 = 0;
-
-		if (angle == 3)
-		{
-			var7 = 1;
-		}
-
-		if (angle == 0)
-		{
-			var6 = -1;
-		}
-
-		if (angle == 1)
-		{
-			var7 = -1;
-		}
-
-		if (angle == 2)
-		{
-			var6 = 1;
-		}
-
-		int var8 = (world.isBlockNormalCube(x - var6, y, z - var7) ? 1 : 0) + (world.isBlockNormalCube(x - var6, y + 1, z - var7) ? 1 : 0);
-		int var9 = (world.isBlockNormalCube(x + var6, y, z + var7) ? 1 : 0) + (world.isBlockNormalCube(x + var6, y + 1, z + var7) ? 1 : 0);
-		boolean var10 = world.getBlockId(x - var6, y, z - var7) == this.blockID || world.getBlockId(x - var6, y + 1, z - var7) == this.blockID;
-		boolean var11 = world.getBlockId(x + var6, y, z + var7) == this.blockID || world.getBlockId(x + var6, y + 1, z + var7) == this.blockID;
-		boolean var12 = false;
-		if (var10 && !var11)
-		{
-			var12 = true;
-		}
-		else if (var9 > var8)
-		{
-			var12 = true;
-		}
-
-		world.editingBlocks = true;
-		world.setBlockAndMetadataWithNotify(x, y, z, par5Block.blockID, angle);
-		world.setBlockAndMetadataWithNotify(x, y + 1, z, par5Block.blockID, var12 ? 14 : 15);
-		world.editingBlocks = false;
-		world.notifyBlocksOfNeighborChange(x, y, z, par5Block.blockID);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, par5Block.blockID);
-		TileEntity te = world.getBlockTileEntity(x, y, z);
+		this.setBlockBoundsBasedOnState(world, par2, par3, par4);
+		return super.collisionRayTrace(world, par2, par3, par4, par5Vec3, par6Vec3);
 	}
 
-	public TileEntity createNewTileEntity(World par1World, int meta)
+	/**
+	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
+	 * z
+	 */
+	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		if (meta >= 0 && meta < 8)
+		return y >= 255 ? false : world.doesBlockHaveSolidTopSurface(x, y - 1, z) && super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z);
+	}
+
+	/**
+	 * Returns the mobility information of the block, 0 = free, 1 = can't push but can move over, 2
+	 * = total immobility and stop pistons
+	 */
+	@Override
+	public int getMobilityFlag()
+	{
+		return 1;
+	}
+
+	/**
+	 * Returns the full metadata value created by combining the metadata of both blocks the door
+	 * takes up.
+	 */
+	public static int getFullMetadata(IBlockAccess world, int x, int y, int z)
+	{
+		int blockMeta = world.getBlockMetadata(x, y, z);
+		boolean isTop = (blockMeta & 8) != 0;
+		int bottomMeta;
+		int topMeta;
+
+		if (isTop)
 		{
-			return new TileEntityFake();
+			bottomMeta = world.getBlockMetadata(x, y - 1, z);
+			topMeta = blockMeta;
 		}
-		else if (meta > 13)
+		else
 		{
-			return new TileEntityLockedDoor();
+			bottomMeta = blockMeta;
+			topMeta = world.getBlockMetadata(x, y + 1, z);
 		}
-		return null;
+
+		boolean var9 = (topMeta & 1) != 0;
+		return bottomMeta & 7 | (isTop ? 8 : 0) | (var9 ? 16 : 0);
+	}
+
+	@SideOnly(Side.CLIENT)
+	/**
+	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
+	 */
+	@Override
+	public int idPicked(World world, int x, int y, int z)
+	{
+		return GreaterSecurity.itemLockedDoor.itemID;
+	}
+
+	/**
+	 * Called when the block is attempted to be harvested
+	 */
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer player)
+	{
+		if (player.capabilities.isCreativeMode && (par5 & 8) != 0 && world.getBlockId(x, y - 1, z) == this.blockID)
+		{
+			world.setBlockWithNotify(x, y - 1, z, 0);
+		}
 	}
 
 	@Override
@@ -377,4 +424,15 @@ public class BlockLockedDoor extends BlockContainer
 	{
 		return null;
 	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world, int metadata)
+	{
+		if ((metadata & 8) != 0)
+		{
+			return new TileEntity();
+		}
+		return createNewTileEntity(world);
+	}
+
 }

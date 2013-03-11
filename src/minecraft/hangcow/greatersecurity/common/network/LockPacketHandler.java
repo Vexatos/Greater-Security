@@ -99,49 +99,6 @@ public class LockPacketHandler implements IPacketHandler
 
 	}
 
-	public static void sendDoorPacketPacket(TileEntityLockedDoor sender, int ID, String BlockOwner, List<String> users)
-	{
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		DataOutputStream data = new DataOutputStream(bytes);
-
-		try
-		{
-			data.writeInt(sender.xCoord);
-			data.writeInt(sender.yCoord);
-			data.writeInt(sender.zCoord);
-			data.writeInt(users.size());
-			data.writeInt(ID);
-			if (ID == 0)
-			{
-				data.writeUTF(BlockOwner);
-				for (int i = 0; i < users.size(); i++)
-				{
-					data.writeUTF(users.get(i));
-				}
-			}
-			if (ID == 1 || ID == 2)
-			{
-				for (int i = 0; i < users.size(); i++)
-				{
-					data.writeUTF(users.get(i));
-				}
-			}
-
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		Packet250CustomPayload packet = new Packet250CustomPayload();
-		packet.channel = "GreaterSecurity";
-		packet.data = bytes.toByteArray();
-		packet.length = packet.data.length;
-		packet.isChunkDataPacket = true;
-		FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(packet);
-
-	}
-
 	public static void sendChestPacketServer(TileEntityLockedChest sender, int ID, String users)
 	{
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -155,35 +112,6 @@ public class LockPacketHandler implements IPacketHandler
 			data.writeInt(1);
 			data.writeInt(ID);
 			data.writeInt(sender.numUsingPlayers);
-			data.writeUTF(users);
-
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		Packet250CustomPayload packet = new Packet250CustomPayload();
-		packet.channel = "GreaterSecurity";
-		packet.data = bytes.toByteArray();
-		packet.length = packet.data.length;
-		packet.isChunkDataPacket = true;
-		PacketDispatcher.sendPacketToServer(packet);
-
-	}
-
-	public static void sendDoorPacketServer(TileEntityLockedDoor sender, int ID, String users)
-	{
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		DataOutputStream data = new DataOutputStream(bytes);
-
-		try
-		{
-			data.writeInt(sender.xCoord);
-			data.writeInt(sender.yCoord);
-			data.writeInt(sender.zCoord);
-			data.writeInt(1);
-			data.writeInt(ID);
 			data.writeUTF(users);
 
 		}

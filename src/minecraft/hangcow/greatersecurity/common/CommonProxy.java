@@ -1,23 +1,24 @@
 package hangcow.greatersecurity.common;
 
-import hangcow.greatersecurity.client.gui.GuiDenyOpen;
-import hangcow.greatersecurity.client.gui.GuiLChest;
+import hangcow.greatersecurity.client.gui.GuiLockedChest;
 import hangcow.greatersecurity.client.gui.GuiRemoveChest;
-import hangcow.greatersecurity.client.gui.GuiWChestSettings;
-import hangcow.greatersecurity.client.gui.GuiWDoorSettings;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
-import hangcow.greatersecurity.common.door.ContainerFake;
-import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
+import dark.library.gui.ContainerFake;
+import dark.library.locking.ISpecialAccess;
+import dark.library.locking.prefab.GuiUserAccess;
 
 public class CommonProxy implements IGuiHandler
 {
+	public static final int CHEST_GUI = 0;
+	public static final int USERACCESS_GUI = 1;
+	public static final int YES_NO_GUI = 2;
 
 	public Object GetCombinedInv(World par1World, int i, int j, int k)
 	{
@@ -60,10 +61,8 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case 0:
+				case CHEST_GUI:
 					return new ContainerLockedChest(player.inventory, (IInventory) GetCombinedInv(world, i, j, k), 1);
-				case 1:
-					return new ContainerLockedChest(player.inventory, (IInventory) GetCombinedInv(world, i, j, k), 0);
 				default:
 					return new ContainerFake(tileEntity);
 			}
@@ -80,15 +79,11 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case 0:
-					return new GuiLChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
-				case 1:
-					return new GuiDenyOpen(player, ((TileEntityLockedChest) tileEntity));
-				case 2:
-					return new GuiWChestSettings(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
-				case 3:
-					return new GuiWDoorSettings(player, (TileEntityLockedDoor) tileEntity);
-				case 4:
+				case CHEST_GUI:
+					return new GuiLockedChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
+				case USERACCESS_GUI:
+					return new GuiUserAccess((TileEntity) tileEntity, player, (ISpecialAccess) tileEntity, GreaterSecurity.GUI_File_PATH + "userAccessGui.png");
+				case YES_NO_GUI:
 					return new GuiRemoveChest(player, (TileEntityLockedChest) tileEntity);
 			}
 		}

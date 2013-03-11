@@ -1,4 +1,4 @@
-package dark.locking;
+package dark.library.locking;
 
 import java.util.ArrayList;
 import java.util.List;

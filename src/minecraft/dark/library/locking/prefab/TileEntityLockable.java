@@ -1,4 +1,4 @@
-package dark.locking.prefab;
+package dark.library.locking.prefab;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 
@@ -19,15 +19,16 @@ import universalelectricity.prefab.tile.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.FMLLog;
-import dark.locking.AccessLevel;
-import dark.locking.ISpecialAccess;
-import dark.locking.UserAccess;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import dark.library.locking.AccessLevel;
+import dark.library.locking.ISpecialAccess;
+import dark.library.locking.UserAccess;
 
-public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAccess, IPacketReceiver
+public abstract class TileEntityLockable extends TileEntityAdvanced implements ISpecialAccess, IPacketReceiver
 {
 	public enum PacketType
 	{
-		DESCRIPTION_DATA, LIST_EDIT, SETTING_EDIT;
+		DESCR_DATA, LIST_EDIT, SETTING_EDIT;
 	}
 
 	/**
@@ -57,6 +58,8 @@ public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAc
 		}
 	}
 
+	public abstract String getChannel();
+
 	/**
 	 * Packet Methods
 	 */
@@ -68,7 +71,16 @@ public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAc
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return PacketManager.getPacket(GreaterSecurity.CHANNEL, this, PacketType.DESCRIPTION_DATA.ordinal(), nbt);
+		return PacketManager.getPacket(GreaterSecurity.CHANNEL, this, PacketType.DESCR_DATA.ordinal(), nbt);
+	}
+
+	public void sendEditToServer(UserAccess player, boolean remove)
+	{
+		if (this.worldObj.isRemote && player != null)
+		{
+			Packet packet = PacketManager.getPacket(this.getChannel(), this, PacketType.LIST_EDIT.ordinal(), player.username, player.level.ordinal(), player.shouldSave, remove);
+			PacketDispatcher.sendPacketToServer(packet);
+		}
 	}
 
 	@Override
@@ -80,7 +92,7 @@ public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAc
 
 			switch (packetType)
 			{
-				case DESCRIPTION_DATA:
+				case DESCR_DATA:
 				{
 					if (this.worldObj.isRemote)
 					{
@@ -98,6 +110,22 @@ public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAc
 				}
 				case LIST_EDIT:
 				{
+					if (!this.worldObj.isRemote)
+					{
+						String name = dataStream.readUTF();
+						AccessLevel level = AccessLevel.get(dataStream.readInt());
+						Boolean shouldSave = dataStream.readBoolean();
+						Boolean remove = dataStream.readBoolean();
+						if (remove)
+						{
+							this.removeUserAccess(name);
+						}
+						else
+						{
+							this.addUserAccess(name, level, shouldSave);
+						}
+
+					}
 					break;
 				}
 				case SETTING_EDIT:
@@ -109,7 +137,7 @@ public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAc
 		}
 		catch (Exception e)
 		{
-			FMLLog.severe("GS: Failed to receive packet for locked door.");
+			FMLLog.severe("GS: Failed to handle packet for locked door.");
 			e.printStackTrace();
 		}
 	}
@@ -154,13 +182,24 @@ public class TileEntityLockable extends TileEntityAdvanced implements ISpecialAc
 	@Override
 	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
+		UserAccess access = new UserAccess(player, lvl, save);
+		if (worldObj.isRemote)
+		{
+			this.sendEditToServer(access, false);
+		}
 		this.removeUserAccess(player);
-		return this.users.add(new UserAccess(player, lvl, save));
+		return this.users.add(access);
 	}
 
 	@Override
 	public boolean removeUserAccess(String player)
 	{
+
+		if (worldObj.isRemote)
+		{
+			UserAccess access = new UserAccess(player, AccessLevel.BASIC, false);
+			this.sendEditToServer(access, true);
+		}
 		List<UserAccess> list = UserAccess.removeUserAccess(player, this.users);
 		if (list.size() < this.users.size())
 		{

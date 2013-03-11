@@ -1,6 +1,7 @@
 package hangcow.greatersecurity.common.chest;
 
 import net.minecraftforge.common.ForgeDirection;
+import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -303,7 +304,7 @@ public class BlockLockedChest extends BlockMachine
                 TileEntityLockedChest Chest = (TileEntityLockedChest) blockEntity;
                 if (Chest.canAccess(Chest, player))
                 {
-                    player.openGui(GreaterSecurity.instance, 0, world, i, j, k);
+                    player.openGui(GreaterSecurity.instance, CommonProxy.CHEST_GUI, world, i, j, k);
                     return true;
                 }
                 else

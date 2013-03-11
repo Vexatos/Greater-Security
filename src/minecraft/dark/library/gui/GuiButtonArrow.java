@@ -1,4 +1,4 @@
-package hangcow.greatersecurity.client.gui;
+package dark.library.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ boolean isLeft = false;
     {
         if (this.drawButton)
         {
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture(GreaterSecurity.GUI_File_PATH+"gui@.png"));
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture("/dark/library/resources/textures/gui/gui@.png"));
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean var4 = width >= this.xPosition && hight >= this.yPosition && width < this.xPosition + this.width && hight < this.yPosition + this.height;
             int var5 = 106;

@@ -1,4 +1,4 @@
-package dark.saving;
+package dark.library.saving;
 
 import net.minecraft.nbt.NBTTagCompound;
 /**
