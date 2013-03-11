@@ -1,5 +1,6 @@
 package dark.locking;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.WorldEvent;
@@ -7,28 +8,25 @@ import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.Mod.ServerStopping;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import dark.saving.INbtSave;
+import dark.saving.SaveManager;
 
-public class UserAccessLoader
+public class UserAccessLoader implements INbtSave
 {
 	public static boolean isInitialized = false;
-	
+
 	public static UserAccessLoader intance = new UserAccessLoader();
-	
+
+	/** Name of the save file **/
+	public static final String SAVE_NAME = "Global_Access_List";
+
 	public void initiate()
 	{
 		if (!isInitialized)
 		{
 			MinecraftForge.EVENT_BUS.register(this);
+			SaveManager.intance.registerNbtSave(this);
 			isInitialized = true;
-		}
-	}
-
-	@ForgeSubscribe
-	public void onWorldSave(WorldEvent.Save event)
-	{
-		if (!event.world.isRemote && GlobalAccessList.hasLoaded)
-		{
-			GlobalAccessList.saveMasterSaveFile();
 		}
 	}
 
@@ -41,12 +39,21 @@ public class UserAccessLoader
 		}
 	}
 
-	@ServerStopping
-	public void serverStopping(FMLServerStoppingEvent event)
+	@Override
+	public String saveFileName()
 	{
-		if (GlobalAccessList.hasLoaded)
-		{
-			GlobalAccessList.saveMasterSaveFile();
-		}
+		return this.SAVE_NAME;
+	}
+
+	@Override
+	public NBTTagCompound getSaveData()
+	{
+		return GlobalAccessList.getMasterSaveFile();
+	}
+
+	@Override
+	public boolean shouldSave(boolean isServer)
+	{
+		return isServer && GlobalAccessList.hasLoaded && !GlobalAccessList.loading;
 	}
 }

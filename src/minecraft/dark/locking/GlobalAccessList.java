@@ -11,16 +11,13 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class GlobalAccessList
 {
-	/** Name of the save file **/
-	private static final String SAVE_NAME = "Global_Access_List";
+
 	/** Hash map of loaded lists **/
 	private static Map<String, List<UserAccess>> globalUserLists = new HashMap<String, List<UserAccess>>();
 	/** Master save NBT that gets saved **/
 	private static NBTTagCompound masterSaveNbt = new NBTTagCompound();
-	/** Used to check to see if file is in the process of being saved **/
-	private static boolean saving = false;
 	/** Used to check to see if file is in the process of being loaded **/
-	private static boolean loading = false;
+	public static boolean loading = false;
 	/** Used to check to see if file was loaded at least once **/
 	public static boolean hasLoaded = false;
 	/** Used to check to see if file was changed and needs saved **/
@@ -35,7 +32,10 @@ public class GlobalAccessList
 	 */
 	public List<UserAccess> getOrCreateList(String name, String owner)
 	{
-		if (name.toCharArray().length < 5 || owner.isEmpty()) { return null; }
+		if (name.toCharArray().length < 5 || owner.isEmpty())
+		{
+			return null;
+		}
 		List<UserAccess> list = getList(name);
 		if (list == null)
 		{
@@ -84,7 +84,10 @@ public class GlobalAccessList
 	 */
 	public boolean addUser(String listName, UserAccess user)
 	{
-		if (user == null) { return false; }
+		if (user == null)
+		{
+			return false;
+		}
 
 		List<UserAccess> userList = this.getList(listName);
 
@@ -114,7 +117,10 @@ public class GlobalAccessList
 	 */
 	public boolean removeUser(String listName, UserAccess user)
 	{
-		if (user == null) { return false; }
+		if (user == null)
+		{
+			return false;
+		}
 
 		List<UserAccess> userList = this.getList(listName);
 
@@ -146,7 +152,6 @@ public class GlobalAccessList
 			NBTTagCompound accessSave = masterSave.getCompoundTag(name);
 			return UserAccess.readListFromNBT(accessSave, "Users");
 		}
-
 		return null;
 	}
 
@@ -163,7 +168,7 @@ public class GlobalAccessList
 		{
 			NBTTagCompound accessSave = masterSave.getCompoundTag(name);
 			UserAccess.writeListToNBT(accessSave, list);
-			// TODO finish this
+			this.getMasterSaveFile().setCompoundTag(name, accessSave);
 		}
 	}
 
@@ -178,22 +183,11 @@ public class GlobalAccessList
 			{
 				hasLoaded = true;
 				loading = true;
-				NBTFileLoader.loadData(SAVE_NAME);
+				NBTFileLoader.loadData(UserAccessLoader.SAVE_NAME);
 				// TODO save the file
 				loading = false;
 			}
 		}
 		return masterSaveNbt;
-	}
-
-	public static void saveMasterSaveFile()
-	{
-		if (!saving && hasLoaded && needsSaving)
-		{
-			needsSaving = false;
-			saving = true;
-			NBTFileLoader.saveData(SAVE_NAME, masterSaveNbt);
-			saving = false;
-		}
 	}
 }

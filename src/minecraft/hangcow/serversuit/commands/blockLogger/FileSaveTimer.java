@@ -9,16 +9,15 @@ import cpw.mods.fml.common.TickType;
 public class FileSaveTimer implements ITickHandler
 {
 	Long ticks;
-	int seconds = 0;
-	int mins = 0;
+	int saveTime = 72000;
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData)
 	{
 		ticks++;
-		if(ticks == Long.MAX_VALUE)
+		if (ticks == Long.MAX_VALUE)
 		{
-			ticks = 0;
+			ticks = Long.MIN_VALUE;
 		}
 
 	}
@@ -26,34 +25,16 @@ public class FileSaveTimer implements ITickHandler
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData)
 	{
-		if (ticks % 20 == 0)
+		if (ticks % saveTime == 0 || FileManager.breakEventList.size() >= 1000)
 		{
-			if (seconds++ >= 60)
+
+			try
 			{
-				if (FileManager.breakEventList.size() >= 1000)
-				{
-					try
-					{
-						FileManager.updateFiles();
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-				}
-				seconds = 0;
-				if (mins++ >= 60)
-				{
-					mins = 0;
-					try
-					{
-						FileManager.updateFiles();
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-				}
+				FileManager.updateFiles();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
 			}
 		}
 
