@@ -16,6 +16,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import universalelectricity.core.vector.Vector3;
 
 public class EventHandlerPlayer
 { 
@@ -140,7 +141,7 @@ public class EventHandlerPlayer
                     int id = world.getBlockId(event.x, event.y, event.z);
                     Block block = Block.blocksList[id];
                     TileEntity ent = world.getBlockTileEntity(event.x, event.y, event.z);
-                    Loc loc = new Loc(event.x, event.y, event.z);
+                    Vector3 loc = new Vector3(event.x, event.y, event.z);
                     if (id != 0 && block != null)
                     {
                         if (event.action == Action.RIGHT_CLICK_BLOCK)

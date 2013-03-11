@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import universalelectricity.core.vector.Vector3;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,13 +28,13 @@ public class TeleportationManager implements ITickHandler
     /**
      * Adds a player to the teleporter list if he is not already on it
      */
-    public static boolean addTeleport(EntityPlayerMP player, Loc teleport)
+    public static boolean addTeleport(EntityPlayerMP player, Vector3 teleport)
     {
         for (TeleportInstance tele : teleportList)
         {
             if (tele.player.equals(player)) { return false; }
         }
-        TeleportationManager.teleportList.add(new TeleportInstance(player, 0, new Loc(player.posX, player.posY, player.posZ), teleport));
+        TeleportationManager.teleportList.add(new TeleportInstance(player, 0, new Vector3(player.posX, player.posY, player.posZ), teleport));
         return true;
     }
 
@@ -57,26 +59,26 @@ public class TeleportationManager implements ITickHandler
                     teleport.player.sendChatToPlayer("Teleport stoped");
                     return;
                 }
-                else if (teleport.Time++ >= GreaterSeverSuit.teleportTime)
+                else if (teleport.tickCount++ >= GreaterSeverSuit.teleportTime)
                 {
-                    TPPlayer(teleport.player.worldObj, teleport.teleport.xx, teleport.teleport.yy, teleport.teleport.zz, teleport.player);
+                    TPPlayer(teleport.player.worldObj, teleport.destination.x, teleport.destination.y, teleport.destination.z, teleport.player);
                     teleport.player.sendChatToPlayer("Teleporting");
 
                 }
                 else
                 {
-                    listNew.add(new TeleportInstance(teleport.player, teleport.Time++, new Loc(teleport.player.posX, teleport.player.posY, teleport.player.posZ), teleport.teleport));
-                    if (teleport.Time == 0)
+                    listNew.add(new TeleportInstance(teleport.player, teleport.tickCount++, new Vector3(teleport.player.posX, teleport.player.posY, teleport.player.posZ), teleport.destination));
+                    if (teleport.tickCount == 0)
                     {
                         teleport.player.sendChatToPlayer("Teleporting in " + GreaterSeverSuit.teleportTime);
                     }
-                    else if (teleport.Time >= GreaterSeverSuit.teleportTime)
+                    else if (teleport.tickCount >= GreaterSeverSuit.teleportTime)
                     {
 
                     }
                     else
                     {
-                        teleport.player.sendChatToPlayer("... " + (GreaterSeverSuit.teleportTime - teleport.Time));
+                        teleport.player.sendChatToPlayer("... " + (GreaterSeverSuit.teleportTime - teleport.tickCount));
                     }
                 }
             }
