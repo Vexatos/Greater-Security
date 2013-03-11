@@ -17,10 +17,11 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.prefab.tile.TileEntityAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TileEntityLockedChest extends TileEntity implements IInventory, IPacketReceiver
+public class TileEntityLockedChest extends TileEntityAdvanced implements IInventory, IPacketReceiver
 {
 	public ItemStack[] chestContents = new ItemStack[36];
 
@@ -28,14 +29,11 @@ public class TileEntityLockedChest extends TileEntity implements IInventory, IPa
 
 	public List<String> users = new ArrayList<String>();
 
-	public boolean once = true;
 	public boolean adjacentChestChecked = false;
 
 	public TileEntityLockedChest[] chests = { null, null, null, null };
 
-	private int tickCount = 10;
 	public int numUsingPlayers;
-	private int ticksSinceSync;
 
 	public float prevLidAngle;
 	public float lidAngle;
@@ -223,7 +221,6 @@ public class TileEntityLockedChest extends TileEntity implements IInventory, IPa
 		super.readFromNBT(par1NBTTagCompound);
 
 		this.BlockOwner = par1NBTTagCompound.getString("Owner");
-		this.once = par1NBTTagCompound.getBoolean("Once");
 		// reads user array from map
 		int userSize = par1NBTTagCompound.getInteger("users");
 		for (int i = 0; i < userSize; i++)
@@ -253,7 +250,6 @@ public class TileEntityLockedChest extends TileEntity implements IInventory, IPa
 	{
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setString("Owner", this.BlockOwner);
-		par1NBTTagCompound.setBoolean("Once", this.once);
 		// writes user array to map
 		par1NBTTagCompound.setInteger("users", this.users.size());
 		for (int i = 0; i < this.users.size(); i++)
@@ -493,7 +489,7 @@ public class TileEntityLockedChest extends TileEntity implements IInventory, IPa
 	{
 		super.updateEntity();
 		// TODO add lid opening animation
-		if (++this.ticksSinceSync % 20 * 4 == 0)
+		if (this.ticks % 80 == 0)
 		{
 			this.checkForAdjacentChests();
 			if (!worldObj.isRemote)
