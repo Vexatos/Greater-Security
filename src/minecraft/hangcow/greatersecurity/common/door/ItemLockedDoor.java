@@ -12,10 +12,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemDoor extends Item
+public class ItemLockedDoor extends Item
 {
 
-	public ItemDoor(int par1)
+	public ItemLockedDoor(int par1)
 	{
 		super(par1);
 		this.setMaxStackSize(3);
@@ -58,7 +58,7 @@ public class ItemDoor extends Item
 		else
 		{
 			++par5;
-			Block var11 = GreaterSecurity.BlockLDoor;
+			Block var11 = GreaterSecurity.blockLockedDoor;
 
 			if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
 			{
@@ -69,7 +69,7 @@ public class ItemDoor extends Item
 				else
 				{
 					int var12 = MathHelper.floor_double((double) ((par2EntityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
-					GreaterSecurity.BlockLDoor.onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer);
+					GreaterSecurity.blockLockedDoor.onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer);
 					--par1ItemStack.stackSize;
 					return true;
 				}

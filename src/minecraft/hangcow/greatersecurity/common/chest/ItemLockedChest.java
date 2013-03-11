@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class ItemLockedChest extends ItemBlock
 {
 
-	private int blockID = GreaterSecurity.BlockLChest.blockID;
+	private int blockID = GreaterSecurity.blockLockedChest.blockID;
 
 	public ItemLockedChest(int par1)
 	{

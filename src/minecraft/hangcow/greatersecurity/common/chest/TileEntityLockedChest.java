@@ -110,9 +110,9 @@ public class TileEntityLockedChest extends TileEntity implements IInventory, IPa
 			}
 			else if (p == 5)
 			{
-				GreaterSecurity.BlockLChest.breakBlock(worldObj, xCoord, yCoord, zCoord, 0, 0);
-				int meta = GreaterSecurity.BlockLChest.damageDropped(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-				this.dropBlockAsItem_do(worldObj, xCoord, yCoord, zCoord, new ItemStack(GreaterSecurity.BlockLChest, 1, meta));
+				GreaterSecurity.blockLockedChest.breakBlock(worldObj, xCoord, yCoord, zCoord, 0, 0);
+				int meta = GreaterSecurity.blockLockedChest.damageDropped(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+				this.dropBlockAsItem_do(worldObj, xCoord, yCoord, zCoord, new ItemStack(GreaterSecurity.blockLockedChest, 1, meta));
 				worldObj.setBlock(xCoord, yCoord, zCoord, 0);
 			}
 		}
