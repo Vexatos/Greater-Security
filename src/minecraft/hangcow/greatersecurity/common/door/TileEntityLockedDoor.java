@@ -22,18 +22,7 @@ public class TileEntityLockedDoor extends TileEntity implements IPacketReceiver
 	public boolean wasOpen = false;
 	int timeOpen = 0;
 	private int closeTime = 7; // TODO add gui setting for this
-
-	public int getMeta()
-	{
-		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		return meta;
-	}
-
-	public int getMetaA()
-	{
-		int meta = worldObj.getBlockMetadata(xCoord, yCoord + 1, zCoord);
-		return meta;
-	}
+	
 
 	public boolean canOpen(EntityPlayer player)
 	{

@@ -36,7 +36,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  */
 @Mod(modid = "GreaterSecurity", name = "GreaterSecurity", version = "0.2.1")
-@NetworkMod(channels = { "GreaterSecurity" }, clientSideRequired = true, serverSideRequired = false, packetHandler = LockPacketHandler.class)
+@NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = LockPacketHandler.class)
 public class GreaterSecurity
 {
 
@@ -44,14 +44,16 @@ public class GreaterSecurity
 
 	@SidedProxy(clientSide = "hangcow.greatersecurity.client.ClientProxy", serverSide = "hangcow.greatersecurity.common.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	public static GreaterSecurity instance;
-	
+
 	public static final String RESOURCE_PATH = "/hangcow/greatersecurity/resources/";
 	public static final String ITEM_File_PATH = RESOURCE_PATH + "items.png";
-	public static final String BLOCK_File_PATH	= RESOURCE_PATH + "blocks.png";
+	public static final String BLOCK_File_PATH = RESOURCE_PATH + "blocks.png";
 	public static final String GUI_File_PATH = RESOURCE_PATH + "gui/";
-	
+
+	public static final String CHANNEL = "GreaterSecurity";
+
 	// //Blocks /////
 	public static Block blockLockedChest;
 	public static Block blockLockedDoor;
@@ -67,18 +69,17 @@ public class GreaterSecurity
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		// //Configs ////
-		config.load();		
+		config.load();
 		itemLock = new ItemLock(config.getItem(Configuration.CATEGORY_ITEM, "LockItemID", 30007).getInt());
-		itemLockedDoor = new ItemLockedDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());		
+		itemLockedDoor = new ItemLockedDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());
 		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
-		config.save();	
-		
+		config.save();
 
 		// // Registration ////
 		GameRegistry.registerBlock(blockLockedChest, ItemLockedChest.class, "gsChest");
 		GameRegistry.registerBlock(blockLockedDoor, "gsDoor");
-		
+
 		proxy.preInit();
 
 	}
@@ -111,41 +112,20 @@ public class GreaterSecurity
 		proxy.postInit();
 
 		// // Locked Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), new Object[] {
-			"WWW", "WLW", "WWW", 
-			'W', Block.planks,
-			'L', new ItemStack(GreaterSecurity.itemLock, 1) });
-		GameRegistry.addShapelessRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1), new Object[] { 
-			new ItemStack(Block.chest), 
-			new ItemStack(GreaterSecurity.itemLock, 1) });
+		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), new Object[] { "WWW", "WLW", "WWW", 'W', Block.planks, 'L', new ItemStack(GreaterSecurity.itemLock, 1) });
+		GameRegistry.addShapelessRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1), new Object[] { new ItemStack(Block.chest), new ItemStack(GreaterSecurity.itemLock, 1) });
 
 		// // Stone Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new Object[] { 
-			"SSS", "SCS", "SSS",
-			'S', Block.stone,
-			'C', GreaterSecurity.blockLockedChest });
+		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new Object[] { "SSS", "SCS", "SSS", 'S', Block.stone, 'C', GreaterSecurity.blockLockedChest });
 		// // Iron Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new Object[] { 
-			"SSS", "SCS", "SSS",
-			'S', Item.ingotIron,
-			'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
+		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new Object[] { "SSS", "SCS", "SSS", 'S', Item.ingotIron, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 		// // Obby Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new Object[] { 
-			"SSS", "SCS", "SSS",
-			'S', Block.obsidian,
-			'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
+		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new Object[] { "SSS", "SCS", "SSS", 'S', Block.obsidian, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 
 		// // Locked Door ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.itemLockedDoor, 1), new Object[] { 
-			"WDW", "WLW", 
-			'D', Item.doorWood, 
-			'W', Block.stone, 
-			'L', new ItemStack(GreaterSecurity.itemLock, 1) });
+		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.itemLockedDoor, 1), new Object[] { "WDW", "WLW", 'D', Item.doorWood, 'W', Block.stone, 'L', new ItemStack(GreaterSecurity.itemLock, 1) });
 
 		// // Item Lock ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.itemLock, 2), new Object[] { 
-			"III", "I I", "WIW",
-			'W', Block.wood, 
-			'I', Item.ingotIron });
+		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.itemLock, 2), new Object[] { "III", "I I", "WIW", 'W', Block.wood, 'I', Item.ingotIron });
 	}
 }

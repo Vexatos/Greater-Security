@@ -183,7 +183,7 @@ public class GlobalAccessList
 			{
 				hasLoaded = true;
 				loading = true;
-				NBTFileLoader.loadData(UserAccessLoader.SAVE_NAME);
+				NBTFileLoader.loadData(GlobalAccessLoader.SAVE_NAME);
 				// TODO save the file
 				loading = false;
 			}

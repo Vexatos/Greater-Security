@@ -11,11 +11,11 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import dark.saving.INbtSave;
 import dark.saving.SaveManager;
 
-public class UserAccessLoader implements INbtSave
+public class GlobalAccessLoader implements INbtSave
 {
 	public static boolean isInitialized = false;
 
-	public static UserAccessLoader intance = new UserAccessLoader();
+	public static GlobalAccessLoader intance = new GlobalAccessLoader();
 
 	/** Name of the save file **/
 	public static final String SAVE_NAME = "Global_Access_List";
