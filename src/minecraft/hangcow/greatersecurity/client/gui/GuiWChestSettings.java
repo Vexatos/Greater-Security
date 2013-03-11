@@ -2,8 +2,8 @@ package hangcow.greatersecurity.client.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
-import hangcow.greatersecurity.common.network.PacketManager;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
+import hangcow.greatersecurity.common.network.LockPacketHandler;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiWChestSettings extends GuiContainer
 {
-    private TileEntityLChest ChestLC;
+    private TileEntityLockedChest ChestLC;
     private GuiTextField varType;
     private EntityPlayer player;
     private String linkErrorA = "";
@@ -28,7 +28,7 @@ public class GuiWChestSettings extends GuiContainer
     private IInventory chest;
     int page = 0;
 
-    public GuiWChestSettings(EntityPlayer invPlayer, TileEntityLChest TileEntityLC, IInventory chest)
+    public GuiWChestSettings(EntityPlayer invPlayer, TileEntityLockedChest TileEntityLC, IInventory chest)
     {
         super(new ContainerLockedChest(invPlayer.inventory, TileEntityLC, 0));
         this.ChestLC = TileEntityLC;
@@ -81,7 +81,7 @@ public class GuiWChestSettings extends GuiContainer
             if (!ChestLC.users.contains(name))
             {
                 ChestLC.addUser(name);
-                PacketManager.sendChestPacketServer(ChestLC, 2, name);
+                LockPacketHandler.sendChestPacketServer(ChestLC, 2, name);
             }
         }
         if (par1GuiButton.id == 1)// Remove
@@ -89,7 +89,7 @@ public class GuiWChestSettings extends GuiContainer
             if (ChestLC.users.contains(name))
             {
                 ChestLC.removeUser(name);
-                PacketManager.sendChestPacketServer(ChestLC, 1, name);
+                LockPacketHandler.sendChestPacketServer(ChestLC, 1, name);
             }
         }
         if (par1GuiButton.id == 4)// next

@@ -1,7 +1,7 @@
 package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -24,7 +24,7 @@ public class RenderChest extends TileEntitySpecialRenderer
     /**
      * Renders the TileEntity for the chest at a position.
      */
-    public void renderTileEntityChestAt(TileEntityLChest par1TileEntityChest, double par2, double par4, double par6, float par8)
+    public void renderTileEntityChestAt(TileEntityLockedChest par1TileEntityChest, double par2, double par4, double par6, float par8)
     {
         int meta;
         int type = par1TileEntityChest.getType();
@@ -115,6 +115,6 @@ public class RenderChest extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
     {
-        this.renderTileEntityChestAt((TileEntityLChest)par1TileEntity, par2, par4, par6, par8);
+        this.renderTileEntityChestAt((TileEntityLockedChest)par1TileEntity, par2, par4, par6, par8);
     }
 }

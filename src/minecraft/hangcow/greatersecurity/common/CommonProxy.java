@@ -6,23 +6,22 @@ import hangcow.greatersecurity.client.gui.GuiRemoveChest;
 import hangcow.greatersecurity.client.gui.GuiWChestSettings;
 import hangcow.greatersecurity.client.gui.GuiWDoorSettings;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.door.ContainerFake;
-import hangcow.greatersecurity.common.door.TileEntityLDoor;
+import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy implements IGuiHandler
 {
 
     public Object GetCombinedInv(World par1World, int i, int j, int k)
     {
-        IInventory var10 = (TileEntityLChest) par1World.getBlockTileEntity(i, j, k);
+        IInventory var10 = (TileEntityLockedChest) par1World.getBlockTileEntity(i, j, k);
         for (int bb = 0; bb < 4; bb++)
         {
             int deltaI = 0;
@@ -42,11 +41,11 @@ public class CommonProxy implements IGuiHandler
                     deltaK++;
                     break;
             }
-            if (par1World.getBlockTileEntity(i + deltaI, j, k + deltaK) instanceof TileEntityLChest)
+            if (par1World.getBlockTileEntity(i + deltaI, j, k + deltaK) instanceof TileEntityLockedChest)
             {
-                TileEntityLChest cc = (TileEntityLChest) par1World.getBlockTileEntity(i, j, k);
+                TileEntityLockedChest cc = (TileEntityLockedChest) par1World.getBlockTileEntity(i, j, k);
                 // convert both seperate inv into open joined inv
-                var10 = new InventoryLargeChest("container.chestLDouble", (TileEntityLChest) par1World.getBlockTileEntity(i + deltaI, j, k + deltaK), cc);
+                var10 = new InventoryLargeChest("container.chestLDouble", (TileEntityLockedChest) par1World.getBlockTileEntity(i + deltaI, j, k + deltaK), cc);
             }
         }
         return var10;
@@ -83,15 +82,15 @@ public class CommonProxy implements IGuiHandler
             switch (ID)
             {
                 case 0:
-                    return new GuiLChest(player, ((TileEntityLChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
+                    return new GuiLChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
                 case 1:
-                    return new GuiDenyOpen(player, ((TileEntityLChest) tileEntity));
+                    return new GuiDenyOpen(player, ((TileEntityLockedChest) tileEntity));
                 case 2:
-                    return new GuiWChestSettings(player, ((TileEntityLChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
+                    return new GuiWChestSettings(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
                 case 3:
-                    return new GuiWDoorSettings(player, (TileEntityLDoor) tileEntity);
+                    return new GuiWDoorSettings(player, (TileEntityLockedDoor) tileEntity);
                 case 4:
-                    return new GuiRemoveChest(player, (TileEntityLChest) tileEntity);
+                    return new GuiRemoveChest(player, (TileEntityLockedChest) tileEntity);
             }
         }
         return null;

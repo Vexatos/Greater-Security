@@ -1,4 +1,4 @@
-package hangcow.serversuit.GPS;
+package hangcow.serversuit.common;
 
 import hangcow.serversuit.commands.FlyCommand;
 import hangcow.serversuit.commands.GetDeathsCommands;
@@ -17,7 +17,6 @@ import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.ModLoader;
-import net.minecraft.world.GameRules;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;

@@ -1,14 +1,14 @@
 package hangcow.greatersecurity.common;
 
-import hangcow.greatersecurity.common.chest.BlockLChest;
-import hangcow.greatersecurity.common.chest.ItemLChest;
+import hangcow.greatersecurity.common.chest.BlockLockedChest;
 import hangcow.greatersecurity.common.chest.ItemLock;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
-import hangcow.greatersecurity.common.door.BlockLDoor;
+import hangcow.greatersecurity.common.chest.ItemLockedChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
+import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemDoor;
-import hangcow.greatersecurity.common.door.TileEntityLDoor;
-import hangcow.greatersecurity.common.door.TileEntityLDoorTop;
-import hangcow.greatersecurity.common.network.PacketManager;
+import hangcow.greatersecurity.common.door.TileEntityFake;
+import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
+import hangcow.greatersecurity.common.network.LockPacketHandler;
 
 import java.io.File;
 
@@ -36,7 +36,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  */
 @Mod(modid = "GreaterSecurity", name = "GreaterSecurity", version = "0.1.1A")
-@NetworkMod(channels = { "GreaterSecurity" }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
+@NetworkMod(channels = { "GreaterSecurity" }, clientSideRequired = true, serverSideRequired = false, packetHandler = LockPacketHandler.class)
 public class GreaterSecurity
 {
 
@@ -63,8 +63,8 @@ public class GreaterSecurity
         Lock = new ItemLock(config.getItem(Configuration.CATEGORY_ITEM, "LockItemID", 30007).getInt());
         door = new ItemDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());
         // //Blocks //// Configs ////
-        BlockLChest = new BlockLChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
-        BlockLDoor = new BlockLDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
+        BlockLChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
+        BlockLDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
         config.save();
     }
 
@@ -77,7 +77,7 @@ public class GreaterSecurity
         proxy.preInit();
         
         // // Registration ////
-        GameRegistry.registerBlock(BlockLChest, ItemLChest.class, "gsChest");
+        GameRegistry.registerBlock(BlockLChest, ItemLockedChest.class, "gsChest");
         GameRegistry.registerBlock(BlockLDoor, "gsDoor");
 
     }
@@ -86,11 +86,11 @@ public class GreaterSecurity
     public void generalLoad(FMLInitializationEvent event)
     {
         proxy.init();
-        GameRegistry.registerTileEntity(TileEntityLChest.class, "LChest");
-        GameRegistry.registerTileEntity(TileEntityLDoor.class, "LDoor");
+        GameRegistry.registerTileEntity(TileEntityLockedChest.class, "LChest");
+        GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "LDoor");
         
         // // Registration ////
-        GameRegistry.registerTileEntity(TileEntityLDoorTop.class, "LTDoor");
+        GameRegistry.registerTileEntity(TileEntityFake.class, "LTDoor");
 
         // // Block Names ////
         LanguageRegistry.addName(new ItemStack(GreaterSecurity.BlockLChest, 1, 0),

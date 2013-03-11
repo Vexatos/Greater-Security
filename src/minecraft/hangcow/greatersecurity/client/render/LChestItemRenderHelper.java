@@ -1,6 +1,6 @@
 package hangcow.greatersecurity.client.render;
 
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import cpw.mods.fml.relauncher.Side;
@@ -11,7 +11,7 @@ public class LChestItemRenderHelper
 {
     /** The static instance of ChestItemRenderHelper. */
     public static LChestItemRenderHelper instance = new LChestItemRenderHelper();
-    private TileEntityLChest field_78543_b = new TileEntityLChest();
+    private TileEntityLockedChest field_78543_b = new TileEntityLockedChest();
 
     /**
      * Renders a chest at 0,0,0 - used for item rendering

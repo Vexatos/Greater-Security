@@ -2,8 +2,8 @@ package hangcow.greatersecurity.client.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.door.ContainerFake;
-import hangcow.greatersecurity.common.door.TileEntityLDoor;
-import hangcow.greatersecurity.common.network.PacketManager;
+import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
+import hangcow.greatersecurity.common.network.LockPacketHandler;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiWDoorSettings extends GuiContainer
 {
-    private TileEntityLDoor ChestLC;
+    private TileEntityLockedDoor ChestLC;
     private GuiTextField varType;
     private EntityPlayer player;
     private String linkErrorA = "";
@@ -28,7 +28,7 @@ public class GuiWDoorSettings extends GuiContainer
     //private IInventory chest;
     int page = 0;
 
-    public GuiWDoorSettings(EntityPlayer invPlayer, TileEntityLDoor TileEntityLC)
+    public GuiWDoorSettings(EntityPlayer invPlayer, TileEntityLockedDoor TileEntityLC)
     {
         super(new ContainerFake(TileEntityLC));
         this.ChestLC = TileEntityLC;
@@ -76,7 +76,7 @@ public class GuiWDoorSettings extends GuiContainer
 	         if(!ChestLC.users.contains(name))
 	         {
 	        	 ChestLC.addUser(name);
-	        	 PacketManager.sendDoorPacketServer(ChestLC, 2, name);
+	        	 LockPacketHandler.sendDoorPacketServer(ChestLC, 2, name);
 	         }
          }
          if(par1GuiButton.id == 1)//Remove
@@ -84,7 +84,7 @@ public class GuiWDoorSettings extends GuiContainer
         	 if(ChestLC.users.contains(name))
 	         {
 	        	 ChestLC.removeUser(name);
-	        	 PacketManager.sendDoorPacketServer(ChestLC, 1, name);
+	        	 LockPacketHandler.sendDoorPacketServer(ChestLC, 1, name);
 	         }
          }
          if(par1GuiButton.id == 4)//next

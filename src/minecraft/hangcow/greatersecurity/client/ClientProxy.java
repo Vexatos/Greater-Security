@@ -2,7 +2,7 @@ package hangcow.greatersecurity.client;
 
 import hangcow.greatersecurity.client.render.RenderChest;
 import hangcow.greatersecurity.common.CommonProxy;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 
@@ -18,6 +18,6 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void init()
 	{
-	    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLChest.class, new RenderChest());
+	    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLockedChest.class, new RenderChest());
 	}
 }

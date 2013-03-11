@@ -2,7 +2,7 @@ package hangcow.greatersecurity.client.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -35,9 +35,9 @@ public class GuiDenyOpen extends GuiContainer
     {
     	String ChestName = "";
     	String invName = "";
-    	if(entityChest instanceof TileEntityLChest)
+    	if(entityChest instanceof TileEntityLockedChest)
     	{
-    		TileEntityLChest eChest = (TileEntityLChest) entityChest;
+    		TileEntityLockedChest eChest = (TileEntityLockedChest) entityChest;
 	    	ChestName = eChest.BlockOwner+"'s ";
 	    	invName = "";
 	    	if(eChest.BlockOwner == "World" ||eChest.BlockOwner == null)
@@ -50,9 +50,9 @@ public class GuiDenyOpen extends GuiContainer
 	    	}
 	    	 this.fontRenderer.drawString(ChestName+" Chest", 38, 6, 16777200);
     	}
-    	if(entityChest instanceof TileEntityLChest)
+    	if(entityChest instanceof TileEntityLockedChest)
     	{
-    		TileEntityLChest eChest = (TileEntityLChest) entityChest;
+    		TileEntityLockedChest eChest = (TileEntityLockedChest) entityChest;
 	    	ChestName = eChest.BlockOwner+"'s ";
 	    	invName = "";
 	    	if(eChest.BlockOwner == "World" ||eChest.BlockOwner == null)

@@ -2,8 +2,8 @@ package hangcow.greatersecurity.client.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
-import hangcow.greatersecurity.common.network.PacketManager;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
+import hangcow.greatersecurity.common.network.LockPacketHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,13 +16,13 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiRemoveChest extends GuiContainer
 {
-    private TileEntityLChest ChestLC;
+    private TileEntityLockedChest ChestLC;
     private EntityPlayer player;
     private IInventory iInventory;
     private IInventory chest;
     int page = 0;
 
-    public GuiRemoveChest(EntityPlayer invPlayer, TileEntityLChest TileEntityLC)
+    public GuiRemoveChest(EntityPlayer invPlayer, TileEntityLockedChest TileEntityLC)
     {
         super(new ContainerLockedChest(invPlayer.inventory, TileEntityLC, 0));
         this.ChestLC = TileEntityLC;
@@ -56,7 +56,7 @@ public class GuiRemoveChest extends GuiContainer
     {
         if(par1GuiButton.id == 0)//boom
         {
-            PacketManager.sendChestPacketServer(ChestLC, 5, "boom");
+            LockPacketHandler.sendChestPacketServer(ChestLC, 5, "boom");
             ChestLC.worldObj.setBlock(ChestLC.xCoord, ChestLC.yCoord, ChestLC.zCoord,0);
             this.mc.thePlayer.closeScreen();
         }

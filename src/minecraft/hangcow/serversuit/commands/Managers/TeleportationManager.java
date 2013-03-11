@@ -1,6 +1,6 @@
 package hangcow.serversuit.commands.Managers;
 
-import hangcow.serversuit.GPS.GreaterSeverSuit;
+import hangcow.serversuit.common.GreaterSeverSuit;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

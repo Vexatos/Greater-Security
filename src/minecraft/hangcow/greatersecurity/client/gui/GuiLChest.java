@@ -2,7 +2,7 @@ package hangcow.greatersecurity.client.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
-import hangcow.greatersecurity.common.chest.TileEntityLChest;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,11 +22,11 @@ public class GuiLChest extends GuiContainer
 
 {
 	private EntityPlayer invPlayer;
-    private TileEntityLChest entityChest;
+    private TileEntityLockedChest entityChest;
     private IInventory chest;
     //Window height is calculated with this values, the more rows, the heigher
     private int inventoryRows = 0;
-    public GuiLChest(EntityPlayer par1IInventory, TileEntityLChest chest, IInventory object)
+    public GuiLChest(EntityPlayer par1IInventory, TileEntityLockedChest chest, IInventory object)
     {
         super(new ContainerLockedChest(par1IInventory.inventory, object,1));
         this.invPlayer = par1IInventory;
