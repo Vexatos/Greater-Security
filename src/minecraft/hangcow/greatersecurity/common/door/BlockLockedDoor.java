@@ -26,13 +26,13 @@ public class BlockLockedDoor extends BlockMachine
 	public BlockLockedDoor(int id)
 	{
 		super(id, Material.iron);
-		this.blockIndexInTexture = 2;
+		this.blockIndexInTexture = 1;
 
 		float width = 0.5F;
 		float height = 1.0F;
 		this.setBlockBounds(0.5F - width, 0.0F, 0.5F - width, 0.5F + width, height, 0.5F + width);
 		this.setResistance(10f);
-		this.setTextureFile(GreaterSecurity.BLOCK_File_PATH);
+		// this.setTextureFile(GreaterSecurity.BLOCK_File_PATH);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -270,64 +270,85 @@ public class BlockLockedDoor extends BlockMachine
 		}
 	}
 
+	public static TileEntity getTileEntityDoor(World world, int x, int y, int z)
+	{
+		int meta = world.getBlockMetadata(x, y, z);
+		TileEntity ent;
+		if (isTop(world, x, y, z))
+		{
+			ent = world.getBlockTileEntity(x, y - 1, z);
+		}
+		else
+		{
+			ent = world.getBlockTileEntity(x, y, z);
+		}
+		return ent;
+
+	}
+
 	/**
 	 * Called upon block activation (right click on the block.)
 	 */
 	@Override
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (!world.isRemote && ent instanceof TileEntityLockedDoor)
+		TileEntity ent = getTileEntityDoor(world, x, y, z);
+		
+		if (ent instanceof TileEntityLockedDoor && ((TileEntityLockedDoor) ent).canAccess(player))
 		{
-			if (((TileEntityLockedDoor) ent).canAccess(player))
-			{
-				this.activateDoor(world, x, y, z);
-			}
+			this.activateDoor((TileEntityLockedDoor) ent);
+			player.sendChatToPlayer("Open?");
+		}
+		else
+		{
+			player.sendChatToPlayer("Locked ");
 		}
 		return true;
 	}
 
 	public boolean onSneakMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (!world.isRemote && ent instanceof TileEntityLockedDoor)
+		TileEntity ent = getTileEntityDoor(world, x, y, z);
+
+		if (ent instanceof TileEntityLockedDoor)
 		{
 			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
 			{
-				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, world, x, y, z);
+				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, world, ent.xCoord, ent.zCoord, ent.yCoord);
+				player.sendChatToPlayer("Open?");
+				return true;
+			}
+			else
+			{
+				player.sendChatToPlayer("Locked");
 			}
 		}
+		else
+		{
+			player.sendChatToPlayer("Failed to access GUI");
+		}
+
 		return true;
 	}
 
-	public static void activateDoor(World world, int x, int y, int z)
+	public static void activateDoor(TileEntityLockedDoor door)
 	{
-		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (!world.isRemote && ent instanceof TileEntityLockedDoor)
+
+		int fullMeta = getFullMetadata(door.worldObj, door.xCoord, door.yCoord, door.zCoord);
+		int newMeta = fullMeta & 7;
+		newMeta ^= 4;
+
+		door.isOpen = !isDoorOpen(door.worldObj, door.xCoord, door.yCoord, door.zCoord);
+
+		if ((fullMeta & 8) == 0)
 		{
-			int fullMeta = getFullMetadata(world, x, y, z);
-			int newMeta = fullMeta & 7;
-			newMeta ^= 4;
-
-			if (!isDoorOpen(world, x, y, z))
-			{
-				((TileEntityLockedDoor) ent).isOpen = true;
-			}
-			else
-			{
-				((TileEntityLockedDoor) ent).isOpen = false;
-			}
-
-			if ((fullMeta & 8) == 0)
-			{
-				world.setBlockMetadataWithNotify(x, y, z, newMeta);
-				world.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
-			}
-			else
-			{
-				world.setBlockMetadataWithNotify(x, y - 1, z, newMeta);
-				world.markBlockRangeForRenderUpdate(x, y - 1, z, x, y, z);
-			}
+			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord, door.zCoord, newMeta);
+			door.worldObj.markBlockRangeForRenderUpdate(door.xCoord, door.yCoord, door.zCoord, door.xCoord, door.yCoord, door.zCoord);
+		}
+		else
+		{
+			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord - 1, door.xCoord, newMeta);
+			door.worldObj.markBlockRangeForRenderUpdate(door.xCoord, door.yCoord - 1, door.zCoord, door.xCoord, door.yCoord, door.zCoord);
 		}
 	}
 
@@ -335,9 +356,9 @@ public class BlockLockedDoor extends BlockMachine
 	 * Returns the ID of the items to drop on destruction.
 	 */
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
+	public int idDropped(int meta, Random par2Random, int par3)
 	{
-		return (par1 & 8) != 0 ? 0 : GreaterSecurity.itemLockedDoor.itemID;
+		return (meta & 8) != 0 ? 0 : GreaterSecurity.itemLockedDoor.itemID;
 	}
 
 	/**
@@ -378,11 +399,11 @@ public class BlockLockedDoor extends BlockMachine
 	public static int getFullMetadata(IBlockAccess world, int x, int y, int z)
 	{
 		int blockMeta = world.getBlockMetadata(x, y, z);
-		boolean isTop = (blockMeta & 8) != 0;
 		int bottomMeta;
+		boolean var6 = (blockMeta & 8) != 0;
 		int topMeta;
 
-		if (isTop)
+		if (var6)
 		{
 			bottomMeta = world.getBlockMetadata(x, y - 1, z);
 			topMeta = blockMeta;
@@ -394,7 +415,7 @@ public class BlockLockedDoor extends BlockMachine
 		}
 
 		boolean var9 = (topMeta & 1) != 0;
-		return bottomMeta & 7 | (isTop ? 8 : 0) | (var9 ? 16 : 0);
+		return bottomMeta & 7 | (var6 ? 8 : 0) | (var9 ? 16 : 0);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -411,9 +432,9 @@ public class BlockLockedDoor extends BlockMachine
 	 * Called when the block is attempted to be harvested
 	 */
 	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer player)
+	public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player)
 	{
-		if (player.capabilities.isCreativeMode && (par5 & 8) != 0 && world.getBlockId(x, y - 1, z) == this.blockID)
+		if (player.capabilities.isCreativeMode && isTop(world, x, y, z) && world.getBlockId(x, y - 1, z) == this.blockID)
 		{
 			world.setBlockWithNotify(x, y - 1, z, 0);
 		}
@@ -426,13 +447,19 @@ public class BlockLockedDoor extends BlockMachine
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int metadata)
+	public TileEntity createNewTileEntity(World world, int meta)
 	{
-		if ((metadata & 8) != 0)
+		if ((meta & 8) == 0)
 		{
-			return new TileEntity();
+			return new TileEntityLockedDoor();
 		}
 		return createNewTileEntity(world);
+	}
+
+	public static boolean isTop(IBlockAccess world, int x, int y, int z)
+	{
+		int meta = world.getBlockMetadata(x, y, z);
+		return !((getFullMetadata(world, x, y, z) & 8) == 0);
 	}
 
 }

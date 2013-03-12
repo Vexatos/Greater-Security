@@ -50,7 +50,7 @@ public class TileEntityLockedDoor extends TileEntityLockable
 		{
 			timeOpen = 0;
 			this.isOpen = false;
-			BlockLockedDoor.activateDoor(worldObj, xCoord, yCoord, zCoord);
+			BlockLockedDoor.activateDoor(this);
 		}
 	}
 

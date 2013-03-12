@@ -1,6 +1,5 @@
 package dark.library.locking.prefab;
 
-
 import java.awt.Color;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class GuiUserAccess extends GuiContainer
 	private ISpecialAccess lock;
 	private GuiTextField varType;
 	private EntityPlayer player;
-	private String texture = "/dark/library/resources/textures/gui/userAccessGui.png";
+	private String texture = "";
 
 	// private IInventory chest;
 	int currentPage = 0;
@@ -39,6 +38,11 @@ public class GuiUserAccess extends GuiContainer
 		this.player = player;
 		this.lock = access;
 		this.texture = texture;
+	}
+
+	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access)
+	{
+		this(tileEntity, player, access, "/dark/library/resources/textures/gui/userAccessGui.png");
 	}
 
 	@Override
@@ -92,6 +96,10 @@ public class GuiUserAccess extends GuiContainer
 			{
 				lock.removeUserAccess(name);
 			}
+		}
+		if (par1GuiButton.id == 2)// Remove
+		{
+			this.mc.thePlayer.closeScreen();
 		}
 		if (par1GuiButton.id == 4)// next
 		{

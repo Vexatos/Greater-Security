@@ -32,21 +32,34 @@ public class GlobalAccessList
 	 */
 	public List<UserAccess> getOrCreateList(String name, String owner)
 	{
-		if (name.toCharArray().length < 5 || owner.isEmpty())
+		if (name.toCharArray().length < 5 || owner.isEmpty() || name.startsWith("Default#"))
 		{
 			return null;
 		}
 		List<UserAccess> list = getList(name);
 		if (list == null)
 		{
-			/*** Creates a new List if one doesn't exist ***/
-			list = new ArrayList<UserAccess>();
-			list.add(new UserAccess(owner, AccessLevel.OWNER, true));
-
-			globalUserLists.put(name, list);
-			saveList(name, list);
-			this.needsSaving = true;
+			list = this.createList(name, owner);
 		}
+		return list;
+	}
+
+	/**
+	 * creates a new user access list
+	 * 
+	 * @param name
+	 * @param owner
+	 * @return
+	 */
+	public List<UserAccess> createList(String name, String owner)
+	{
+		/*** Creates a new List if one doesn't exist ***/
+		List<UserAccess> list = new ArrayList<UserAccess>();
+		list.add(new UserAccess(owner, AccessLevel.OWNER, true));
+
+		globalUserLists.put(name, list);
+		saveList(name, list);
+		this.needsSaving = true;
 		return list;
 	}
 

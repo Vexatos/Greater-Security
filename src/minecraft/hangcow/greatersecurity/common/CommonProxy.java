@@ -82,7 +82,7 @@ public class CommonProxy implements IGuiHandler
 				case CHEST_GUI:
 					return new GuiLockedChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
 				case USERACCESS_GUI:
-					return new GuiUserAccess((TileEntity) tileEntity, player, (ISpecialAccess) tileEntity, GreaterSecurity.GUI_File_PATH + "userAccessGui.png");
+					return new GuiUserAccess((TileEntity) tileEntity, player, (ISpecialAccess) tileEntity);
 				case YES_NO_GUI:
 					return new GuiRemoveChest(player, (TileEntityLockedChest) tileEntity);
 			}

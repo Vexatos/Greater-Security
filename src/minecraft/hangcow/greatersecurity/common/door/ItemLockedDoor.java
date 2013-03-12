@@ -9,8 +9,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import dark.library.locking.AccessLevel;
 
 public class ItemLockedDoor extends Item
 {
@@ -49,28 +51,29 @@ public class ItemLockedDoor extends Item
 		par3List.add(new ItemStack(this, 1, 0));
 	}
 
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
-		if (par7 != 1)
+		if (side != 1)
 		{
 			return false;
 		}
 		else
 		{
-			++par5;
-			Block var11 = GreaterSecurity.blockLockedDoor;
+			++y;
+			Block placedBlock = GreaterSecurity.blockLockedDoor;
 
-			if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+			if (entityPlayer.canPlayerEdit(x, y, z, side, itemstack) && entityPlayer.canPlayerEdit(x, y + 1, z, side, itemstack))
 			{
-				if (!var11.canPlaceBlockAt(par3World, par4, par5, par6))
+				if (!placedBlock.canPlaceBlockAt(world, x, y, z))
 				{
 					return false;
 				}
 				else
 				{
-					int var12 = MathHelper.floor_double((double) ((par2EntityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
-					GreaterSecurity.blockLockedDoor.onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer);
-					--par1ItemStack.stackSize;
+					int angle = MathHelper.floor_double((double) ((entityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
+					placeDoorBlock(entityPlayer, world, x, y, z, angle, placedBlock);
+					--itemstack.stackSize;
 					return true;
 				}
 			}
@@ -78,6 +81,60 @@ public class ItemLockedDoor extends Item
 			{
 				return false;
 			}
+		}
+	}
+
+	public static void placeDoorBlock(EntityPlayer player, World world, int x, int y, int z, int angle, Block placeBlock)
+	{
+		byte var6 = 0;
+		byte var7 = 0;
+
+		if (angle == 0)
+		{
+			var7 = 1;
+		}
+
+		if (angle == 1)
+		{
+			var6 = -1;
+		}
+
+		if (angle == 2)
+		{
+			var7 = -1;
+		}
+
+		if (angle == 3)
+		{
+			var6 = 1;
+		}
+
+		int var8 = (world.isBlockNormalCube(x - var6, y, z - var7) ? 1 : 0) + (world.isBlockNormalCube(x - var6, y + 1, z - var7) ? 1 : 0);
+		int var9 = (world.isBlockNormalCube(x + var6, y, z + var7) ? 1 : 0) + (world.isBlockNormalCube(x + var6, y + 1, z + var7) ? 1 : 0);
+		boolean var10 = world.getBlockId(x - var6, y, z - var7) == placeBlock.blockID || world.getBlockId(x - var6, y + 1, z - var7) == placeBlock.blockID;
+		boolean var11 = world.getBlockId(x + var6, y, z + var7) == placeBlock.blockID || world.getBlockId(x + var6, y + 1, z + var7) == placeBlock.blockID;
+		boolean var12 = false;
+
+		if (var10 && !var11)
+		{
+			var12 = true;
+		}
+		else if (var9 > var8)
+		{
+			var12 = true;
+		}
+
+		world.editingBlocks = true;
+		world.setBlockAndMetadataWithNotify(x, y, z, placeBlock.blockID, angle);
+		world.setBlockAndMetadataWithNotify(x, y + 1, z, placeBlock.blockID, 8 | (var12 ? 1 : 0));
+		world.editingBlocks = false;
+		world.notifyBlocksOfNeighborChange(x, y, z, placeBlock.blockID);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, placeBlock.blockID);
+
+		TileEntity ent = BlockLockedDoor.getTileEntityDoor(world,x,y,z);
+		if (ent instanceof TileEntityLockedDoor)
+		{
+			((TileEntityLockedDoor) ent).addUserAccess(player.username, AccessLevel.OWNER, true);
 		}
 	}
 }

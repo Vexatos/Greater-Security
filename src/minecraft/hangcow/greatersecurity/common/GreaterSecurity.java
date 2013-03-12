@@ -6,7 +6,6 @@ import hangcow.greatersecurity.common.chest.ItemLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
-import hangcow.greatersecurity.common.door.TileEntityFake;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
 import hangcow.greatersecurity.common.network.LockPacketHandler;
 
@@ -88,11 +87,11 @@ public class GreaterSecurity
 	public void generalLoad(FMLInitializationEvent event)
 	{
 		proxy.init();
+		// // Register ////
 		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "lockedChest");
 		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "lockedDoor");
 
-		// // Registration ////
-		GameRegistry.registerTileEntity(TileEntityFake.class, "fakeBlock");
+		
 
 		// // Block Names ////
 		LanguageRegistry.addName(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), "WoodenChest");
