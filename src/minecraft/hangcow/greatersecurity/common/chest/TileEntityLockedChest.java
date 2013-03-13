@@ -47,6 +47,9 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/** The number of players currently using this chest */
 	public int numUsingPlayers;
 
+	/** The type of chest 0 = woord 1 = stone 2 = Iron 3 = obby */
+	private int chestType = 0;
+
 	/**
 	 * Returns the number of slots in the inventory.
 	 */
@@ -147,6 +150,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
+		this.chestType = nbt.getInteger("chestType");
 		// // Check for old save list and convert //
 		if (nbt.hasKey("Owner"))
 		{
@@ -183,6 +187,8 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+		nbt.setInteger("chestType", this.chestType);
+		// // Write inventory //
 		NBTTagList var2 = new NBTTagList();
 
 		for (int var3 = 0; var3 < this.chestContents.length; ++var3)
@@ -499,5 +505,15 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 			chest.removeUserAccess(player);
 		}
 		return removed;
+	}
+
+	public int getType()
+	{ // TODO Auto-generated method stub
+		return this.chestType;
+	}
+
+	public void setType(int type)
+	{
+		this.chestType = type;
 	}
 }

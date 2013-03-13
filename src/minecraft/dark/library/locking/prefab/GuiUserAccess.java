@@ -1,5 +1,8 @@
 package dark.library.locking.prefab;
 
+import hangcow.greatersecurity.common.CommonProxy;
+import hangcow.greatersecurity.common.GreaterSecurity;
+
 import java.awt.Color;
 import java.util.List;
 
@@ -33,13 +36,13 @@ public class GuiUserAccess extends GuiContainer
 	int currentPage = 0;
 	int namesPerPage = 5;
 
-	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, String texture)
+	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, Boolean showBreakButton, String texture)
 	{
-		this(tileEntity, player, access);
+		this(tileEntity, player, access,showBreakButton);
 		this.texture = texture;
 	}
 
-	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access)
+	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, Boolean showBreakButton)
 	{
 		super(new ContainerFake(tileEntity));
 		this.tileEntity = tileEntity;
@@ -64,6 +67,7 @@ public class GuiUserAccess extends GuiContainer
 		this.controlList.add(new GuiButton(2, wid + 105, hig + 50, 40, 12, var1.translateKey("Exit")));
 		this.controlList.add(new GuiButtonArrow(3, wid - 9, hig, true));
 		this.controlList.add(new GuiButtonArrow(4, wid + tWid + 1, hig, false));
+		this.controlList.add(new GuiButton(5, wid + tWid + 20, hig + bHig + bHig + bHig + 1, 40, 12, var1.translateKey("Break")));
 		// ---------
 
 		this.varType = new GuiTextField(this.fontRenderer, wid, hig, tWid, bHig);
@@ -110,6 +114,10 @@ public class GuiUserAccess extends GuiContainer
 		if (par1GuiButton.id == 3)// Back
 		{
 			this.page(-1);
+		}
+		if (par1GuiButton.id == 5)// remove TileEntity
+		{
+			player.openGui(GreaterSecurity.instance, CommonProxy.YES_NO_GUI, tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 		}
 		super.actionPerformed(par1GuiButton);
 	}

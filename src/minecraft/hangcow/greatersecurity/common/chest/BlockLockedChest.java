@@ -33,6 +33,31 @@ public class BlockLockedChest extends BlockMachine
 		this.blockIndexInTexture = 26;
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
+		this.blockResistance = 1000F;// TODO set this based on tier if possible
+		if (!GreaterSecurity.breakChests)
+		{
+			this.setBlockUnbreakable();
+		}
+	}
+
+	@Override
+	public float getBlockHardness(World world, int x, int y, int z)
+	{
+		if (GreaterSecurity.breakChests)
+		{
+			float hardness = 100F;
+			TileEntity ent = world.getBlockTileEntity(x, y, z);
+			if (ent instanceof TileEntityLockedChest)
+			{
+				int type = ((TileEntityLockedChest) ent).getType();
+
+			}
+			return hardness;
+		}
+		else
+		{
+			return Float.MAX_VALUE;
+		}
 	}
 
 	@Override

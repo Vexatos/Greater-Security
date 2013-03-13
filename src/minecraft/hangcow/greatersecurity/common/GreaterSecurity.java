@@ -61,6 +61,10 @@ public class GreaterSecurity
 	public static Item itemLock;
 	public static Item itemLockedDoor;
 
+	
+	public static Boolean breakChests;
+	public static Boolean breakDoors;
+	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -69,10 +73,16 @@ public class GreaterSecurity
 
 		// //Configs ////
 		config.load();
+		breakChests = config.get(Configuration.CATEGORY_GENERAL, "canBreakChests", true).getBoolean(true);
+		breakChests = config.get(Configuration.CATEGORY_GENERAL, "canBreakDoors", true).getBoolean(true);
+		
 		itemLock = new ItemLock(config.getItem(Configuration.CATEGORY_ITEM, "LockItemID", 30007).getInt());
 		itemLockedDoor = new ItemLockedDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());
+		
 		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
+		
+		
 		config.save();
 
 		// // Registration ////
