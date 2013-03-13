@@ -48,7 +48,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 
 		if (!this.worldObj.isRemote)
 		{
-			if ((this.playersUsing > 0 && this.ticks % 5 == 0) || (this.playersUsing < 0 && this.ticks % 100 == 0))
+			if ((this.playersUsing > 0 && this.ticks % 5 == 0) || (this.playersUsing <= 0 && this.ticks % 100 == 0))
 			{
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
 			}
@@ -180,7 +180,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
 		UserAccess access = new UserAccess(player, lvl, save);
-		if (worldObj.isRemote)
+		if (worldObj != null && worldObj.isRemote)
 		{
 			this.sendEditToServer(access, false);
 		}
@@ -192,7 +192,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 	public boolean removeUserAccess(String player)
 	{
 
-		if (worldObj.isRemote)
+		if (worldObj != null && worldObj.isRemote)
 		{
 			UserAccess access = new UserAccess(player, AccessLevel.BASIC, false);
 			this.sendEditToServer(access, true);
@@ -206,7 +206,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 		}
 		return false;
 	}
-	
+
 	public boolean canAccess(EntityPlayer player)
 	{
 		return this.getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal();
