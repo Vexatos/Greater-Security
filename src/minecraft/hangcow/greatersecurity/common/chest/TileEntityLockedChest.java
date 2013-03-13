@@ -1,5 +1,7 @@
 package hangcow.greatersecurity.common.chest;
 
+import java.util.List;
+
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +11,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 import dark.library.locking.prefab.TileEntityLockable;
 
 public class TileEntityLockedChest extends TileEntityLockable implements IInventory
@@ -274,36 +278,18 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 
 	public TileEntityLockedChest getAdjacentChest()
 	{
-		for (int i = 0; i < 4; i++)
+		for (int side = 0; side < 4; side++)
 		{
-			int deltaX = 0;
-			int deltaZ = 0;
-			switch (i)
+			ForgeDirection dir = ForgeDirection.getOrientation(side + 2);
+
+			TileEntity entity = worldObj.getBlockTileEntity(this.xCoord + dir.offsetX, this.yCoord, this.zCoord + dir.offsetZ);
+
+			if (entity instanceof TileEntityLockedChest && ((TileEntityLockedChest) entity).getType() == this.getType())
 			{
-				case 0:
-					deltaX--;
-					break;
-				case 1:
-					deltaX++;
-					break;
-				case 2:
-					deltaZ--;
-					break;
-				case 3:
-					deltaZ++;
-					break;
-			}
-			TileEntity entity = worldObj.getBlockTileEntity(this.xCoord + deltaX, this.yCoord, this.zCoord + deltaZ);
-			if (entity instanceof TileEntityLockedChest)
-			{
-				if (((TileEntityLockedChest) entity).getType() == this.getType())
-				{
-					return (TileEntityLockedChest) entity;
-				}
+				return (TileEntityLockedChest) entity;
 			}
 		}
 		return null;
-
 	}
 
 	@Override
@@ -357,5 +343,25 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public String getChannel()
 	{
 		return GreaterSecurity.CHANNEL;
+	}
+
+	@Override
+	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
+	{
+		if (!worldObj.isRemote && this.getAdjacentChest() != null)
+		{
+			this.getAdjacentChest().addUserAccess(player, lvl, save);
+		}
+		return super.addUserAccess(player, lvl, save);
+	}
+
+	@Override
+	public boolean removeUserAccess(String player)
+	{
+		if (!worldObj.isRemote && this.getAdjacentChest() != null)
+		{
+			this.getAdjacentChest().removeUserAccess(player);
+		}
+		return super.removeUserAccess(player);
 	}
 }
