@@ -1,5 +1,6 @@
 package hangcow.serversuit.common;
 
+import hangcow.serversuit.commands.Disable;
 import hangcow.serversuit.commands.FlyCommand;
 import hangcow.serversuit.commands.GetDeathsCommands;
 import hangcow.serversuit.commands.HomeCommands;
@@ -78,9 +79,6 @@ public class GreaterSeverSuit
         
         server = ModLoader.getMinecraftServerInstance();
         
-        server.worldServers[0].getGameRules().setOrCreateGameRule("mobGriefing", "false");
-        //server.worldServers[0].getGameRules().setOrCreateGameRule("doFireTick", "false");
-        
         ICommandManager commandManager = server.getCommandManager();
         ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
         regCommands(serverCommandManager);
@@ -108,6 +106,7 @@ public class GreaterSeverSuit
     {
         manager.registerCommand(new HomeCommands());
         manager.registerCommand(new SmiteCommands());
+        manager.registerCommand(new Disable());
         manager.registerCommand(new FlyCommand());
         manager.registerCommand(new GetDeathsCommands());
     }

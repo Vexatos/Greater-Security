@@ -43,3 +43,9 @@ Minecraft 1.4.5
 @ AssemblyLine_v0.2.3.47.jar AssemblyLine_v0.2.3.47_api.zip
 @. AssemblyLine_v0.2.3.48.jar AssemblyLine_v0.2.3.48_api.zip
 @ AssemblyLine_v0.2.3.49.jar AssemblyLine_v0.2.3.49_api.zip
+@ @GreaterSecurity_v0.2.1.12.jar @GreaterSecurity_v0.2.1.12_api.zip
+@ @GreaterSecurity_v0.2.1.13.jar @GreaterSecurity_v0.2.1.13_api.zip
+@ @GreaterSecurity_v0.2.1.14.jar @GreaterSecurity_v0.2.1.14_api.zip
+@ @GreaterSecurity_v0.2.1.15.jar @GreaterSecurity_v0.2.1.15_api.zip
+@ @GreaterSecurity_v0.2.1.16.jar @GreaterSecurity_v0.2.1.16_api.zip
+@ @GreaterSecurity_v0.2.1.17.jar @GreaterSecurity_v0.2.1.17_api.zip
