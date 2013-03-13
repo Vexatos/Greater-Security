@@ -26,13 +26,13 @@ public class BlockLockedDoor extends BlockMachine
 	public BlockLockedDoor(int id)
 	{
 		super(id, Material.iron);
-		this.blockIndexInTexture = 1;
+		this.blockIndexInTexture = 34;
 
 		float width = 0.5F;
 		float height = 1.0F;
 		this.setBlockBounds(0.5F - width, 0.0F, 0.5F - width, 0.5F + width, height, 0.5F + width);
 		this.setResistance(10f);
-		// this.setTextureFile(GreaterSecurity.BLOCK_File_PATH);
+		this.setTextureFile(GreaterSecurity.BLOCK_File_PATH);
 	}
 
 	@SideOnly(Side.CLIENT)
