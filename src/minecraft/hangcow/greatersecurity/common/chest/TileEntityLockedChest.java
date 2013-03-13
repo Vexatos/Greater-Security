@@ -348,9 +348,10 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	@Override
 	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
-		if (!worldObj.isRemote && this.getAdjacentChest() != null)
+		TileEntityLockedChest chest = this.getAdjacentChest();
+		if (!worldObj.isRemote && chest != null && chest.getUserAccess(player) != lvl)
 		{
-			this.getAdjacentChest().addUserAccess(player, lvl, save);
+			chest.addUserAccess(player, lvl, save);
 		}
 		return super.addUserAccess(player, lvl, save);
 	}
@@ -358,9 +359,10 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	@Override
 	public boolean removeUserAccess(String player)
 	{
-		if (!worldObj.isRemote && this.getAdjacentChest() != null)
+		TileEntityLockedChest chest = this.getAdjacentChest();
+		if (!worldObj.isRemote && chest != null && chest.isOnList(player))
 		{
-			this.getAdjacentChest().removeUserAccess(player);
+			chest.removeUserAccess(player);
 		}
 		return super.removeUserAccess(player);
 	}

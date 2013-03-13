@@ -192,6 +192,21 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 
 	}
 
+	/**
+	 * checks to see if a user is on the access list regardless of access
+	 */
+	public boolean isOnList(String username)
+	{
+		for (UserAccess user : this.getUsers())
+		{
+			if (user.username.equalsIgnoreCase(username))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
