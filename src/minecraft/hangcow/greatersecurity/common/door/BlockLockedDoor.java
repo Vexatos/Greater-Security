@@ -320,8 +320,7 @@ public class BlockLockedDoor extends BlockMachine
 		{
 			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
 			{
-				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.zCoord, ent.yCoord);
-				player.sendChatToPlayer("accessing? ");
+				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.yCoord, ent.zCoord);
 				return true;
 			}
 			else
@@ -331,7 +330,7 @@ public class BlockLockedDoor extends BlockMachine
 		}
 		else
 		{
-			player.sendChatToPlayer("Failed to access GUI");
+			player.sendChatToPlayer("-=|[Error]|=-");
 		}
 
 		return true;

@@ -259,7 +259,7 @@ public class BlockLockedChest extends BlockMachine
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int par6, float par7, float par8, float par9)
+    public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         TileEntityLockedChest TileEntity = (TileEntityLockedChest) world.getBlockTileEntity(i, j, k);
 
@@ -309,7 +309,7 @@ public class BlockLockedChest extends BlockMachine
                 }
                 else
                 {
-                    player.sendChatToPlayer("Chest is Locked");
+                    player.sendChatToPlayer("-=|[Locked]|=-");
                     return true;
                 }
             }

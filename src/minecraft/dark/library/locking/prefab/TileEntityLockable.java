@@ -28,7 +28,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 {
 	public enum PacketType
 	{
-		DESCR_DATA, LIST_EDIT, SETTING_EDIT;
+		DESCR_DATA, LIST_EDIT, SETTING_EDIT, OTHER;
 	}
 
 	/**
@@ -52,10 +52,11 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 
 		if (!this.worldObj.isRemote)
 		{
-			if (listUpdate || (this.playersUsing > 0 && this.ticks % 5 == 0) || (this.playersUsing <= 0 && this.ticks % 100 == 0))
+			// // update lit when changes are made or every 2 seconds if a player is near
+			if (listUpdate || (this.worldObj.getClosestPlayer(xCoord, yCoord, zCoord, 20) != null && this.ticks % 40 == 0))
 			{
 				listUpdate = false;
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 20);
 			}
 		}
 	}
@@ -138,8 +139,12 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 				}
 				case SETTING_EDIT:
 				{
+					// TODO add settings packet handler when settings are added
 					break;
 				}
+				// // PacketType.Other is treated as a default call //
+				default:
+					break;
 			}
 
 		}
@@ -198,6 +203,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 		else
 		{
 			this.removeUserAccess(player);
+			this.listUpdate = true;
 			return this.users.add(access);
 		}
 		return false;
@@ -215,11 +221,13 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 		}
 		else
 		{
+
 			List<UserAccess> list = UserAccess.removeUserAccess(player, this.users);
 			if (list.size() < this.users.size())
 			{
 				this.users.clear();
 				this.users.addAll(list);
+				this.listUpdate = true;
 				return true;
 			}
 		}
@@ -242,6 +250,7 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 		// Read user list
 		this.users.clear();
 		this.users.addAll(UserAccess.readListFromNBT(nbt, "Users"));
+		this.listUpdate = true;
 	}
 
 	@Override
