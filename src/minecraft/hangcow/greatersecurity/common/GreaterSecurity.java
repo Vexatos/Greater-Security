@@ -1,8 +1,6 @@
 package hangcow.greatersecurity.common;
 
 import hangcow.greatersecurity.common.chest.BlockLockedChest;
-import hangcow.greatersecurity.common.chest.ItemLock;
-import hangcow.greatersecurity.common.chest.ItemLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
@@ -35,14 +33,15 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * @author CowGod, Darkguardsman
  * 
  */
-@Mod(modid = GreaterSecurity.NAME , name = GreaterSecurity.NAME , version = "0.2.1") //TODO update version #
+@Mod(modid = GreaterSecurity.NAME, name = GreaterSecurity.NAME, version = "0.2.1")
+// TODO update version #
 @NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class GreaterSecurity
 {
 	private static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), "GreaterSecurity.cfg"));
 
 	@SidedProxy(clientSide = "hangcow.greatersecurity.client.ClientProxy", serverSide = "hangcow.greatersecurity.common.CommonProxy")
-	public static CommonProxy proxy;	
+	public static CommonProxy proxy;
 
 	public static final String NAME = "GreaterSecurity";
 	public static final String RESOURCE_PATH = "/hangcow/greatersecurity/resources/";
@@ -51,7 +50,7 @@ public class GreaterSecurity
 	public static final String GUI_File_PATH = RESOURCE_PATH + "gui/";
 
 	public static final String CHANNEL = "GreaterSecurity";
-	
+
 	@Instance(NAME)
 	public static GreaterSecurity instance;
 	// //Blocks /////
@@ -77,7 +76,7 @@ public class GreaterSecurity
 		config.save();
 
 		// // Registration ////
-		GameRegistry.registerBlock(blockLockedChest, ItemLockedChest.class, "gsChest");
+		GameRegistry.registerBlock(blockLockedChest, "gsChest");
 		GameRegistry.registerBlock(blockLockedDoor, "gsDoor");
 
 		proxy.preInit();

@@ -1,6 +1,6 @@
-package hangcow.greatersecurity.common.chest;
+package hangcow.greatersecurity.common;
 
-import hangcow.greatersecurity.common.GreaterSecurity;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 
 import java.util.List;
 

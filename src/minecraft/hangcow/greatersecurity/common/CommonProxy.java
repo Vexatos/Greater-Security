@@ -1,6 +1,5 @@
 package hangcow.greatersecurity.common;
 
-import hangcow.greatersecurity.client.gui.GuiLockedChest;
 import hangcow.greatersecurity.client.gui.GuiRemoveChest;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
@@ -79,8 +78,8 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case CHEST_GUI:
-					return new GuiLockedChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
+				//case CHEST_GUI:
+					//return new GuiLockedChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
 				case USERACCESS_GUI:
 					return new GuiUserAccess(tileEntity, player, (ISpecialAccess) tileEntity);
 				case YES_NO_GUI:
