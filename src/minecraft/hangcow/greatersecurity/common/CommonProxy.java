@@ -74,7 +74,7 @@ public class CommonProxy implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int i, int j, int k)
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(i, j, k);
-
+		System.out.print("\n getting gui " + ID);
 		if (tileEntity != null)
 		{
 			switch (ID)
@@ -82,11 +82,12 @@ public class CommonProxy implements IGuiHandler
 				case CHEST_GUI:
 					return new GuiLockedChest(player, ((TileEntityLockedChest) tileEntity), (IInventory) GetCombinedInv(world, i, j, k));
 				case USERACCESS_GUI:
-					return new GuiUserAccess((TileEntity) tileEntity, player, (ISpecialAccess) tileEntity);
+					return new GuiUserAccess(tileEntity, player, (ISpecialAccess) tileEntity);
 				case YES_NO_GUI:
 					return new GuiRemoveChest(player, (TileEntityLockedChest) tileEntity);
 			}
 		}
+		System.out.print("\n gui called null " + ID);
 		return null;
 	}
 

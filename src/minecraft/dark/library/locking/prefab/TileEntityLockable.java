@@ -48,12 +48,9 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 
 		if (!this.worldObj.isRemote)
 		{
-			if (this.playersUsing > 0)
+			if ((this.playersUsing > 0 && this.ticks % 5 == 0) || (this.playersUsing < 0 && this.ticks % 100 == 0))
 			{
-				if (this.ticks % 5 == 0)
-				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
-				}
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
 			}
 		}
 	}

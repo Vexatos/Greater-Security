@@ -272,15 +272,16 @@ public class BlockLockedDoor extends BlockMachine
 
 	public static TileEntity getTileEntityDoor(World world, int x, int y, int z)
 	{
-		int meta = world.getBlockMetadata(x, y, z);
 		TileEntity ent;
-		if (isTop(world, x, y, z))
+		int blockMeta = world.getBlockMetadata(x, y, z);
+
+		if ((blockMeta & 8) == 0)
 		{
-			ent = world.getBlockTileEntity(x, y - 1, z);
+			ent = world.getBlockTileEntity(x, y, z);
 		}
 		else
 		{
-			ent = world.getBlockTileEntity(x, y, z);
+			ent = world.getBlockTileEntity(x, y - 1, z);
 		}
 		return ent;
 
@@ -293,15 +294,17 @@ public class BlockLockedDoor extends BlockMachine
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
 		TileEntity ent = getTileEntityDoor(world, x, y, z);
-		
+		if (world.isRemote)
+		{
+			return true;
+		}
 		if (ent instanceof TileEntityLockedDoor && ((TileEntityLockedDoor) ent).canAccess(player))
 		{
 			this.activateDoor((TileEntityLockedDoor) ent);
-			player.sendChatToPlayer("Open?");
 		}
 		else
 		{
-			player.sendChatToPlayer("Locked ");
+			player.sendChatToPlayer("-=|[Locked]|=-");
 		}
 		return true;
 	}
@@ -309,18 +312,21 @@ public class BlockLockedDoor extends BlockMachine
 	public boolean onSneakMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
 		TileEntity ent = getTileEntityDoor(world, x, y, z);
-
+		if (world.isRemote)
+		{
+			return true;
+		}
 		if (ent instanceof TileEntityLockedDoor)
 		{
 			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
 			{
-				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, world, ent.xCoord, ent.zCoord, ent.yCoord);
-				player.sendChatToPlayer("Open?");
+				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.zCoord, ent.yCoord);
+				player.sendChatToPlayer("accessing? ");
 				return true;
 			}
 			else
 			{
-				player.sendChatToPlayer("Locked");
+				player.sendChatToPlayer("-=|[Locked]|=-");
 			}
 		}
 		else
@@ -344,11 +350,13 @@ public class BlockLockedDoor extends BlockMachine
 		{
 			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord, door.zCoord, newMeta);
 			door.worldObj.markBlockRangeForRenderUpdate(door.xCoord, door.yCoord, door.zCoord, door.xCoord, door.yCoord, door.zCoord);
+			door.worldObj.markBlockForUpdate(door.xCoord, door.yCoord, door.zCoord);
 		}
 		else
 		{
 			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord - 1, door.xCoord, newMeta);
 			door.worldObj.markBlockRangeForRenderUpdate(door.xCoord, door.yCoord - 1, door.zCoord, door.xCoord, door.yCoord, door.zCoord);
+			door.worldObj.markBlockForUpdate(door.xCoord, door.yCoord - 1, door.zCoord);
 		}
 	}
 
@@ -418,6 +426,53 @@ public class BlockLockedDoor extends BlockMachine
 		return bottomMeta & 7 | (var6 ? 8 : 0) | (var9 ? 16 : 0);
 	}
 
+	public void onNeighborBlockChange(World world, int x, int y, int z, int blockID)
+	{
+		int blockMeta = world.getBlockMetadata(x, y, z);
+
+		if ((blockMeta & 8) == 0)
+		{
+			boolean shouldRemove = false;
+
+			if (world.getBlockId(x, y + 1, z) != this.blockID)
+			{
+				world.setBlockWithNotify(x, y, z, 0);
+				shouldRemove = true;
+			}
+
+			if (!world.doesBlockHaveSolidTopSurface(x, y - 1, z))
+			{
+				world.setBlockWithNotify(x, y, z, 0);
+				shouldRemove = true;
+
+				if (world.getBlockId(x, y + 1, z) == this.blockID)
+				{
+					world.setBlockWithNotify(x, y + 1, z, 0);
+				}
+			}
+
+			if (shouldRemove)
+			{
+				if (!world.isRemote)
+				{
+					this.dropBlockAsItem(world, x, y, z, blockMeta, 0);
+				}
+			}
+		}
+		else
+		{
+			if (world.getBlockId(x, y - 1, z) != this.blockID)
+			{
+				world.setBlockWithNotify(x, y, z, 0);
+			}
+
+			if (blockID > 0 && blockID != this.blockID)
+			{
+				this.onNeighborBlockChange(world, x, y - 1, z, blockID);
+			}
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
 	/**
 	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
@@ -432,9 +487,9 @@ public class BlockLockedDoor extends BlockMachine
 	 * Called when the block is attempted to be harvested
 	 */
 	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player)
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player)
 	{
-		if (player.capabilities.isCreativeMode && isTop(world, x, y, z) && world.getBlockId(x, y - 1, z) == this.blockID)
+		if (player.capabilities.isCreativeMode && (meta & 8) != 0 && world.getBlockId(x, y - 1, z) == this.blockID)
 		{
 			world.setBlockWithNotify(x, y - 1, z, 0);
 		}
@@ -454,12 +509,6 @@ public class BlockLockedDoor extends BlockMachine
 			return new TileEntityLockedDoor();
 		}
 		return createNewTileEntity(world);
-	}
-
-	public static boolean isTop(IBlockAccess world, int x, int y, int z)
-	{
-		int meta = world.getBlockMetadata(x, y, z);
-		return !((getFullMetadata(world, x, y, z) & 8) == 0);
 	}
 
 }

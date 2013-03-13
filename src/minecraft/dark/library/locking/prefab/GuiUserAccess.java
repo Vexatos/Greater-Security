@@ -23,8 +23,10 @@ public class GuiUserAccess extends GuiContainer
 {
 	private TileEntity tileEntity;
 	private ISpecialAccess lock;
-	private GuiTextField varType;
 	private EntityPlayer player;
+	
+	private GuiTextField varType;
+	
 	private String texture = "";
 
 	// private IInventory chest;
@@ -33,16 +35,16 @@ public class GuiUserAccess extends GuiContainer
 
 	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, String texture)
 	{
-		super(new ContainerFake(tileEntity));
-		this.tileEntity = tileEntity;
-		this.player = player;
-		this.lock = access;
+		this(tileEntity, player, access);
 		this.texture = texture;
 	}
 
 	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access)
 	{
-		this(tileEntity, player, access, "/dark/library/resources/textures/gui/userAccessGui.png");
+		super(new ContainerFake(tileEntity));
+		this.tileEntity = tileEntity;
+		this.player = player;
+		this.lock = access;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
@@ -34,25 +35,25 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * @author CowGod, Darkguardsman
  * 
  */
-@Mod(modid = "GreaterSecurity", name = "GreaterSecurity", version = "0.2.1")
+@Mod(modid = GreaterSecurity.NAME , name = GreaterSecurity.NAME , version = "0.2.1") //TODO update version #
 @NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = LockPacketHandler.class)
 public class GreaterSecurity
 {
-
-	static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), "GreaterSecurity.cfg"));
+	private static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), "GreaterSecurity.cfg"));
 
 	@SidedProxy(clientSide = "hangcow.greatersecurity.client.ClientProxy", serverSide = "hangcow.greatersecurity.common.CommonProxy")
-	public static CommonProxy proxy;
+	public static CommonProxy proxy;	
 
-	public static GreaterSecurity instance;
-
+	public static final String NAME = "GreaterSecurity";
 	public static final String RESOURCE_PATH = "/hangcow/greatersecurity/resources/";
 	public static final String ITEM_File_PATH = RESOURCE_PATH + "items.png";
 	public static final String BLOCK_File_PATH = RESOURCE_PATH + "blocks.png";
 	public static final String GUI_File_PATH = RESOURCE_PATH + "gui/";
 
 	public static final String CHANNEL = "GreaterSecurity";
-
+	
+	@Instance(NAME)
+	public static GreaterSecurity instance;
 	// //Blocks /////
 	public static Block blockLockedChest;
 	public static Block blockLockedDoor;
@@ -90,8 +91,6 @@ public class GreaterSecurity
 		// // Register ////
 		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "lockedChest");
 		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "lockedDoor");
-
-		
 
 		// // Block Names ////
 		LanguageRegistry.addName(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), "WoodenChest");
