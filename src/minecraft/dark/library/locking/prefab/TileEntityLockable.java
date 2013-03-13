@@ -40,6 +40,10 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 	 * The amount of players using the console.
 	 */
 	public int playersUsing = 0;
+	/**
+	 * was the access list changed, used to trigger a packet update early
+	 */
+	public boolean listUpdate = false;
 
 	@Override
 	public void updateEntity()
@@ -48,18 +52,19 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 
 		if (!this.worldObj.isRemote)
 		{
-			if ((this.playersUsing > 0 && this.ticks % 5 == 0) || (this.playersUsing <= 0 && this.ticks % 100 == 0))
+			if (listUpdate || (this.playersUsing > 0 && this.ticks % 5 == 0) || (this.playersUsing <= 0 && this.ticks % 100 == 0))
 			{
+				listUpdate = false;
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
 			}
 		}
 	}
 
+	/**
+	 * Channel to be used to send packets on
+	 */
 	public abstract String getChannel();
 
-	/**
-	 * Packet Methods
-	 */
 	/**
 	 * Sends all NBT data. Server -> Client
 	 */
@@ -71,6 +76,12 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 		return PacketManager.getPacket(GreaterSecurity.CHANNEL, this, PacketType.DESCR_DATA.ordinal(), nbt);
 	}
 
+	/**
+	 * send a packet the server with info on an access list change
+	 * 
+	 * @param player - player's access
+	 * @param remove - is the change a remove order
+	 */
 	public void sendEditToServer(UserAccess player, boolean remove)
 	{
 		if (this.worldObj.isRemote && player != null)
@@ -180,33 +191,44 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
 		UserAccess access = new UserAccess(player, lvl, save);
-		if (worldObj != null && worldObj.isRemote)
+		if (worldObj.isRemote)
 		{
 			this.sendEditToServer(access, false);
 		}
-		this.removeUserAccess(player);
-		return this.users.add(access);
+		else
+		{
+			this.removeUserAccess(player);
+			return this.users.add(access);
+		}
+		return false;
+
 	}
 
 	@Override
 	public boolean removeUserAccess(String player)
 	{
 
-		if (worldObj != null && worldObj.isRemote)
+		if (worldObj.isRemote)
 		{
 			UserAccess access = new UserAccess(player, AccessLevel.BASIC, false);
 			this.sendEditToServer(access, true);
 		}
-		List<UserAccess> list = UserAccess.removeUserAccess(player, this.users);
-		if (list.size() < this.users.size())
+		else
 		{
-			this.users.clear();
-			this.users.addAll(list);
-			return true;
+			List<UserAccess> list = UserAccess.removeUserAccess(player, this.users);
+			if (list.size() < this.users.size())
+			{
+				this.users.clear();
+				this.users.addAll(list);
+				return true;
+			}
 		}
 		return false;
 	}
 
+	/**
+	 * can the player access this tileEntity in any way
+	 */
 	public boolean canAccess(EntityPlayer player)
 	{
 		return this.getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal();
