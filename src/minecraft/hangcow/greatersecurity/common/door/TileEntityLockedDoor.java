@@ -32,12 +32,18 @@ public class TileEntityLockedDoor extends TileEntityLockable
 		{
 			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
 		}
+		if (nbt.hasKey("users"))
+		{
+			int userSize = nbt.getInteger("users");
+			for (int i = 0; i < userSize; i++)
+			{
+				String read = nbt.getString("user" + i);
+				this.addUserAccess(read, AccessLevel.USER, true);
+			}
+		}
 	}
 
-	public boolean canAccess(EntityPlayer player)
-	{
-		return this.getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal();
-	}
+	
 
 	/**
 	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner

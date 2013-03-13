@@ -21,13 +21,13 @@ import universalelectricity.prefab.tile.TileEntityAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TileEntityLockedChest extends TileEntityAdvanced implements IInventory, IPacketReceiver
+import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
+import dark.library.locking.prefab.TileEntityLockable;
+
+public class TileEntityLockedChest extends TileEntityLockable implements IInventory
 {
 	public ItemStack[] chestContents = new ItemStack[36];
-
-	public String BlockOwner = "World";
-
-	public List<String> users = new ArrayList<String>();
 
 	public boolean adjacentChestChecked = false;
 
@@ -52,73 +52,6 @@ public class TileEntityLockedChest extends TileEntityAdvanced implements IInvent
 	public ItemStack getStackInSlot(int par1)
 	{
 		return this.chestContents[par1];
-	}
-
-	// use to set block owner from out side of class
-	public void setOwner(EntityPlayer player)
-	{
-		this.BlockOwner = player.username;
-	}
-
-	public void setOwnerString(String username)
-	{
-		this.BlockOwner = username;
-	}
-
-	// cow do not touch, this reads the object array back into correct vars
-	@Override
-	public void handlePacketData(INetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
-	{
-		try
-		{
-			int l = dataStream.readInt();
-			int p = dataStream.readInt();
-			int pp = dataStream.readInt();
-
-			if (worldObj.isRemote && p == 0)
-			{
-				this.numUsingPlayers = pp;
-				this.BlockOwner = dataStream.readUTF().toString();
-				for (int i = 0; i < l; i++)
-				{
-					String read = dataStream.readUTF().toString();
-					if (!users.contains(read))
-					{
-						this.users.add(i, read);
-					}
-				}
-			}
-			else if (p == 2)
-			{
-				String name = dataStream.readUTF().toString();
-				if (!users.contains(name))
-				{
-					this.addUser(name);
-					syncChestData();
-				}
-			}
-			else if (p == 1)
-			{
-				String name = dataStream.readUTF().toString();
-				if (users.contains(name))
-				{
-					this.removeUser(name);
-					syncChestData(2);
-				}
-			}
-			else if (p == 5)
-			{
-				GreaterSecurity.blockLockedChest.breakBlock(worldObj, xCoord, yCoord, zCoord, 0, 0);
-				int meta = GreaterSecurity.blockLockedChest.damageDropped(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-				this.dropBlockAsItem_do(worldObj, xCoord, yCoord, zCoord, new ItemStack(GreaterSecurity.blockLockedChest, 1, meta));
-				worldObj.setBlock(xCoord, yCoord, zCoord, 0);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
 	}
 
 	public void dropBlockAsItem_do(World par1World, int par2, int par3, int par4, ItemStack par5ItemStack)
@@ -216,20 +149,25 @@ public class TileEntityLockedChest extends TileEntityAdvanced implements IInvent
 	/**
 	 * Reads a tile entity from NBT.
 	 */
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		super.readFromNBT(par1NBTTagCompound);
+		super.readFromNBT(nbt);
 
-		this.BlockOwner = par1NBTTagCompound.getString("Owner");
-		// reads user array from map
-		int userSize = par1NBTTagCompound.getInteger("users");
-		for (int i = 0; i < userSize; i++)
+		if (nbt.hasKey("Owner"))
 		{
-			String read = par1NBTTagCompound.getString("user" + i);
-			this.users.add(i, read);
+			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
+		}
+		if (nbt.hasKey("users"))
+		{
+			int userSize = nbt.getInteger("users");
+			for (int i = 0; i < userSize; i++)
+			{
+				String read = nbt.getString("user" + i);
+				this.addUserAccess(read, AccessLevel.USER, true);
+			}
 		}
 		// chest inv reading
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+		NBTTagList var2 = nbt.getTagList("Items");
 		this.chestContents = new ItemStack[this.getSizeInventory()];
 		for (int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -249,13 +187,6 @@ public class TileEntityLockedChest extends TileEntityAdvanced implements IInvent
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setString("Owner", this.BlockOwner);
-		// writes user array to map
-		par1NBTTagCompound.setInteger("users", this.users.size());
-		for (int i = 0; i < this.users.size(); i++)
-		{
-			par1NBTTagCompound.setString("user" + i, this.users.get(i));
-		}
 		// chest inv write
 		NBTTagList var2 = new NBTTagList();
 		for (int var3 = 0; var3 < this.chestContents.length; ++var3)
@@ -380,142 +311,14 @@ public class TileEntityLockedChest extends TileEntityAdvanced implements IInvent
 
 	}
 
-	public boolean canAccess(TileEntityLockedChest chest, EntityPlayer player)
-	{
-		if (this.BlockOwner.equalsIgnoreCase("World"))
-		{
-			return true;
-		}
-		if (chest instanceof TileEntityLockedChest)
-		{
-			EntityPlayer owner = worldObj.getPlayerEntityByName(chest.BlockOwner);
-			List<String> pString = chest.users;
-			List<EntityPlayer> pEntity = new ArrayList<EntityPlayer>();
-			for (int i = 0; i < pString.size(); i++)
-			{
-				EntityPlayer pp = worldObj.getPlayerEntityByName(pString.get(i));
-				if (pp != null && pp instanceof EntityPlayer)
-				{
-					pEntity.add(pp);
-				}
-			}
-			if (player == owner || pEntity.contains(player))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void syncChestData()
-	{
-		syncChestData(1);
-	}
-
-	public void syncChestData(int method)
-	{
-		TileEntityLockedChest aChest = this.getAdjacentChest();
-
-		if (aChest instanceof TileEntityLockedChest)
-		{
-			List<String> tList = this.users;
-			List<String> aList = aChest.users;
-
-			if (method == 1) // Normal sync on add world or adding a user
-			{
-				// merge user lists
-
-				for (int i = 0; i < tList.size(); i++)
-				{
-					if (tList.get(i) != null && !aList.contains(tList.get(i)))
-					{
-						aList.add(tList.get(i));
-					}
-				}
-				for (int i = 0; i < aList.size(); i++)
-				{
-					if (aList.get(i) != null && !tList.contains(aList.get(i)))
-					{
-						tList.add(aList.get(i));
-					}
-				}
-				this.updateUsers(aList);
-				aChest.updateUsers(tList);
-
-			}
-			else if (method == 2)
-			{
-				aChest.updateUsers(tList);
-			}
-		}
-	}
-
-	public void updateUsers(List<String> users)
-	{
-		this.users = users;
-	}
-
-	public void removeUser(String user)
-	{
-		this.users.remove(user);
-		TileEntityLockedChest lc = this.getAdjacentChest();
-		if (lc instanceof TileEntityLockedChest)
-		{
-			if (lc.users.contains(user))
-			{
-				lc.removeUser(user);
-			}
-		}
-	}
-
-	public void addUser(String user)
-	{
-		this.users.add(user);
-		TileEntityLockedChest lc = this.getAdjacentChest();
-		if (lc instanceof TileEntityLockedChest)
-		{
-			if (!lc.users.contains(user))
-			{
-				lc.addUser(user);
-			}
-		}
-	}
-
-	/**
-	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
-	 * uses this to count ticks and creates a new spawn inside its implementation.
-	 */
-	public void updateEntity()
-	{
-		super.updateEntity();
-		// TODO add lid opening animation
-		if (this.ticks % 80 == 0)
-		{
-			this.checkForAdjacentChests();
-			if (!worldObj.isRemote)
-			{
-				LockPacketHandler.sendChestPacketPacket(this, 0, this.BlockOwner, users);
-			}
-
-		}
-	}
-
 	public void openChest()
 	{
 		++this.numUsingPlayers;
-		if (!worldObj.isRemote)
-		{
-			LockPacketHandler.sendChestPacketPacket(this, 0, this.BlockOwner, users);
-		}
 	}
 
 	public void closeChest()
 	{
 		--this.numUsingPlayers;
-		if (!worldObj.isRemote)
-		{
-			LockPacketHandler.sendChestPacketPacket(this, 0, this.BlockOwner, users);
-		}
 	}
 
 	/**
@@ -526,21 +329,6 @@ public class TileEntityLockedChest extends TileEntityAdvanced implements IInvent
 		this.updateContainingBlockInfo();
 		this.checkForAdjacentChests();
 		super.invalidate();
-	}
-
-	public String getOwner()
-	{
-		if (BlockOwner == null)
-		{
-			return "null";
-		}
-		return this.BlockOwner;
-	}
-
-	public List<String> getUsers()
-	{
-		// TODO Auto-generated method stub
-		return this.users;
 	}
 
 	public int getType()
@@ -565,5 +353,11 @@ public class TileEntityLockedChest extends TileEntityAdvanced implements IInvent
 		}
 
 		return type;
+	}
+
+	@Override
+	public String getChannel()
+	{
+		return GreaterSecurity.CHANNEL;
 	}
 }

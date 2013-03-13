@@ -302,7 +302,7 @@ public class BlockLockedChest extends BlockMachine
             if (blockEntity instanceof TileEntityLockedChest)
             {
                 TileEntityLockedChest Chest = (TileEntityLockedChest) blockEntity;
-                if (Chest.canAccess(Chest, player))
+                if (Chest.canAccess(player))
                 {
                     player.openGui(GreaterSecurity.instance, CommonProxy.CHEST_GUI, world, i, j, k);
                     return true;

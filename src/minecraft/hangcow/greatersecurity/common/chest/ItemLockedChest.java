@@ -4,6 +4,9 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.List;
 
+import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -121,8 +124,10 @@ public class ItemLockedChest extends ItemBlock
 					if (((TileEntityLockedChest) C).getType() == stack.getItemDamage())
 					{
 						TileEntityLockedChest LC = (TileEntityLockedChest) world.getBlockTileEntity(i + x, j, k + z);
-						((TileEntityLockedChest) blockEntity).setOwnerString(LC.BlockOwner);
-						((TileEntityLockedChest) blockEntity).users = LC.users;
+						for (UserAccess user : LC.getUsers())
+						{
+							((TileEntityLockedChest) blockEntity).addUserAccess(user.username, user.level, user.shouldSave);
+						}
 						world.setBlockMetadataWithNotify(i + x, j, k + z, (stack.getItemDamage() * 4) + angle);
 					}
 					else
@@ -142,7 +147,7 @@ public class ItemLockedChest extends ItemBlock
 				if (spawnNormal)
 				{
 					world.setBlockMetadata(i, j, k, (angle + (meta * 4)));
-					((TileEntityLockedChest) blockEntity).setOwner((EntityPlayer) player);
+					((TileEntityLockedChest) blockEntity).addUserAccess(player.username, AccessLevel.OWNER, true);
 				}
 
 			}

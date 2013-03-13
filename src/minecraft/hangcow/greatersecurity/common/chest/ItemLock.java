@@ -4,6 +4,8 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.List;
 
+import dark.library.locking.AccessLevel;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -81,7 +83,7 @@ public class ItemLock extends Item
 					if (newChest instanceof TileEntityLockedChest)
 					{
 						TileEntityLockedChest lockedChest = (TileEntityLockedChest) newChest;
-						lockedChest.setOwner(entityplayer);
+						lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
 						// // add chest inv to new locked chest //
 						for (int b = 0; b < lockedChest.getSizeInventory(); b++)
 						{

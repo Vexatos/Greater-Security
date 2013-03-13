@@ -206,6 +206,11 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 		}
 		return false;
 	}
+	
+	public boolean canAccess(EntityPlayer player)
+	{
+		return this.getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal();
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)

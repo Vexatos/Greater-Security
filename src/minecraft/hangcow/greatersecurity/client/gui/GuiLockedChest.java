@@ -15,6 +15,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import dark.library.gui.GuiButtonArrow;
+import dark.library.locking.AccessLevel;
 
 /**
  * 
@@ -60,7 +61,8 @@ public class GuiLockedChest extends GuiContainer
 		super.actionPerformed(par1GuiButton);
 		if (par1GuiButton.id == 0)
 		{
-			//TODO player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, lockedChest.worldObj, lockedChest.xCoord, lockedChest.yCoord, lockedChest.zCoord);
+			// TODO player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI,
+			// lockedChest.worldObj, lockedChest.xCoord, lockedChest.yCoord, lockedChest.zCoord);
 		}
 	}
 
@@ -74,11 +76,12 @@ public class GuiLockedChest extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		String ChestName = lockedChest.BlockOwner + "'s ";
+		String ChestName = "";
 		String invName = "";
-		if (this.lockedChest.BlockOwner == "World" || this.lockedChest.BlockOwner == null)
+		if (lockedChest.getUsersWithAcess(AccessLevel.OWNER).size() == 1)
 		{
-			ChestName = "";
+			ChestName = lockedChest.getUsersWithAcess(AccessLevel.OWNER).get(0).username + "'s ";
+
 		}
 		if (this.player.username != null)
 		{
