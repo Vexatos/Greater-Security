@@ -25,6 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -59,21 +60,21 @@ public class BlockLockedChest2 extends BlockMachine
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
-		if (par1IBlockAccess.getBlockId(par2, par3, par4 - 1) == this.blockID)
+		if (world.getBlockId(x, y, z - 1) == this.blockID)
 		{
 			this.setBlockBounds(0.0625F, 0.0F, 0.0F, 0.9375F, 0.875F, 0.9375F);
 		}
-		else if (par1IBlockAccess.getBlockId(par2, par3, par4 + 1) == this.blockID)
+		else if (world.getBlockId(x, y, z + 1) == this.blockID)
 		{
 			this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 1.0F);
 		}
-		else if (par1IBlockAccess.getBlockId(par2 - 1, par3, par4) == this.blockID)
+		else if (world.getBlockId(x - 1, y, z) == this.blockID)
 		{
 			this.setBlockBounds(0.0F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 		}
-		else if (par1IBlockAccess.getBlockId(par2 + 1, par3, par4) == this.blockID)
+		else if (world.getBlockId(x + 1, y, z) == this.blockID)
 		{
 			this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 1.0F, 0.875F, 0.9375F);
 		}
@@ -84,98 +85,99 @@ public class BlockLockedChest2 extends BlockMachine
 	}
 
 	@Override
-	public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	public void onBlockAdded(World world, int x, int y, int z)
 	{
-		super.onBlockAdded(par1World, par2, par3, par4);
-		this.unifyAdjacentChests(par1World, par2, par3, par4);
-		int var5 = par1World.getBlockId(par2, par3, par4 - 1);
-		int var6 = par1World.getBlockId(par2, par3, par4 + 1);
-		int var7 = par1World.getBlockId(par2 - 1, par3, par4);
-		int var8 = par1World.getBlockId(par2 + 1, par3, par4);
+		super.onBlockAdded(world, x, y, z);
+		this.unifyAdjacentChests(world, x, y, z);
+		
+		int westBlock = world.getBlockId(x, y, z - 1);
+		int eastBlock = world.getBlockId(x, y, z + 1);
+		int northBlock = world.getBlockId(x - 1, y, z);
+		int southBlock = world.getBlockId(x + 1, y, z);
 
-		if (var5 == this.blockID)
+		if (westBlock == this.blockID)
 		{
-			this.unifyAdjacentChests(par1World, par2, par3, par4 - 1);
+			this.unifyAdjacentChests(world, x, y, z - 1);
 		}
 
-		if (var6 == this.blockID)
+		if (eastBlock == this.blockID)
 		{
-			this.unifyAdjacentChests(par1World, par2, par3, par4 + 1);
+			this.unifyAdjacentChests(world, x, y, z + 1);
 		}
 
-		if (var7 == this.blockID)
+		if (northBlock == this.blockID)
 		{
-			this.unifyAdjacentChests(par1World, par2 - 1, par3, par4);
+			this.unifyAdjacentChests(world, x - 1, y, z);
 		}
 
-		if (var8 == this.blockID)
+		if (southBlock == this.blockID)
 		{
-			this.unifyAdjacentChests(par1World, par2 + 1, par3, par4);
+			this.unifyAdjacentChests(world, x + 1, y, z);
 		}
 	}
 
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving)
 	{
-		int var6 = par1World.getBlockId(par2, par3, par4 - 1);
-		int var7 = par1World.getBlockId(par2, par3, par4 + 1);
-		int var8 = par1World.getBlockId(par2 - 1, par3, par4);
-		int var9 = par1World.getBlockId(par2 + 1, par3, par4);
-		byte var10 = 0;
-		int var11 = MathHelper.floor_double((double) (par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int westBlock = world.getBlockId(x, y, z - 1);
+		int eastBlock = world.getBlockId(x, y, z + 1);
+		int northBlock = world.getBlockId(x - 1, y, z);
+		int southBlock = world.getBlockId(x + 1, y, z);
+		byte placementMeta = 0;
+		int angle = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
-		if (var11 == 0)
+		if (angle == 0)
 		{
-			var10 = 2;
+			placementMeta = 2;
 		}
 
-		if (var11 == 1)
+		if (angle == 1)
 		{
-			var10 = 5;
+			placementMeta = 5;
 		}
 
-		if (var11 == 2)
+		if (angle == 2)
 		{
-			var10 = 3;
+			placementMeta = 3;
 		}
 
-		if (var11 == 3)
+		if (angle == 3)
 		{
-			var10 = 4;
+			placementMeta = 4;
 		}
 
-		if (var6 != this.blockID && var7 != this.blockID && var8 != this.blockID && var9 != this.blockID)
+		if (westBlock != this.blockID && eastBlock != this.blockID && northBlock != this.blockID && southBlock != this.blockID)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var10);
+			world.setBlockMetadataWithNotify(x, y, z, placementMeta);
 		}
 		else
 		{
-			if ((var6 == this.blockID || var7 == this.blockID) && (var10 == 4 || var10 == 5))
+			if ((westBlock == this.blockID || eastBlock == this.blockID) && (placementMeta == 4 || placementMeta == 5))
 			{
-				if (var6 == this.blockID)
+				if (westBlock == this.blockID)
 				{
-					par1World.setBlockMetadataWithNotify(par2, par3, par4 - 1, var10);
+					world.setBlockMetadataWithNotify(x, y, z - 1, placementMeta);
 				}
 				else
 				{
-					par1World.setBlockMetadataWithNotify(par2, par3, par4 + 1, var10);
+					world.setBlockMetadataWithNotify(x, y, z + 1, placementMeta);
 				}
 
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var10);
+				world.setBlockMetadataWithNotify(x, y, z, placementMeta);
 			}
 
-			if ((var8 == this.blockID || var9 == this.blockID) && (var10 == 2 || var10 == 3))
+			if ((northBlock == this.blockID || southBlock == this.blockID) && (placementMeta == 2 || placementMeta == 3))
 			{
-				if (var8 == this.blockID)
+				if (northBlock == this.blockID)
 				{
-					par1World.setBlockMetadataWithNotify(par2 - 1, par3, par4, var10);
+					world.setBlockMetadataWithNotify(x - 1, y, z, placementMeta);
 				}
 				else
 				{
-					par1World.setBlockMetadataWithNotify(par2 + 1, par3, par4, var10);
+					world.setBlockMetadataWithNotify(x + 1, y, z, placementMeta);
 				}
 
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var10);
+				world.setBlockMetadataWithNotify(x, y, z, placementMeta);
 			}
 		}
 	}
@@ -183,14 +185,15 @@ public class BlockLockedChest2 extends BlockMachine
 	/**
 	 * Turns the adjacent chests to a double chest.
 	 */
-	public void unifyAdjacentChests(World par1World, int par2, int par3, int par4)
+	public void unifyAdjacentChests(World world, int x, int y, int z)
 	{
-		if (!par1World.isRemote)
+		if (!world.isRemote)
 		{
-			int var5 = par1World.getBlockId(par2, par3, par4 - 1);
-			int var6 = par1World.getBlockId(par2, par3, par4 + 1);
-			int var7 = par1World.getBlockId(par2 - 1, par3, par4);
-			int var8 = par1World.getBlockId(par2 + 1, par3, par4);
+			int westBlock = world.getBlockId(x, y, z - 1);
+			int eastBlock = world.getBlockId(x, y, z + 1);
+			int northBlock = world.getBlockId(x - 1, y, z);
+			int southBlock = world.getBlockId(x + 1, y, z);
+			
 			boolean var9 = true;
 			int var10;
 			int var11;
@@ -198,46 +201,46 @@ public class BlockLockedChest2 extends BlockMachine
 			byte var13;
 			int var14;
 
-			if (var5 != this.blockID && var6 != this.blockID)
+			if (westBlock != this.blockID && eastBlock != this.blockID)
 			{
-				if (var7 != this.blockID && var8 != this.blockID)
+				if (northBlock != this.blockID && southBlock != this.blockID)
 				{
 					var13 = 3;
 
-					if (Block.opaqueCubeLookup[var5] && !Block.opaqueCubeLookup[var6])
+					if (Block.opaqueCubeLookup[westBlock] && !Block.opaqueCubeLookup[eastBlock])
 					{
 						var13 = 3;
 					}
 
-					if (Block.opaqueCubeLookup[var6] && !Block.opaqueCubeLookup[var5])
+					if (Block.opaqueCubeLookup[eastBlock] && !Block.opaqueCubeLookup[westBlock])
 					{
 						var13 = 2;
 					}
 
-					if (Block.opaqueCubeLookup[var7] && !Block.opaqueCubeLookup[var8])
+					if (Block.opaqueCubeLookup[northBlock] && !Block.opaqueCubeLookup[southBlock])
 					{
 						var13 = 5;
 					}
 
-					if (Block.opaqueCubeLookup[var8] && !Block.opaqueCubeLookup[var7])
+					if (Block.opaqueCubeLookup[southBlock] && !Block.opaqueCubeLookup[northBlock])
 					{
 						var13 = 4;
 					}
 				}
 				else
 				{
-					var10 = par1World.getBlockId(var7 == this.blockID ? par2 - 1 : par2 + 1, par3, par4 - 1);
-					var11 = par1World.getBlockId(var7 == this.blockID ? par2 - 1 : par2 + 1, par3, par4 + 1);
+					var10 = world.getBlockId(northBlock == this.blockID ? x - 1 : x + 1, y, z - 1);
+					var11 = world.getBlockId(northBlock == this.blockID ? x - 1 : x + 1, y, z + 1);
 					var13 = 3;
 					var12 = true;
 
-					if (var7 == this.blockID)
+					if (northBlock == this.blockID)
 					{
-						var14 = par1World.getBlockMetadata(par2 - 1, par3, par4);
+						var14 = world.getBlockMetadata(x - 1, y, z);
 					}
 					else
 					{
-						var14 = par1World.getBlockMetadata(par2 + 1, par3, par4);
+						var14 = world.getBlockMetadata(x + 1, y, z);
 					}
 
 					if (var14 == 2)
@@ -245,12 +248,12 @@ public class BlockLockedChest2 extends BlockMachine
 						var13 = 2;
 					}
 
-					if ((Block.opaqueCubeLookup[var5] || Block.opaqueCubeLookup[var10]) && !Block.opaqueCubeLookup[var6] && !Block.opaqueCubeLookup[var11])
+					if ((Block.opaqueCubeLookup[westBlock] || Block.opaqueCubeLookup[var10]) && !Block.opaqueCubeLookup[eastBlock] && !Block.opaqueCubeLookup[var11])
 					{
 						var13 = 3;
 					}
 
-					if ((Block.opaqueCubeLookup[var6] || Block.opaqueCubeLookup[var11]) && !Block.opaqueCubeLookup[var5] && !Block.opaqueCubeLookup[var10])
+					if ((Block.opaqueCubeLookup[eastBlock] || Block.opaqueCubeLookup[var11]) && !Block.opaqueCubeLookup[westBlock] && !Block.opaqueCubeLookup[var10])
 					{
 						var13 = 2;
 					}
@@ -258,18 +261,18 @@ public class BlockLockedChest2 extends BlockMachine
 			}
 			else
 			{
-				var10 = par1World.getBlockId(par2 - 1, par3, var5 == this.blockID ? par4 - 1 : par4 + 1);
-				var11 = par1World.getBlockId(par2 + 1, par3, var5 == this.blockID ? par4 - 1 : par4 + 1);
+				var10 = world.getBlockId(x - 1, y, westBlock == this.blockID ? z - 1 : z + 1);
+				var11 = world.getBlockId(x + 1, y, westBlock == this.blockID ? z - 1 : z + 1);
 				var13 = 5;
 				var12 = true;
 
-				if (var5 == this.blockID)
+				if (westBlock == this.blockID)
 				{
-					var14 = par1World.getBlockMetadata(par2, par3, par4 - 1);
+					var14 = world.getBlockMetadata(x, y, z - 1);
 				}
 				else
 				{
-					var14 = par1World.getBlockMetadata(par2, par3, par4 + 1);
+					var14 = world.getBlockMetadata(x, y, z + 1);
 				}
 
 				if (var14 == 4)
@@ -277,154 +280,141 @@ public class BlockLockedChest2 extends BlockMachine
 					var13 = 4;
 				}
 
-				if ((Block.opaqueCubeLookup[var7] || Block.opaqueCubeLookup[var10]) && !Block.opaqueCubeLookup[var8] && !Block.opaqueCubeLookup[var11])
+				if ((Block.opaqueCubeLookup[northBlock] || Block.opaqueCubeLookup[var10]) && !Block.opaqueCubeLookup[southBlock] && !Block.opaqueCubeLookup[var11])
 				{
 					var13 = 5;
 				}
 
-				if ((Block.opaqueCubeLookup[var8] || Block.opaqueCubeLookup[var11]) && !Block.opaqueCubeLookup[var7] && !Block.opaqueCubeLookup[var10])
+				if ((Block.opaqueCubeLookup[southBlock] || Block.opaqueCubeLookup[var11]) && !Block.opaqueCubeLookup[northBlock] && !Block.opaqueCubeLookup[var10])
 				{
 					var13 = 4;
 				}
 			}
 
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var13);
+			world.setBlockMetadataWithNotify(x, y, z, var13);
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
-	public int getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		return 4;
-	}
+		int chestCount = 0;
 
-	@Override
-	public int getBlockTextureFromSide(int par1)
-	{
-		return 4;
-	}
-
-	@Override
-	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
-	{
-		int var5 = 0;
-
-		if (par1World.getBlockId(par2 - 1, par3, par4) == this.blockID)
+		if (world.getBlockId(x - 1, y, z) == this.blockID)
 		{
-			++var5;
+			++chestCount;
 		}
 
-		if (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID)
+		if (world.getBlockId(x + 1, y, z) == this.blockID)
 		{
-			++var5;
+			++chestCount;
 		}
 
-		if (par1World.getBlockId(par2, par3, par4 - 1) == this.blockID)
+		if (world.getBlockId(x, y, z - 1) == this.blockID)
 		{
-			++var5;
+			++chestCount;
 		}
 
-		if (par1World.getBlockId(par2, par3, par4 + 1) == this.blockID)
+		if (world.getBlockId(x, y, z + 1) == this.blockID)
 		{
-			++var5;
+			++chestCount;
 		}
 
-		return var5 > 1 ? false : (this.isThereANeighborChest(par1World, par2 - 1, par3, par4) ? false : (this.isThereANeighborChest(par1World, par2 + 1, par3, par4) ? false : (this.isThereANeighborChest(par1World, par2, par3, par4 - 1) ? false : !this.isThereANeighborChest(par1World, par2, par3, par4 + 1))));
+		return chestCount > 1 ? false : (this.isThereANeighborChest(world, x - 1, y, z) ? false : (this.isThereANeighborChest(world, x + 1, y, z) ? false : (this.isThereANeighborChest(world, x, y, z - 1) ? false : !this.isThereANeighborChest(world, x, y, z + 1))));
 	}
 
 	/**
 	 * Checks the neighbor blocks to see if there is a chest there. Args: world, x, y, z
 	 */
-	private boolean isThereANeighborChest(World par1World, int par2, int par3, int par4)
+	private boolean isThereANeighborChest(World world, int x, int y, int z)
 	{
-		return par1World.getBlockId(par2, par3, par4) != this.blockID ? false : (par1World.getBlockId(par2 - 1, par3, par4) == this.blockID ? true : (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID ? true : (par1World.getBlockId(par2, par3, par4 - 1) == this.blockID ? true : par1World.getBlockId(par2, par3, par4 + 1) == this.blockID)));
+		return world.getBlockId(x, y, z) != this.blockID ? false : (world.getBlockId(x - 1, y, z) == this.blockID ? true : (world.getBlockId(x + 1, y, z) == this.blockID ? true : (world.getBlockId(x, y, z - 1) == this.blockID ? true : world.getBlockId(x, y, z + 1) == this.blockID)));
 	}
 
 	/**
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
 	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	public void onNeighborBlockChange(World world, int x, int y, int z, int blockID)
 	{
-		super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
-		TileEntityChest var6 = (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4);
+		super.onNeighborBlockChange(world, x, y, z, blockID);
+		TileEntityChest chest = (TileEntityChest) world.getBlockTileEntity(x, y, z);
 
-		if (var6 != null)
+		if (chest != null)
 		{
-			var6.updateContainingBlockInfo();
+			chest.updateContainingBlockInfo();
 		}
 	}
 
 	@Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xHit, float yHit, float zHit)
 	{
-		Object var10 = (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4);
+		Object var10 = (TileEntityChest) world.getBlockTileEntity(x, y, z);
 
 		if (var10 == null)
 		{
 			return true;
 		}
-		else if (par1World.isBlockSolidOnSide(par2, par3 + 1, par4, DOWN))
+		else if (world.isBlockSolidOnSide(x, y + 1, z, DOWN))
 		{
 			return true;
 		}
-		else if (isOcelotBlockingChest(par1World, par2, par3, par4))
+		else if (isOcelotBlockingChest(world, x, y, z))
 		{
 			return true;
 		}
-		else if (par1World.getBlockId(par2 - 1, par3, par4) == this.blockID && (par1World.isBlockSolidOnSide(par2 - 1, par3 + 1, par4, DOWN) || isOcelotBlockingChest(par1World, par2 - 1, par3, par4)))
+		else if (world.getBlockId(x - 1, y, z) == this.blockID && (world.isBlockSolidOnSide(x - 1, y + 1, z, DOWN) || isOcelotBlockingChest(world, x - 1, y, z)))
 		{
 			return true;
 		}
-		else if (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID && (par1World.isBlockSolidOnSide(par2 + 1, par3 + 1, par4, DOWN) || isOcelotBlockingChest(par1World, par2 + 1, par3, par4)))
+		else if (world.getBlockId(x + 1, y, z) == this.blockID && (world.isBlockSolidOnSide(x + 1, y + 1, z, DOWN) || isOcelotBlockingChest(world, x + 1, y, z)))
 		{
 			return true;
 		}
-		else if (par1World.getBlockId(par2, par3, par4 - 1) == this.blockID && (par1World.isBlockSolidOnSide(par2, par3 + 1, par4 - 1, DOWN) || isOcelotBlockingChest(par1World, par2, par3, par4 - 1)))
+		else if (world.getBlockId(x, y, z - 1) == this.blockID && (world.isBlockSolidOnSide(x, y + 1, z - 1, DOWN) || isOcelotBlockingChest(world, x, y, z - 1)))
 		{
 			return true;
 		}
-		else if (par1World.getBlockId(par2, par3, par4 + 1) == this.blockID && (par1World.isBlockSolidOnSide(par2, par3 + 1, par4 + 1, DOWN) || isOcelotBlockingChest(par1World, par2, par3, par4 + 1)))
+		else if (world.getBlockId(x, y, z + 1) == this.blockID && (world.isBlockSolidOnSide(x, y + 1, z + 1, DOWN) || isOcelotBlockingChest(world, x, y, z + 1)))
 		{
 			return true;
 		}
 		else
 		{
-			if (par1World.getBlockId(par2 - 1, par3, par4) == this.blockID)
+			if (world.getBlockId(x - 1, y, z) == this.blockID)
 			{
-				var10 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) par1World.getBlockTileEntity(par2 - 1, par3, par4), (IInventory) var10);
+				var10 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) world.getBlockTileEntity(x - 1, y, z), (IInventory) var10);
 			}
 
-			if (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID)
+			if (world.getBlockId(x + 1, y, z) == this.blockID)
 			{
-				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) var10, (TileEntityChest) par1World.getBlockTileEntity(par2 + 1, par3, par4));
+				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) var10, (TileEntityChest) world.getBlockTileEntity(x + 1, y, z));
 			}
 
-			if (par1World.getBlockId(par2, par3, par4 - 1) == this.blockID)
+			if (world.getBlockId(x, y, z - 1) == this.blockID)
 			{
-				var10 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4 - 1), (IInventory) var10);
+				var10 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) world.getBlockTileEntity(x, y, z - 1), (IInventory) var10);
 			}
 
-			if (par1World.getBlockId(par2, par3, par4 + 1) == this.blockID)
+			if (world.getBlockId(x, y, z + 1) == this.blockID)
 			{
-				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) var10, (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4 + 1));
+				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) var10, (TileEntityChest) world.getBlockTileEntity(x, y, z + 1));
 			}
 
-			if (par1World.isRemote)
+			if (world.isRemote)
 			{
 				return true;
 			}
 			else
 			{
-				par5EntityPlayer.displayGUIChest((IInventory) var10);
+				player.displayGUIChest((IInventory) var10);
 				return true;
 			}
 		}
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World par1World)
+	public TileEntity createNewTileEntity(World world)
 	{
 		return new TileEntityChest();
 	}
@@ -433,9 +423,9 @@ public class BlockLockedChest2 extends BlockMachine
 	 * Looks for a sitting ocelot within certain bounds. Such an ocelot is considered to be blocking
 	 * access to the chest.
 	 */
-	public static boolean isOcelotBlockingChest(World par0World, int par1, int par2, int par3)
+	public static boolean isOcelotBlockingChest(World world, int x, int y, int z)
 	{
-		Iterator var4 = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) par1, (double) (par2 + 1), (double) par3, (double) (par1 + 1), (double) (par2 + 2), (double) (par3 + 1))).iterator();
+		Iterator var4 = world.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x, (double) (y + 1), (double) z, (double) (x + 1), (double) (y + 2), (double) (z + 1))).iterator();
 		EntityOcelot var6;
 
 		do
