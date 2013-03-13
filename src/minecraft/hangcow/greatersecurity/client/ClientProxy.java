@@ -1,5 +1,6 @@
 package hangcow.greatersecurity.client;
 
+import hangcow.greatersecurity.client.render.RenderChest;
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
@@ -19,6 +20,6 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void init()
 	{
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLockedChest.class, new RenderChest());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLockedChest.class, new RenderChest());
 	}
 }

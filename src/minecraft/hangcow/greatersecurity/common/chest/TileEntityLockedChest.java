@@ -279,22 +279,22 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 			this.adjacentChestXNeg = null;
 			this.adjacentChestZPosition = null;
 
-			if (this.worldObj.getBlockId(this.xCoord - 1, this.yCoord, this.zCoord) == Block.chest.blockID)
+			if (this.worldObj.getBlockId(this.xCoord - 1, this.yCoord, this.zCoord) == GreaterSecurity.blockLockedChest.blockID)
 			{
 				this.adjacentChestXNeg = (TileEntityLockedChest) this.worldObj.getBlockTileEntity(this.xCoord - 1, this.yCoord, this.zCoord);
 			}
 
-			if (this.worldObj.getBlockId(this.xCoord + 1, this.yCoord, this.zCoord) == Block.chest.blockID)
+			if (this.worldObj.getBlockId(this.xCoord + 1, this.yCoord, this.zCoord) == GreaterSecurity.blockLockedChest.blockID)
 			{
 				this.adjacentChestXPos = (TileEntityLockedChest) this.worldObj.getBlockTileEntity(this.xCoord + 1, this.yCoord, this.zCoord);
 			}
 
-			if (this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord - 1) == Block.chest.blockID)
+			if (this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord - 1) == GreaterSecurity.blockLockedChest.blockID)
 			{
 				this.adjacentChestZNeg = (TileEntityLockedChest) this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord - 1);
 			}
 
-			if (this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord + 1) == Block.chest.blockID)
+			if (this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord + 1) == GreaterSecurity.blockLockedChest.blockID)
 			{
 				this.adjacentChestZPosition = (TileEntityLockedChest) this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord + 1);
 			}
@@ -481,21 +481,23 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
 		TileEntityLockedChest chest = this.getAdjacentChest();
-		if (!worldObj.isRemote && chest != null && chest.getUserAccess(player) != lvl)
+		boolean added = super.addUserAccess(player, lvl, save);
+		if (added && !worldObj.isRemote && chest != null && !chest.isOnList(player))
 		{
 			chest.addUserAccess(player, lvl, save);
 		}
-		return super.addUserAccess(player, lvl, save);
+		return added;
 	}
 
 	@Override
 	public boolean removeUserAccess(String player)
 	{
 		TileEntityLockedChest chest = this.getAdjacentChest();
-		if (!worldObj.isRemote && chest != null && chest.isOnList(player))
+		boolean removed = super.removeUserAccess(player);
+		if (removed && !worldObj.isRemote && chest != null && chest.isOnList(player))
 		{
 			chest.removeUserAccess(player);
 		}
-		return super.removeUserAccess(player);
+		return removed;
 	}
 }

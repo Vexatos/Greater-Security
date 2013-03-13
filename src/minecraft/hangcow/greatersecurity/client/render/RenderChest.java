@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TileEntityChestRenderer extends TileEntitySpecialRenderer
+public class RenderChest extends TileEntitySpecialRenderer
 {
     /** The normal small chest model. */
     private ModelChest chestModel = new ModelChest();
@@ -29,7 +29,7 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer
     private ModelChest largeChestModel = new ModelLargeChest();
     private boolean isXmas;
 
-    public TileEntityChestRenderer()
+    public RenderChest()
     {
         Calendar date = Calendar.getInstance();
 
@@ -44,18 +44,18 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer
      */
     public void renderTileEntityChestAt(TileEntityLockedChest chest, double xx, double yy, double zz, float par8)
     {
-        int var9;
+        int metaData;
 
         if (!chest.func_70309_m())
         {
-            var9 = 0;
+            metaData = 0;
         }
         else
         {
             Block block = chest.getBlockType();
-            var9 = chest.getBlockMetadata();
+            metaData = chest.getBlockMetadata();
 
-            if (block != null && var9 == 0)
+            if (block != null && metaData == 0)
             {
                 try
                 {
@@ -65,7 +65,7 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer
                 {
                     FMLLog.severe("Attempted to render a locked chest at %d,  %d, %d that was not a chest", chest.xCoord, chest.yCoord, chest.zCoord);
                 }
-                var9 = chest.getBlockMetadata();
+                metaData = chest.getBlockMetadata();
             }
 
             chest.checkForAdjacentChests();
@@ -110,32 +110,32 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer
             GL11.glTranslatef(0.5F, 0.5F, 0.5F);
             short var11 = 0;
 
-            if (var9 == 2)
+            if (metaData == 2)
             {
                 var11 = 180;
             }
 
-            if (var9 == 3)
+            if (metaData == 3)
             {
                 var11 = 0;
             }
 
-            if (var9 == 4)
+            if (metaData == 4)
             {
                 var11 = 90;
             }
 
-            if (var9 == 5)
+            if (metaData == 5)
             {
                 var11 = -90;
             }
 
-            if (var9 == 2 && chest.adjacentChestXPos != null)
+            if (metaData == 2 && chest.adjacentChestXPos != null)
             {
                 GL11.glTranslatef(1.0F, 0.0F, 0.0F);
             }
 
-            if (var9 == 5 && chest.adjacentChestZPosition != null)
+            if (metaData == 5 && chest.adjacentChestZPosition != null)
             {
                 GL11.glTranslatef(0.0F, 0.0F, -1.0F);
             }

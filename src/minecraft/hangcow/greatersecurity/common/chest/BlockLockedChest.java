@@ -1,13 +1,11 @@
 package hangcow.greatersecurity.common.chest;
 
 import static net.minecraftforge.common.ForgeDirection.DOWN;
+import hangcow.greatersecurity.common.CommonProxy;
+import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.Iterator;
 import java.util.Random;
-
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
-import dark.library.locking.prefab.TileEntityLockable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -23,6 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.prefab.BlockMachine;
+import dark.library.locking.AccessLevel;
 
 public class BlockLockedChest extends BlockMachine
 {
@@ -385,6 +384,7 @@ public class BlockLockedChest extends BlockMachine
 		}
 		else if (var10 instanceof TileEntityLockedChest && !((TileEntityLockedChest) var10).canAccess(player))
 		{
+			player.sendChatToPlayer("-=|[Locked]|=-");
 			return true;
 		}
 		else
@@ -411,6 +411,33 @@ public class BlockLockedChest extends BlockMachine
 			player.displayGUIChest((IInventory) var10);
 			return true;
 		}
+	}
+
+	@Override
+	public boolean onSneakMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+	{
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if (world.isRemote)
+		{
+			return true;
+		}
+		if (ent instanceof TileEntityLockedChest)
+		{
+			if (((TileEntityLockedChest) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
+			{
+				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.yCoord, ent.zCoord);
+				return true;
+			}
+			else
+			{
+				player.sendChatToPlayer("-=|[Locked]|=-");
+			}
+		}
+		else
+		{
+			player.sendChatToPlayer("-=|[Error]|=-");
+		}
+		return false;
 	}
 
 	@Override

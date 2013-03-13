@@ -1,30 +1,31 @@
 package hangcow.greatersecurity.client.gui;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.chest.ContainerLockedChest;
-import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import dark.library.gui.ContainerFake;
 
-public class GuiRemoveChest extends GuiContainer
+
+public class GuiResponce extends GuiContainer
 {
-    private TileEntityLockedChest ChestLC;
+    private TileEntity ChestLC;
     private EntityPlayer player;
     private IInventory iInventory;
     private IInventory chest;
     int page = 0;
 
-    public GuiRemoveChest(EntityPlayer invPlayer, TileEntityLockedChest TileEntityLC)
+    public GuiResponce(EntityPlayer invPlayer, TileEntity tile)
     {
-        super(new ContainerLockedChest(invPlayer.inventory, TileEntityLC, 0));
-        this.ChestLC = TileEntityLC;
+        super(new ContainerFake(tile));
+        this.ChestLC = tile;
         this.player = invPlayer;
     }
 

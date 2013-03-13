@@ -5,6 +5,7 @@ import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import java.util.List;
 
 import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,7 +65,7 @@ public class ItemLock extends Item
 		{
 			TileEntity entity = world.getBlockTileEntity(i, j, k);
 
-			if (entity instanceof TileEntityChest)
+			if (entity.getClass().equals(TileEntityChest.class))
 			{
 				// // Get current chest //
 				TileEntityChest chest = ((TileEntityChest) entity);
@@ -83,7 +84,19 @@ public class ItemLock extends Item
 					if (newChest instanceof TileEntityLockedChest)
 					{
 						TileEntityLockedChest lockedChest = (TileEntityLockedChest) newChest;
-						lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
+						TileEntityLockedChest connectedChest = lockedChest.getAdjacentChest();
+						
+						if (connectedChest != null)
+						{
+							for (UserAccess user : connectedChest.getUsers())
+							{
+								lockedChest.addUserAccess(user.username, user.level, user.shouldSave);
+							}
+						}
+						else
+						{
+							lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
+						}
 						// // add chest inv to new locked chest //
 						for (int b = 0; b < lockedChest.getSizeInventory(); b++)
 						{
