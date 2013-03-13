@@ -3,7 +3,6 @@ package hangcow.greatersecurity.client.gui;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.chest.ContainerLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
-import hangcow.greatersecurity.common.network.LockPacketHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +55,7 @@ public class GuiRemoveChest extends GuiContainer
     {
         if(par1GuiButton.id == 0)//boom
         {
-            LockPacketHandler.sendChestPacketServer(ChestLC, 5, "boom");
+            //LockPacketHandler.sendChestPacketServer(ChestLC, 5, "boom");
             ChestLC.worldObj.setBlock(ChestLC.xCoord, ChestLC.yCoord, ChestLC.zCoord,0);
             this.mc.thePlayer.closeScreen();
         }

@@ -24,10 +24,10 @@ public class GuiUserAccess extends GuiContainer
 	private TileEntity tileEntity;
 	private ISpecialAccess lock;
 	private EntityPlayer player;
-	
+
 	private GuiTextField varType;
-	
-	private String texture = "";
+
+	private String texture = "/dark/library/resources/textures/gui/userAccessGui.png";
 
 	// private IInventory chest;
 	int currentPage = 0;

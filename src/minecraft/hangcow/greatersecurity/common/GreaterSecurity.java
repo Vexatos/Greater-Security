@@ -7,7 +7,6 @@ import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
-import hangcow.greatersecurity.common.network.LockPacketHandler;
 
 import java.io.File;
 
@@ -15,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -36,7 +36,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  */
 @Mod(modid = GreaterSecurity.NAME , name = GreaterSecurity.NAME , version = "0.2.1") //TODO update version #
-@NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = LockPacketHandler.class)
+@NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class GreaterSecurity
 {
 	private static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), "GreaterSecurity.cfg"));

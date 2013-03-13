@@ -1,28 +1,15 @@
 package hangcow.greatersecurity.common.chest;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.network.IPacketReceiver;
-import hangcow.greatersecurity.common.network.LockPacketHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import universalelectricity.prefab.tile.TileEntityAdvanced;
-
-import com.google.common.io.ByteArrayDataInput;
-
 import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
 import dark.library.locking.prefab.TileEntityLockable;
 
 public class TileEntityLockedChest extends TileEntityLockable implements IInventory
@@ -33,14 +20,13 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 
 	public TileEntityLockedChest[] chests = { null, null, null, null };
 
-	public int numUsingPlayers;
-
 	public float prevLidAngle;
 	public float lidAngle;
 
 	/**
 	 * Returns the number of slots in the inventory.
 	 */
+	@Override
 	public int getSizeInventory()
 	{
 		return 27;
@@ -49,6 +35,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/**
 	 * Returns the stack in slot i
 	 */
+	@Override
 	public ItemStack getStackInSlot(int par1)
 	{
 		return this.chestContents[par1];
@@ -72,6 +59,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	 * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and
 	 * returns them in a new stack.
 	 */
+	@Override
 	public ItemStack decrStackSize(int par1, int par2)
 	{
 		if (this.chestContents[par1] != null)
@@ -108,6 +96,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	 * When some containers are closed they call this on each slot, then drop whatever it returns as
 	 * an EntityItem - like when you close a workbench GUI.
 	 */
+	@Override
 	public ItemStack getStackInSlotOnClosing(int par1)
 	{
 		if (this.chestContents[par1] != null)
@@ -126,6 +115,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor
 	 * sections).
 	 */
+	@Override
 	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
 	{
 		this.chestContents[par1] = par2ItemStack;
@@ -141,14 +131,16 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/**
 	 * Returns the name of the inventory.
 	 */
+	@Override
 	public String getInvName()
 	{
-		return "container.LChest";
+		return "container.LockedChest";
 	}
 
 	/**
 	 * Reads a tile entity from NBT.
 	 */
+	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
@@ -184,6 +176,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/**
 	 * Writes a tile entity to NBT.
 	 */
+	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeToNBT(par1NBTTagCompound);
@@ -207,6 +200,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
 	 * extended. *Isn't this more of a set than a get?*
 	 */
+	@Override
 	public int getInventoryStackLimit()
 	{
 		return 64;
@@ -215,6 +209,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/**
 	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
+	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
 		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
@@ -311,19 +306,22 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 
 	}
 
+	@Override
 	public void openChest()
 	{
-		++this.numUsingPlayers;
+		++this.playersUsing;
 	}
 
+	@Override
 	public void closeChest()
 	{
-		--this.numUsingPlayers;
+		--this.playersUsing;
 	}
 
 	/**
 	 * invalidates a tile entity
 	 */
+	@Override
 	public void invalidate()
 	{
 		this.updateContainingBlockInfo();

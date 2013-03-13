@@ -1,20 +1,7 @@
 package hangcow.greatersecurity.common.door;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.network.IPacketReceiver;
-import hangcow.greatersecurity.common.network.LockPacketHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
-
-import com.google.common.io.ByteArrayDataInput;
-
 import dark.library.locking.AccessLevel;
 import dark.library.locking.prefab.TileEntityLockable;
 

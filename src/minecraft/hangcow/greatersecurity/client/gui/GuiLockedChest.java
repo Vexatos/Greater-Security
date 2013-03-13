@@ -28,7 +28,8 @@ public class GuiLockedChest extends GuiContainer
 	private EntityPlayer player;
 	private TileEntityLockedChest lockedChest;
 	private IInventory chest;
-	// Window height is calculated with this values, the more rows, the heigher
+	
+	// Window height is calculated with this values, the more rows, the higher the gui
 	private int inventoryRows = 0;
 
 	public GuiLockedChest(EntityPlayer par1IInventory, TileEntityLockedChest chest, IInventory object)
@@ -61,8 +62,7 @@ public class GuiLockedChest extends GuiContainer
 		super.actionPerformed(par1GuiButton);
 		if (par1GuiButton.id == 0)
 		{
-			// TODO player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI,
-			// lockedChest.worldObj, lockedChest.xCoord, lockedChest.yCoord, lockedChest.zCoord);
+			player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, lockedChest.worldObj, lockedChest.xCoord, lockedChest.yCoord, lockedChest.zCoord);
 		}
 	}
 
