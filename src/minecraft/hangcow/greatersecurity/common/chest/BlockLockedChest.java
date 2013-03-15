@@ -15,25 +15,25 @@ import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.block.BlockAdvanced;
 import dark.library.locking.AccessLevel;
 import dark.library.locking.UserAccess;
 
-public class BlockLockedChest extends BlockMachine
+public class BlockLockedChest extends BlockAdvanced
 {
 	private Random random = new Random();
 
 	public BlockLockedChest(int par1)
 	{
 		super(par1, Material.wood);
-		this.blockIndexInTexture = 26;
 		this.setCreativeTab(CreativeTabs.tabDecorations);
-		this.setBlockName("LockedChest");
+		this.setUnlocalizedName("LockedChest");
 		this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 		this.blockResistance = 1000F;// TODO set this based on tier if possible
 		if (!GreaterSecurity.breakChests)
@@ -138,7 +138,7 @@ public class BlockLockedChest extends BlockMachine
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack stack)
 	{
 		int westBlock = world.getBlockId(x, y, z - 1);
 		int eastBlock = world.getBlockId(x, y, z + 1);
@@ -169,7 +169,7 @@ public class BlockLockedChest extends BlockMachine
 
 		if (westBlock != this.blockID && eastBlock != this.blockID && northBlock != this.blockID && southBlock != this.blockID)
 		{
-			world.setBlockMetadataWithNotify(x, y, z, placementMeta);
+			world.setBlockMetadataWithNotify(x, y, z, placementMeta, 3);
 		}
 		else
 		{
@@ -177,28 +177,28 @@ public class BlockLockedChest extends BlockMachine
 			{
 				if (westBlock == this.blockID)
 				{
-					world.setBlockMetadataWithNotify(x, y, z - 1, placementMeta);
+					world.setBlockMetadataWithNotify(x, y, z - 1, placementMeta, 3);
 				}
 				else
 				{
-					world.setBlockMetadataWithNotify(x, y, z + 1, placementMeta);
+					world.setBlockMetadataWithNotify(x, y, z + 1, placementMeta, 3);
 				}
 
-				world.setBlockMetadataWithNotify(x, y, z, placementMeta);
+				world.setBlockMetadataWithNotify(x, y, z, placementMeta, 3);
 			}
 
 			if ((northBlock == this.blockID || southBlock == this.blockID) && (placementMeta == 2 || placementMeta == 3))
 			{
 				if (northBlock == this.blockID)
 				{
-					world.setBlockMetadataWithNotify(x - 1, y, z, placementMeta);
+					world.setBlockMetadataWithNotify(x - 1, y, z, placementMeta, 3);
 				}
 				else
 				{
-					world.setBlockMetadataWithNotify(x + 1, y, z, placementMeta);
+					world.setBlockMetadataWithNotify(x + 1, y, z, placementMeta, 3);
 				}
 
-				world.setBlockMetadataWithNotify(x, y, z, placementMeta);
+				world.setBlockMetadataWithNotify(x, y, z, placementMeta, 3);
 			}
 		}
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
@@ -317,7 +317,7 @@ public class BlockLockedChest extends BlockMachine
 				}
 			}
 
-			world.setBlockMetadataWithNotify(x, y, z, var13);
+			world.setBlockMetadataWithNotify(x, y, z, var13, 3);
 		}
 	}
 
@@ -479,7 +479,7 @@ public class BlockLockedChest extends BlockMachine
 	 */
 	public static boolean isOcelotBlockingChest(World world, int x, int y, int z)
 	{
-		Iterator var4 = world.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x, (double) (y + 1), (double) z, (double) (x + 1), (double) (y + 2), (double) (z + 1))).iterator();
+		Iterator var4 = world.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double) x, (double) (y + 1), (double) z, (double) (x + 1), (double) (y + 2), (double) (z + 1))).iterator();
 		EntityOcelot var6;
 
 		do

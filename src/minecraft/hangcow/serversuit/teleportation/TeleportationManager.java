@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import universalelectricity.core.vector.Vector3;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +14,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 

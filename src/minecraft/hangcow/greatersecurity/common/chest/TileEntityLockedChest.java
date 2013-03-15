@@ -337,14 +337,14 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	{
 		super.updateEntity();
 		this.checkForAdjacentChests();
-		float var1;
+		float f;
 
 		if (!this.worldObj.isRemote && this.numUsingPlayers != 0 && (this.ticks + this.xCoord + this.yCoord + this.zCoord) % 200 == 0)
 		{
 			this.numUsingPlayers = 0;
-			var1 = 5.0F;
-			List var2 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) ((float) this.xCoord - var1), (double) ((float) this.yCoord - var1), (double) ((float) this.zCoord - var1), (double) ((float) (this.xCoord + 1) + var1), (double) ((float) (this.yCoord + 1) + var1), (double) ((float) (this.zCoord + 1) + var1)));
-			Iterator var3 = var2.iterator();
+			f = 5.0F;
+			List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((double) ((float) this.xCoord - f), (double) ((float) this.yCoord - f), (double) ((float) this.zCoord - f), (double) ((float) (this.xCoord + 1) + f), (double) ((float) (this.yCoord + 1) + f), (double) ((float) (this.zCoord + 1) + f)));
+			Iterator var3 = list.iterator();
 
 			while (var3.hasNext())
 			{
@@ -363,7 +363,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 		}
 
 		this.prevLidAngle = this.lidAngle;
-		var1 = 0.1F;
+		f = 0.1F;
 		double var11;
 
 		if (this.numUsingPlayers > 0 && this.lidAngle == 0.0F && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null)
@@ -390,11 +390,11 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 
 			if (this.numUsingPlayers > 0)
 			{
-				this.lidAngle += var1;
+				this.lidAngle += f;
 			}
 			else
 			{
-				this.lidAngle -= var1;
+				this.lidAngle -= f;
 			}
 
 			if (this.lidAngle > 1.0F)
@@ -426,18 +426,6 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 			{
 				this.lidAngle = 0.0F;
 			}
-		}
-	}
-
-	/**
-	 * Called when a client event is received with the event number and argument, see
-	 * World.sendClientEvent
-	 */
-	public void receiveClientEvent(int par1, int par2)
-	{
-		if (par1 == 1)
-		{
-			this.numUsingPlayers = par2;
 		}
 	}
 
@@ -545,5 +533,17 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public void setType(int type)
 	{
 		this.chestType = type;
+	}
+
+	@Override
+	public boolean func_94042_c()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean func_94041_b(int i, ItemStack itemstack)
+	{
+		return true;
 	}
 }

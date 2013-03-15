@@ -1,6 +1,5 @@
 package dark.library.gui;
 
-import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 

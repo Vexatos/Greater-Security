@@ -4,16 +4,16 @@ import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 
 import java.util.List;
 
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 
 /**
  * 
@@ -27,29 +27,10 @@ public class ItemLock extends Item
 	{
 		super(par1);
 		this.setHasSubtypes(true);
+		this.setUnlocalizedName("Lock");
 		maxStackSize = 10;
 		setMaxDamage(0);
 		this.setCreativeTab(CreativeTabs.tabTools);
-		this.setIconIndex(1);
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return GreaterSecurity.ITEM_File_PATH;
-
-	}
-
-	@Override
-	public String getItemNameIS(ItemStack itemstack)
-	{
-		return "Lock";
-	}
-
-	@Override
-	public int getIconFromDamage(int i)
-	{
-		return this.iconIndex + i;
 	}
 
 	@Override
@@ -77,7 +58,7 @@ public class ItemLock extends Item
 					chest.setInventorySlotContents(slot, null);
 				}
 				// // replace chest with locked chest //
-				if (world.setBlockAndMetadataWithUpdate(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, true))
+				if (world.setBlockAndMetadataWithNotify(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, 3))
 				{
 
 					TileEntity newChest = world.getBlockTileEntity(i, j, k);

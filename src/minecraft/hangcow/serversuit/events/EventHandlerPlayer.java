@@ -1,7 +1,7 @@
 package hangcow.serversuit.events;
 
-import hangcow.serversuit.commands.blockLogger.FileManager;
 import hangcow.serversuit.commands.blockLogger.ActionInstance.ClickAction;
+import hangcow.serversuit.commands.blockLogger.FileManager;
 
 import java.util.ArrayList;
 import java.util.List;

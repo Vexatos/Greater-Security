@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import universalelectricity.core.vector.Vector3;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import universalelectricity.core.vector.Vector3;
 
 public class FileManager
 {
@@ -50,7 +49,7 @@ public class FileManager
             for (ActionInstance blocks : breakEventList)
             {
 
-                String str = blocks.time + " " + blocks.location.intX() + "x " + blocks.location.intY() + "y " + blocks.location.intZ() + "z " + blocks.player.username + " " + blocks.action.name + " " + blocks.block.getBlockName();
+                String str = blocks.time + " " + blocks.location.intX() + "x " + blocks.location.intY() + "y " + blocks.location.intZ() + "z " + blocks.player.username + " " + blocks.action.name + " " + blocks.block.getUnlocalizedName();
                 writer.write(str + System.getProperty("line.separator"));
 
             }

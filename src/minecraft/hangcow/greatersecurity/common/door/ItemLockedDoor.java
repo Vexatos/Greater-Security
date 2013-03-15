@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import dark.library.locking.AccessLevel;
@@ -22,26 +23,13 @@ public class ItemLockedDoor extends Item
 	{
 		super(par1);
 		this.setMaxStackSize(3);
-		this.setIconIndex(2);
+		this.setUnlocalizedName("LockedDoor");
 		this.setCreativeTab(CreativeTabs.tabRedstone);
 		this.setHasSubtypes(true);
 	}
 
 	@Override
-	public String getTextureFile()
-	{
-		return GreaterSecurity.ITEM_File_PATH;
-
-	}
-
-	@Override
-	public String getItemNameIS(ItemStack itemstack)
-	{
-		return "LockedDoor";
-	}
-
-	@Override
-	public int getIconFromDamage(int i)
+	public Icon getIconFromDamage(int i)
 	{
 		return this.iconIndex;
 	}
@@ -124,11 +112,10 @@ public class ItemLockedDoor extends Item
 		{
 			var12 = true;
 		}
-
-		world.editingBlocks = true;
-		world.setBlockAndMetadataWithNotify(x, y, z, placeBlock.blockID, angle);
-		world.setBlockAndMetadataWithNotify(x, y + 1, z, placeBlock.blockID, 8 | (var12 ? 1 : 0));
-		world.editingBlocks = false;
+		
+		world.setBlockAndMetadataWithNotify(x, y, z, placeBlock.blockID, angle, 3);
+		world.setBlockAndMetadataWithNotify(x, y + 1, z, placeBlock.blockID, 8 | (var12 ? 1 : 0), 3);
+		
 		world.notifyBlocksOfNeighborChange(x, y, z, placeBlock.blockID);
 		world.notifyBlocksOfNeighborChange(x, y + 1, z, placeBlock.blockID);
 

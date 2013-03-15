@@ -4,21 +4,21 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.block.BlockAdvanced;
 
-public class BlockPort extends BlockMachine
+public class BlockPort extends BlockAdvanced
 {
 
 	protected BlockPort(int par1)
 	{
 		super(par1, Material.rock);
 		this.setCreativeTab(CreativeTabs.tabRedstone);
-		this.setBlockName("port");
+		this.setUnlocalizedName("port");
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class BlockPort extends BlockMachine
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity, ItemStack stack)
 	{
 		int angle = MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int change = 2;
@@ -59,40 +59,16 @@ public class BlockPort extends BlockMachine
 			change = ForgeDirection.UP.ordinal();
 		}
 
-		world.setBlockMetadataWithNotify(x, y, z, change);
+		world.setBlockMetadataWithNotify(x, y, z, change,3);
 	}
 
-	@Override
-	public int getBlockTexture(IBlockAccess iBlockAccess, int x, int y, int z, int side)
-	{
-		TileEntity tileEntity = iBlockAccess.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof TileEntityPort)
-		{
-			if (side == ForgeDirection.getOrientation(iBlockAccess.getBlockMetadata(x, y, z)).ordinal())
-			{
-				return this.blockIndexInTexture + 1;
-			}
-		}
-
-		return this.blockIndexInTexture;
-	}
+	
 
 	@Override
 	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		world.setBlockMetadataWithNotify(x, y, z, side);
+		world.setBlockMetadataWithNotify(x, y, z, side,3);
 		return true;
-	}
-
-	@Override
-	public int getBlockTextureFromSideAndMetadata(int side, int metadata)
-	{
-		if (side == ForgeDirection.DOWN.ordinal())
-		{
-			return this.blockIndexInTexture + 1;
-		}
-
-		return this.blockIndexInTexture;
 	}
 
 	@Override
@@ -102,7 +78,7 @@ public class BlockPort extends BlockMachine
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int meta)
+	public TileEntity createTileEntity(World var1, int meta)
 	{
 		return new TileEntityPort();
 	}

@@ -1,10 +1,10 @@
 package hangcow.greatersecurity.common.portcuils;
 
-import universalelectricity.core.vector.Vector3;
 import hangcow.greatersecurity.api.IPorticuils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.vector.Vector3;
 
 public class TileEntityPort extends TileEntity implements IPorticuils
 {

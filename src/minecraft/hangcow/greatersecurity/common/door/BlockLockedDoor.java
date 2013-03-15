@@ -6,14 +6,15 @@ import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 
 import java.util.Random;
 
-import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.block.BlockAdvanced;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.IconFlipped;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -22,89 +23,108 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.locking.AccessLevel;
 
-public class BlockLockedDoor extends BlockMachine
+public class BlockLockedDoor extends BlockAdvanced
 {
+
+	private static final String[] field_94467_a = new String[] { "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper" };
+	private final int field_94465_b = 2;
+	@SideOnly(Side.CLIENT)
+	private Icon[] field_94466_c;
+
 	public BlockLockedDoor(int id)
 	{
 		super(id, Material.iron);
-		this.blockIndexInTexture = 34;
-
+		this.setUnlocalizedName("lockedDoor");
 		float width = 0.5F;
 		float height = 1.0F;
 		this.setBlockBounds(0.5F - width, 0.0F, 0.5F - width, 0.5F + width, height, 0.5F + width);
 		this.setResistance(10f);
-		this.setTextureFile(GreaterSecurity.BLOCK_File_PATH);
+	}
+
+	@SideOnly(Side.CLIENT)
+	/**
+	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
+	 */
+	public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+	{
+		return this.field_94466_c[this.field_94465_b];
 	}
 
 	@SideOnly(Side.CLIENT)
 	/**
 	 * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
 	 */
-	@Override
-	public int getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
+	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
-		if (side != 0 && side != 1)
+		if (par5 != 1 && par5 != 0)
 		{
-			int fullMeta = this.getFullMetadata(world, x, y, z);
-			int textureID = this.blockIndexInTexture;
+			int i1 = this.getFullMetadata(par1IBlockAccess, par2, par3, par4);
+			int j1 = i1 & 3;
+			boolean flag = (i1 & 4) != 0;
+			boolean flag1 = false;
+			boolean flag2 = (i1 & 8) != 0;
 
-			if ((fullMeta & 8) != 0)
+			if (flag)
 			{
-				textureID -= 16;
-			}
-
-			int var8 = fullMeta & 3;
-			boolean var9 = (fullMeta & 4) != 0;
-
-			if (var9)
-			{
-				if (var8 == 0 && side == 2)
+				if (j1 == 0 && par5 == 2)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
-				else if (var8 == 1 && side == 5)
+				else if (j1 == 1 && par5 == 5)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
-				else if (var8 == 2 && side == 3)
+				else if (j1 == 2 && par5 == 3)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
-				else if (var8 == 3 && side == 4)
+				else if (j1 == 3 && par5 == 4)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
 			}
 			else
 			{
-				if (var8 == 0 && side == 5)
+				if (j1 == 0 && par5 == 5)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
-				else if (var8 == 1 && side == 3)
+				else if (j1 == 1 && par5 == 3)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
-				else if (var8 == 2 && side == 4)
+				else if (j1 == 2 && par5 == 4)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
-				else if (var8 == 3 && side == 2)
+				else if (j1 == 3 && par5 == 2)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
 
-				if ((fullMeta & 16) != 0)
+				if ((i1 & 16) != 0)
 				{
-					textureID = -textureID;
+					flag1 = !flag1;
 				}
 			}
 
-			return textureID;
+			return this.field_94466_c[this.field_94465_b + (flag1 ? field_94467_a.length : 0) + (flag2 ? 1 : 0)];
 		}
 		else
 		{
-			return this.blockIndexInTexture;
+			return this.field_94466_c[this.field_94465_b];
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void func_94332_a(IconRegister par1IconRegister)
+	{
+		this.field_94466_c = new Icon[field_94467_a.length * 2];
+
+		for (int i = 0; i < field_94467_a.length; ++i)
+		{
+			this.field_94466_c[i] = par1IconRegister.func_94245_a(field_94467_a[i]);
+			this.field_94466_c[i + field_94467_a.length] = new IconFlipped(this.field_94466_c[i], true, false);
 		}
 	}
 
@@ -348,13 +368,13 @@ public class BlockLockedDoor extends BlockMachine
 
 		if ((fullMeta & 8) == 0)
 		{
-			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord, door.zCoord, newMeta);
+			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord, door.zCoord, newMeta, 3);
 			door.worldObj.markBlockRangeForRenderUpdate(door.xCoord, door.yCoord, door.zCoord, door.xCoord, door.yCoord, door.zCoord);
 			door.worldObj.markBlockForUpdate(door.xCoord, door.yCoord, door.zCoord);
 		}
 		else
 		{
-			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord - 1, door.xCoord, newMeta);
+			door.worldObj.setBlockMetadataWithNotify(door.xCoord, door.yCoord - 1, door.xCoord, newMeta, 3);
 			door.worldObj.markBlockRangeForRenderUpdate(door.xCoord, door.yCoord - 1, door.zCoord, door.xCoord, door.yCoord, door.zCoord);
 			door.worldObj.markBlockForUpdate(door.xCoord, door.yCoord - 1, door.zCoord);
 		}
@@ -436,18 +456,18 @@ public class BlockLockedDoor extends BlockMachine
 
 			if (world.getBlockId(x, y + 1, z) != this.blockID)
 			{
-				world.setBlockWithNotify(x, y, z, 0);
+				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
 				shouldRemove = true;
 			}
 
 			if (!world.doesBlockHaveSolidTopSurface(x, y - 1, z))
 			{
-				world.setBlockWithNotify(x, y, z, 0);
+				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
 				shouldRemove = true;
 
 				if (world.getBlockId(x, y + 1, z) == this.blockID)
 				{
-					world.setBlockWithNotify(x, y + 1, z, 0);
+					world.setBlockAndMetadataWithNotify(x, y + 1, z, 0, 0, 3);
 				}
 			}
 
@@ -463,7 +483,7 @@ public class BlockLockedDoor extends BlockMachine
 		{
 			if (world.getBlockId(x, y - 1, z) != this.blockID)
 			{
-				world.setBlockWithNotify(x, y, z, 0);
+				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
 			}
 
 			if (blockID > 0 && blockID != this.blockID)
@@ -491,7 +511,7 @@ public class BlockLockedDoor extends BlockMachine
 	{
 		if (player.capabilities.isCreativeMode && (meta & 8) != 0 && world.getBlockId(x, y - 1, z) == this.blockID)
 		{
-			world.setBlockWithNotify(x, y - 1, z, 0);
+			world.setBlockAndMetadataWithNotify(x, y - 1, z, 0, 0, 3);
 		}
 	}
 
@@ -502,7 +522,7 @@ public class BlockLockedDoor extends BlockMachine
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public TileEntity createTileEntity(World world, int meta)
 	{
 		if ((meta & 8) == 0)
 		{

@@ -1,13 +1,12 @@
 package dark.library.locking;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-
-import universalelectricity.prefab.flag.NBTFileLoader;
 
 import net.minecraft.nbt.NBTTagCompound;
+import universalelectricity.prefab.flag.NBTFileLoader;
 
 public class GlobalAccessList
 {

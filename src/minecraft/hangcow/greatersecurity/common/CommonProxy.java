@@ -1,7 +1,6 @@
 package hangcow.greatersecurity.common;
 
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
-import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
