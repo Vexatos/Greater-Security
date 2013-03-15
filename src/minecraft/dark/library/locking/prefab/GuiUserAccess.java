@@ -38,7 +38,7 @@ public class GuiUserAccess extends GuiContainer
 
 	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, Boolean showBreakButton, String texture)
 	{
-		this(tileEntity, player, access,showBreakButton);
+		this(tileEntity, player, access, showBreakButton);
 		this.texture = texture;
 	}
 
@@ -93,14 +93,14 @@ public class GuiUserAccess extends GuiContainer
 		{
 			if (!lock.getUsers().contains(name))
 			{
-				lock.addUserAccess(name, AccessLevel.USER, true);
+				lock.addUserAccess(new UserAccess(name, AccessLevel.USER, true), false);
 			}
 		}
 		if (par1GuiButton.id == 1)// Remove
 		{
 			if (lock.getUsers().contains(name))
 			{
-				lock.removeUserAccess(name);
+				lock.removeUserAccess(name, false);
 			}
 		}
 		if (par1GuiButton.id == 2)// Remove

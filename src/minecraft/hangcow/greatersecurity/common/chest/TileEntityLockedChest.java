@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 import dark.library.locking.prefab.TileEntityLockable;
 
 public class TileEntityLockedChest extends TileEntityLockable implements IInventory
@@ -147,6 +148,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/**
 	 * Reads a tile entity from NBT.
 	 */
+	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
@@ -154,7 +156,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 		// // Check for old save list and convert //
 		if (nbt.hasKey("Owner"))
 		{
-			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
+			this.addUserAccess(new UserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true), true);
 		}
 		if (nbt.hasKey("users"))
 		{
@@ -162,10 +164,10 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 			for (int i = 0; i < userSize; i++)
 			{
 				String read = nbt.getString("user" + i);
-				this.addUserAccess(read, AccessLevel.USER, true);
+				this.addUserAccess(new UserAccess(read, AccessLevel.USER, true), true);
 			}
 		}
-		// // Read inventory //
+		// chest inv reading
 		NBTTagList var2 = nbt.getTagList("Items");
 		this.chestContents = new ItemStack[this.getSizeInventory()];
 
@@ -184,13 +186,13 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	/**
 	 * Writes a tile entity to NBT.
 	 */
+	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
 		nbt.setInteger("chestType", this.chestType);
-		// // Write inventory //
-		NBTTagList var2 = new NBTTagList();
 
+		NBTTagList var2 = new NBTTagList();
 		for (int var3 = 0; var3 < this.chestContents.length; ++var3)
 		{
 			if (this.chestContents[var3] != null)
@@ -484,25 +486,35 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	}
 
 	@Override
-	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
+	public boolean addUserAccess(UserAccess user, boolean isServer)
 	{
-		TileEntityLockedChest chest = this.getAdjacentChest();
-		boolean added = super.addUserAccess(player, lvl, save);
-		if (added && !worldObj.isRemote && chest != null && !chest.isOnList(player))
+		boolean added = super.addUserAccess(user, isServer);
+		try
 		{
-			chest.addUserAccess(player, lvl, save);
+			TileEntityLockedChest chest = this.getAdjacentChest();
+
+			if (added && !worldObj.isRemote && chest != null && !chest.isOnList(user.username))
+			{
+				chest.addUserAccess(user, isServer);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Failed to add user to linked chest");
+			e.printStackTrace();
 		}
 		return added;
 	}
 
 	@Override
-	public boolean removeUserAccess(String player)
+	public boolean removeUserAccess(String player, boolean isServer)
 	{
+		boolean removed = super.removeUserAccess(player, isServer);
 		TileEntityLockedChest chest = this.getAdjacentChest();
-		boolean removed = super.removeUserAccess(player);
+
 		if (removed && !worldObj.isRemote && chest != null && chest.isOnList(player))
 		{
-			chest.removeUserAccess(player);
+			chest.removeUserAccess(player, isServer);
 		}
 		return removed;
 	}

@@ -127,11 +127,11 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 						Boolean remove = dataStream.readBoolean();
 						if (remove)
 						{
-							this.removeUserAccess(name);
+							this.removeUserAccess(name, true);
 						}
 						else
 						{
-							this.addUserAccess(name, level, shouldSave);
+							this.addUserAccess(new UserAccess(name, level, shouldSave), true);
 						}
 
 					}
@@ -208,28 +208,27 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 	}
 
 	@Override
-	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
+	public boolean addUserAccess(UserAccess user, boolean isServer)
 	{
-		UserAccess access = new UserAccess(player, lvl, save);
-		if (worldObj.isRemote)
+		if (!isServer)
 		{
-			this.sendEditToServer(access, false);
+			this.sendEditToServer(user, false);
 		}
 		else
 		{
-			this.removeUserAccess(player);
+			this.removeUserAccess(user.username, isServer);
 			this.listUpdate = true;
-			return this.users.add(access);
+			return this.users.add(user);
 		}
 		return false;
 
 	}
 
 	@Override
-	public boolean removeUserAccess(String player)
+	public boolean removeUserAccess(String player, boolean isServer)
 	{
 
-		if (worldObj.isRemote)
+		if (!isServer)
 		{
 			UserAccess access = new UserAccess(player, AccessLevel.BASIC, false);
 			this.sendEditToServer(access, true);

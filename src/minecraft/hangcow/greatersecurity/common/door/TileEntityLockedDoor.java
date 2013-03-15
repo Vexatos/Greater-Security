@@ -3,6 +3,7 @@ package hangcow.greatersecurity.common.door;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.nbt.NBTTagCompound;
 import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 import dark.library.locking.prefab.TileEntityLockable;
 
 public class TileEntityLockedDoor extends TileEntityLockable
@@ -17,7 +18,7 @@ public class TileEntityLockedDoor extends TileEntityLockable
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("Owner"))
 		{
-			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
+			this.addUserAccess(new UserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true), true);
 		}
 		if (nbt.hasKey("users"))
 		{
@@ -25,12 +26,10 @@ public class TileEntityLockedDoor extends TileEntityLockable
 			for (int i = 0; i < userSize; i++)
 			{
 				String read = nbt.getString("user" + i);
-				this.addUserAccess(read, AccessLevel.USER, true);
+				this.addUserAccess(new UserAccess(read, AccessLevel.USER, true), true);
 			}
 		}
 	}
-
-	
 
 	/**
 	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner

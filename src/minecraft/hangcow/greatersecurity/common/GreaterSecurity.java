@@ -98,8 +98,8 @@ public class GreaterSecurity
 	{
 		proxy.init();
 		// // Register ////
-		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "lockedChest");
-		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "lockedDoor");
+		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "LChest");
+		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "LDoor");
 
 		// // Block Names ////
 		LanguageRegistry.addName(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), "WoodenChest");

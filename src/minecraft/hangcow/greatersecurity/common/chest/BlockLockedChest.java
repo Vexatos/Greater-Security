@@ -22,6 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.prefab.BlockMachine;
 import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 
 public class BlockLockedChest extends BlockMachine
 {
@@ -203,7 +204,7 @@ public class BlockLockedChest extends BlockMachine
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
 		if (entityLiving instanceof EntityPlayer && ent instanceof TileEntityLockedChest)
 		{
-			((TileEntityLockedChest) ent).addUserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true);
+			((TileEntityLockedChest) ent).addUserAccess(new UserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true), !world.isRemote);
 		}
 	}
 

@@ -85,17 +85,17 @@ public class ItemLock extends Item
 					{
 						TileEntityLockedChest lockedChest = (TileEntityLockedChest) newChest;
 						TileEntityLockedChest connectedChest = lockedChest.getAdjacentChest();
-						
+
 						if (connectedChest != null)
 						{
 							for (UserAccess user : connectedChest.getUsers())
 							{
-								lockedChest.addUserAccess(user.username, user.level, user.shouldSave);
+								lockedChest.addUserAccess(new UserAccess(user.username, user.level, user.shouldSave), true);
 							}
 						}
 						else
 						{
-							lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
+							lockedChest.addUserAccess(new UserAccess(entityplayer.username, AccessLevel.OWNER, true), true);
 						}
 						// // add chest inv to new locked chest //
 						for (int b = 0; b < lockedChest.getSizeInventory(); b++)

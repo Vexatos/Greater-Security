@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import dark.library.locking.AccessLevel;
+import dark.library.locking.UserAccess;
 
 public class ItemLockedDoor extends Item
 {
@@ -131,10 +132,10 @@ public class ItemLockedDoor extends Item
 		world.notifyBlocksOfNeighborChange(x, y, z, placeBlock.blockID);
 		world.notifyBlocksOfNeighborChange(x, y + 1, z, placeBlock.blockID);
 
-		TileEntity ent = BlockLockedDoor.getTileEntityDoor(world,x,y,z);
+		TileEntity ent = BlockLockedDoor.getTileEntityDoor(world, x, y, z);
 		if (ent instanceof TileEntityLockedDoor)
 		{
-			((TileEntityLockedDoor) ent).addUserAccess(player.username, AccessLevel.OWNER, true);
+			((TileEntityLockedDoor) ent).addUserAccess(new UserAccess(player.username, AccessLevel.OWNER, true), true);
 		}
 	}
 }
