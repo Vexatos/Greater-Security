@@ -36,15 +36,7 @@ public class CommonProxy implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int i, int j, int k)
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(i, j, k);
-		Boolean showBreakButton = false;
-		if (tileEntity instanceof TileEntityLockedChest && !GreaterSecurity.instance.breakChests)
-		{
-			showBreakButton = true;
-		}
-		if (tileEntity instanceof TileEntityLockedDoor && !GreaterSecurity.instance.breakDoors)
-		{
-			showBreakButton = true;
-		}
+		Boolean showBreakButton = true;
 		if (tileEntity != null)
 		{
 			switch (ID)
