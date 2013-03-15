@@ -471,6 +471,10 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 
 	public TileEntityLockedChest getAdjacentChest()
 	{
+		if (this.worldObj == null)
+		{
+			return null;
+		}
 		for (int side = 0; side < 4; side++)
 		{
 			ForgeDirection dir = ForgeDirection.getOrientation(side + 2);
@@ -491,11 +495,14 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 		boolean added = super.addUserAccess(user, isServer);
 		try
 		{
-			TileEntityLockedChest chest = this.getAdjacentChest();
-
-			if (added && !worldObj.isRemote && chest != null && !chest.isOnList(user.username))
+			if (isServer && worldObj != null)
 			{
-				chest.addUserAccess(user, isServer);
+				TileEntityLockedChest chest = this.getAdjacentChest();
+
+				if (added && !worldObj.isRemote && chest != null && !chest.isOnList(user.username))
+				{
+					chest.addUserAccess(user, isServer);
+				}
 			}
 		}
 		catch (Exception e)
@@ -510,11 +517,22 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public boolean removeUserAccess(String player, boolean isServer)
 	{
 		boolean removed = super.removeUserAccess(player, isServer);
-		TileEntityLockedChest chest = this.getAdjacentChest();
-
-		if (removed && !worldObj.isRemote && chest != null && chest.isOnList(player))
+		try
 		{
-			chest.removeUserAccess(player, isServer);
+			if (isServer && worldObj != null)
+			{
+				TileEntityLockedChest chest = this.getAdjacentChest();
+
+				if (removed && !worldObj.isRemote && chest != null && chest.isOnList(player))
+				{
+					chest.removeUserAccess(player, isServer);
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Failed to remove a user from a linked chest");
+			e.printStackTrace();
 		}
 		return removed;
 	}
