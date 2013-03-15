@@ -32,6 +32,7 @@ public class BlockLockedChest extends BlockMachine
 		super(par1, Material.wood);
 		this.blockIndexInTexture = 26;
 		this.setCreativeTab(CreativeTabs.tabDecorations);
+		this.setBlockName("LockedChest");
 		this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 		this.blockResistance = 1000F;// TODO set this based on tier if possible
 		if (!GreaterSecurity.breakChests)
@@ -45,7 +46,7 @@ public class BlockLockedChest extends BlockMachine
 	{
 		if (GreaterSecurity.breakChests)
 		{
-			float hardness = 100F;
+			float hardness = 1000F;
 			TileEntity ent = world.getBlockTileEntity(x, y, z);
 			if (ent instanceof TileEntityLockedChest)
 			{
@@ -448,7 +449,7 @@ public class BlockLockedChest extends BlockMachine
 		}
 		if (ent instanceof TileEntityLockedChest)
 		{
-			if (((TileEntityLockedChest) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
+			if (((TileEntityLockedChest) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal() || ((TileEntityLockedChest) ent).getUsersWithAcess(AccessLevel.ADMIN).size() <= 0)
 			{
 				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.yCoord, ent.zCoord);
 				return true;

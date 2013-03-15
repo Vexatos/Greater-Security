@@ -254,6 +254,10 @@ public abstract class TileEntityLockable extends TileEntityAdvanced implements I
 	 */
 	public boolean canAccess(EntityPlayer player)
 	{
+		if (this.users.size() <= 0)
+		{
+			return true;
+		}
 		return this.getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal();
 	}
 

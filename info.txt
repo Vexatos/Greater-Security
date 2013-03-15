@@ -49,3 +49,4 @@ Minecraft 1.4.5
 @ @GreaterSecurity_v0.2.1.15.jar @GreaterSecurity_v0.2.1.15_api.zip
 @ @GreaterSecurity_v0.2.1.16.jar @GreaterSecurity_v0.2.1.16_api.zip
 @ @GreaterSecurity_v0.2.1.17.jar @GreaterSecurity_v0.2.1.17_api.zip
+@ @GreaterSecurity_v0.2.1.18.jar @GreaterSecurity_v0.2.1.18_api.zip

@@ -2,6 +2,7 @@ package hangcow.greatersecurity.common.door;
 
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
+import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 
 import java.util.Random;
 
@@ -318,7 +319,7 @@ public class BlockLockedDoor extends BlockMachine
 		}
 		if (ent instanceof TileEntityLockedDoor)
 		{
-			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal())
+			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal() || ((TileEntityLockedChest) ent).getUsersWithAcess(AccessLevel.ADMIN).size() <= 0)
 			{
 				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.yCoord, ent.zCoord);
 				return true;

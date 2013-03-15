@@ -27,24 +27,24 @@ public class Disable extends CommandBase
 		if (args.length > 1)
 		{
 			Boolean disable = false;
-			if(args[1].equalsIgnoreCase("false"))
+			if (args[1].equalsIgnoreCase("false"))
 			{
 				disable = true;
 			}
 			if (args[0].equalsIgnoreCase("fire"))
 			{
 				ModLoader.getMinecraftServerInstance().worldServers[0].getGameRules().setOrCreateGameRule("doFireTick", disable.toString());
-				user.sendChatToPlayer(!disable ? "Fire Off":"Fire On");
+				user.sendChatToPlayer(!disable ? "Fire Off" : "Fire On");
 			}
 			else if (args[0].equalsIgnoreCase("creepers"))
 			{
 				ModLoader.getMinecraftServerInstance().worldServers[0].getGameRules().setOrCreateGameRule("mobGriefing", disable.toString());
-				user.sendChatToPlayer(!disable ? "turning off mob griefing":"Creepers got to creep");
+				user.sendChatToPlayer(!disable ? "turning off mob griefing" : "Creepers got to creep");
 			}
 			else if (args[0].equalsIgnoreCase("keepInv"))
 			{
 				ModLoader.getMinecraftServerInstance().worldServers[0].getGameRules().setOrCreateGameRule("keepInventory", disable.toString());
-				user.sendChatToPlayer(!disable ? "Keep your Inv":"You die you lose");
+				user.sendChatToPlayer(!disable ? "Keep your Inv" : "You die you lose");
 			}
 		}
 		else
@@ -55,7 +55,11 @@ public class Disable extends CommandBase
 
 	public boolean canCommandSenderUseCommand(ICommandSender var1)
 	{
-		if (var1 instanceof EntityPlayer)
+		if (var1.getCommandSenderName().equalsIgnoreCase("server"))
+		{
+			return true;
+		}
+		else if (var1 instanceof EntityPlayer)
 		{
 			RankManager.canUseCommand((EntityPlayer) var1, Ranks.MOD);
 		}

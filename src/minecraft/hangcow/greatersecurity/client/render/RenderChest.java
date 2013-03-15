@@ -98,7 +98,7 @@ public class RenderChest extends TileEntitySpecialRenderer
                 }
                 else
                 {
-                    this.bindTextureByName(GreaterSecurity.RESOURCE_PATH+"chest/2XChestRender.png");
+                    this.bindTextureByName(GreaterSecurity.RESOURCE_PATH+"chest/2xChestRender.png");
                 }
             }
 

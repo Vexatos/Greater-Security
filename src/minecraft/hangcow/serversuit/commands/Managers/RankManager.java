@@ -1,5 +1,6 @@
 package hangcow.serversuit.commands.Managers;
 
+import hangcow.serversuit.events.EventHandlerPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -19,10 +20,11 @@ public class RankManager
 	 */
 	public static void setRank(Ranks rank, EntityPlayer player)
 	{
-		NBTTagCompound data = player.getEntityData();
+		NBTTagCompound data = EventHandlerPlayer.getPlayerSave(player);
 		if (data != null)
 		{
 			data.setInteger("GCRank", rank.ordinal());
+			EventHandlerPlayer.saveToPlayerSave(player, data);
 		}
 	}
 
@@ -34,7 +36,7 @@ public class RankManager
 	 */
 	public static Ranks getRank(EntityPlayer player)
 	{
-		NBTTagCompound data = player.getEntityData();
+		NBTTagCompound data = EventHandlerPlayer.getPlayerSave(player);
 		if (data != null)
 		{
 			int rankID = data.getInteger("GCRank");
@@ -43,7 +45,8 @@ public class RankManager
 				return Ranks.values()[rankID];
 			}
 		}
-		data.setInteger("GCRank", Ranks.DEFAULT.ordinal());
+		setRank(Ranks.DEFAULT, player);
+
 		return Ranks.DEFAULT;
 
 	}
