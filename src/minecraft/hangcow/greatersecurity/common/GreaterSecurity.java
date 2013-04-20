@@ -33,7 +33,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * @author CowGod, Darkguardsman
  * 
  */
-@Mod(modid = GreaterSecurity.NAME, name = GreaterSecurity.NAME, version = "0.2.4")
+@Mod(modid = GreaterSecurity.NAME, name = GreaterSecurity.NAME, version = "0.3.1")
 // TODO update version #
 @NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class GreaterSecurity

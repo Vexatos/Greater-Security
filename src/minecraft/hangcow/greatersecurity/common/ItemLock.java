@@ -58,7 +58,7 @@ public class ItemLock extends Item
 					chest.setInventorySlotContents(slot, null);
 				}
 				// // replace chest with locked chest //
-				if (world.setBlockAndMetadataWithNotify(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, 3))
+				if (world.setBlock(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, 3))
 				{
 
 					TileEntity newChest = world.getBlockTileEntity(i, j, k);

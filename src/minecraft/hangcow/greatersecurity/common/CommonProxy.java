@@ -1,5 +1,7 @@
 package hangcow.greatersecurity.common;
 
+import hangcow.greatersecurity.client.GuiDestroyResponce;
+import hangcow.greatersecurity.client.GuiUserAccess;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -7,8 +9,6 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import dark.library.gui.ContainerFake;
 import dark.library.locking.ISpecialAccess;
-import dark.library.locking.prefab.GuiDestroyResponce;
-import dark.library.locking.prefab.GuiUserAccess;
 
 public class CommonProxy implements IGuiHandler
 {

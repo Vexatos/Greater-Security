@@ -31,7 +31,7 @@ public class ItemLockedDoor extends Item
 	@Override
 	public Icon getIconFromDamage(int i)
 	{
-		return this.iconIndex;
+		return this.itemIcon;
 	}
 
 	@Override
@@ -113,8 +113,8 @@ public class ItemLockedDoor extends Item
 			var12 = true;
 		}
 		
-		world.setBlockAndMetadataWithNotify(x, y, z, placeBlock.blockID, angle, 3);
-		world.setBlockAndMetadataWithNotify(x, y + 1, z, placeBlock.blockID, 8 | (var12 ? 1 : 0), 3);
+		world.setBlock(x, y, z, placeBlock.blockID, angle, 3);
+		world.setBlock(x, y + 1, z, placeBlock.blockID, 8 | (var12 ? 1 : 0), 3);
 		
 		world.notifyBlocksOfNeighborChange(x, y, z, placeBlock.blockID);
 		world.notifyBlocksOfNeighborChange(x, y + 1, z, placeBlock.blockID);

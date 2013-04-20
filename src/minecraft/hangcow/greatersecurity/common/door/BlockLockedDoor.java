@@ -26,10 +26,10 @@ import dark.library.locking.AccessLevel;
 public class BlockLockedDoor extends BlockAdvanced
 {
 
-	private static final String[] field_94467_a = new String[] { "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper" };
-	private final int field_94465_b = 2;
+	private static final String[] ICON_NAMES = new String[] { "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper" };
+	private final int doorIconType = 2;
 	@SideOnly(Side.CLIENT)
-	private Icon[] field_94466_c;
+	private Icon[] icons;
 
 	public BlockLockedDoor(int id)
 	{
@@ -42,15 +42,17 @@ public class BlockLockedDoor extends BlockAdvanced
 	}
 
 	@SideOnly(Side.CLIENT)
+	@Override
 	/**
 	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
-	public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+	public Icon getIcon(int par1, int par2)
 	{
-		return this.field_94466_c[this.field_94465_b];
+		return this.icons[this.doorIconType];
 	}
 
 	@SideOnly(Side.CLIENT)
+	@Override
 	/**
 	 * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
 	 */
@@ -108,23 +110,24 @@ public class BlockLockedDoor extends BlockAdvanced
 				}
 			}
 
-			return this.field_94466_c[this.field_94465_b + (flag1 ? field_94467_a.length : 0) + (flag2 ? 1 : 0)];
+			return this.icons[this.doorIconType + (flag1 ? ICON_NAMES.length : 0) + (flag2 ? 1 : 0)];
 		}
 		else
 		{
-			return this.field_94466_c[this.field_94465_b];
+			return this.icons[this.doorIconType];
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94332_a(IconRegister par1IconRegister)
+	@Override
+	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.field_94466_c = new Icon[field_94467_a.length * 2];
+		this.icons = new Icon[ICON_NAMES.length * 2];
 
-		for (int i = 0; i < field_94467_a.length; ++i)
+		for (int i = 0; i < ICON_NAMES.length; ++i)
 		{
-			this.field_94466_c[i] = par1IconRegister.func_94245_a(field_94467_a[i]);
-			this.field_94466_c[i + field_94467_a.length] = new IconFlipped(this.field_94466_c[i], true, false);
+			this.icons[i] = par1IconRegister.registerIcon(ICON_NAMES[i]);
+			this.icons[i + ICON_NAMES.length] = new IconFlipped(this.icons[i], true, false);
 		}
 	}
 
@@ -456,18 +459,18 @@ public class BlockLockedDoor extends BlockAdvanced
 
 			if (world.getBlockId(x, y + 1, z) != this.blockID)
 			{
-				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
+				world.setBlock(x, y, z, 0, 0, 3);
 				shouldRemove = true;
 			}
 
 			if (!world.doesBlockHaveSolidTopSurface(x, y - 1, z))
 			{
-				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
+				world.setBlock(x, y, z, 0, 0, 3);
 				shouldRemove = true;
 
 				if (world.getBlockId(x, y + 1, z) == this.blockID)
 				{
-					world.setBlockAndMetadataWithNotify(x, y + 1, z, 0, 0, 3);
+					world.setBlock(x, y + 1, z, 0, 0, 3);
 				}
 			}
 
@@ -483,7 +486,7 @@ public class BlockLockedDoor extends BlockAdvanced
 		{
 			if (world.getBlockId(x, y - 1, z) != this.blockID)
 			{
-				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
+				world.setBlock(x, y, z, 0, 0, 3);
 			}
 
 			if (blockID > 0 && blockID != this.blockID)
@@ -511,7 +514,7 @@ public class BlockLockedDoor extends BlockAdvanced
 	{
 		if (player.capabilities.isCreativeMode && (meta & 8) != 0 && world.getBlockId(x, y - 1, z) == this.blockID)
 		{
-			world.setBlockAndMetadataWithNotify(x, y - 1, z, 0, 0, 3);
+			world.setBlock(x, y - 1, z, 0, 0, 3);
 		}
 	}
 
