@@ -30,7 +30,7 @@ public class GuiUserAccess extends GuiContainer
 
 	private GuiTextField varType;
 
-	private String texture = "/dark/library/resources/textures/gui/userAccessGui.png";
+	private String texture = GreaterSecurity.GUI_File_PATH + "userAccessGui.png";
 
 	// private IInventory chest;
 	int currentPage = 0;
@@ -188,7 +188,7 @@ public class GuiUserAccess extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		this.mc.renderEngine.getTexture(this.texture);
+		this.mc.renderEngine.bindTexture(this.texture);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int var5 = (this.width - this.xSize) / 2;
 		int var6 = (this.height - this.ySize) / 2;

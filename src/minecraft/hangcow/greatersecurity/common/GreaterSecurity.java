@@ -33,38 +33,44 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * @author CowGod, Darkguardsman
  * 
  */
-@Mod(modid = GreaterSecurity.NAME, name = GreaterSecurity.NAME, version = "0.3.1")
+@Mod(modid = GreaterSecurity.MOD_NAME, name = GreaterSecurity.MOD_NAME, version = "0.3.1")
 // TODO update version #
 @NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class GreaterSecurity
 {
-	private static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), "GreaterSecurity.cfg"));
+	
 
 	@SidedProxy(clientSide = "hangcow.greatersecurity.client.ClientProxy", serverSide = "hangcow.greatersecurity.common.CommonProxy")
 	public static CommonProxy proxy;
 
-	public static final String NAME = "GreaterSecurity";
-	public static final String RESOURCE_PATH = "/hangcow/greatersecurity/resources/";
-	public static final String ITEM_File_PATH = RESOURCE_PATH + "items.png";
-	public static final String BLOCK_File_PATH = RESOURCE_PATH + "blocks.png";
-	public static final String GUI_File_PATH = RESOURCE_PATH + "gui/";
-
+	public static final String MOD_NAME = "Greater Security";
+	public static final String MOD_ID = "GreaterSecurity";
 	public static final String CHANNEL = "GreaterSecurity";
+	
+	public static final String RESOURCE_PATH = "/mods/greatersecurity/";
+	public static final String TEXTURE_PATH = RESOURCE_PATH + "textures/";
+	public static final String ITEM_File_PATH = TEXTURE_PATH + "items/";
+	public static final String BLOCK_File_PATH = TEXTURE_PATH + "blocks/";
+	public static final String MODEL_File_PATH = TEXTURE_PATH + "models/";
+	public static final String GUI_File_PATH = TEXTURE_PATH + "gui/";
+	public static final String TEXTURE_NAME_PREFIX = "greatersecurity:";
 
-	@Instance(NAME)
+	private static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), MOD_ID+".cfg"));
+
+	@Instance(MOD_NAME)
 	public static GreaterSecurity instance;
-	// //Blocks /////
+	/* BLOCKS */
 	public static Block blockLockedChest;
 	public static Block blockLockedDoor;
 
-	// //Items ////
+	/* ITEMS */
 	public static Item itemLock;
 	public static Item itemLockedDoor;
-
 	
+	/* CONFIG VARS */
 	public static Boolean breakChests;
 	public static Boolean breakDoors;
-	
+
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -75,14 +81,13 @@ public class GreaterSecurity
 		config.load();
 		breakChests = config.get(Configuration.CATEGORY_GENERAL, "canBreakChests", true).getBoolean(true);
 		breakChests = config.get(Configuration.CATEGORY_GENERAL, "canBreakDoors", true).getBoolean(true);
-		
+
 		itemLock = new ItemLock(config.getItem(Configuration.CATEGORY_ITEM, "LockItemID", 30007).getInt());
 		itemLockedDoor = new ItemLockedDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());
-		
+
 		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
-		
-		
+
 		config.save();
 
 		// // Registration ////

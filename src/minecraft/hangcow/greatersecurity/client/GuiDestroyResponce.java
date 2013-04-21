@@ -13,6 +13,7 @@ import net.minecraft.util.StringTranslate;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import dark.library.DarkMain;
 import dark.library.gui.ContainerFake;
 
 public class GuiDestroyResponce extends GuiContainer
@@ -65,7 +66,8 @@ public class GuiDestroyResponce extends GuiContainer
 				block.dropBlockAsItem(tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, meta, 0);
 				block.breakBlock(tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, meta, 0);
 			}
-			//tileEntity.worldObj.setBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, 0, 0, 3);
+			// tileEntity.worldObj.setBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord,
+			// 0, 0, 3);
 			this.mc.thePlayer.closeScreen();
 		}
 		if (par1GuiButton.id == 1)// Exit
@@ -111,7 +113,7 @@ public class GuiDestroyResponce extends GuiContainer
 	 */
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		this.mc.renderEngine.getTexture("/dark/library/resources/textures/gui/GuiGrey.png");
+		this.mc.renderEngine.bindTexture(DarkMain.GUI_DIRECTORY + "GuiGrey.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int var5 = (this.width - this.xSize) / 2;
 		int var6 = (this.height - this.ySize) / 2;

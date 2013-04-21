@@ -85,7 +85,7 @@ public class RenderChest extends TileEntitySpecialRenderer
                 }
                 else
                 {
-                    this.bindTextureByName(GreaterSecurity.RESOURCE_PATH+"chest/1XChestRender.png");
+                    this.bindTextureByName(GreaterSecurity.MODEL_File_PATH+"chest/1XChestRender.png");
                 }
             }
             else
@@ -98,7 +98,7 @@ public class RenderChest extends TileEntitySpecialRenderer
                 }
                 else
                 {
-                    this.bindTextureByName(GreaterSecurity.RESOURCE_PATH+"chest/2xChestRender.png");
+                    this.bindTextureByName(GreaterSecurity.MODEL_File_PATH+"chest/2xChestRender.png");
                 }
             }
 

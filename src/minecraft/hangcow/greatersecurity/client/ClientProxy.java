@@ -12,9 +12,6 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInit()
 	{
-		// Preloaded textures
-		MinecraftForgeClient.preloadTexture(GreaterSecurity.ITEM_File_PATH);
-		MinecraftForgeClient.preloadTexture(GreaterSecurity.BLOCK_File_PATH);
 	}
 
 	@Override
