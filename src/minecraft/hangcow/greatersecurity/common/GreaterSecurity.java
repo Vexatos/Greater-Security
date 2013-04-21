@@ -90,10 +90,10 @@ public class GreaterSecurity
 		itemLock = new ItemLock(config.getItem(Configuration.CATEGORY_ITEM, "LockItemID", 30007).getInt());
 		itemLockedDoor = new ItemLockedDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());
 
-		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
-		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
-		blockLaser = new BlockLaser(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1715).getInt());
-		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1716).getInt());
+		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChest", 1777).getInt());
+		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoor", 1714).getInt());
+		blockLaser = new BlockLaser(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserBlock", 1715).getInt());
+		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserFence", 1716).getInt());
 
 		config.save();
 

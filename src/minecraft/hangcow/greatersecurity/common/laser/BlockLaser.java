@@ -2,15 +2,14 @@ package hangcow.greatersecurity.common.laser;
 
 import java.util.Random;
 
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.core.vector.VectorHelper;
 
 public class BlockLaser extends Block
 {
@@ -127,5 +126,23 @@ public class BlockLaser extends Block
 			}
 		}
 
+	}
+
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+
+	@Override
+	public int getRenderType()
+	{
+		return -1;
 	}
 }
