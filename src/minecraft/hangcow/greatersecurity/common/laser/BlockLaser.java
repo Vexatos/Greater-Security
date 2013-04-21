@@ -7,6 +7,8 @@ import universalelectricity.core.vector.VectorHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -17,6 +19,14 @@ public class BlockLaser extends Block
 	{
 		super(par1, Material.air);
 		this.setTickRandomly(true);
+		this.setBlockUnbreakable();
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		// TODO maybe toy with this to have a decay factor or different light levels by color
+		return 7;
 	}
 
 	@Override
@@ -35,6 +45,24 @@ public class BlockLaser extends Block
 	public int tickRate(World par1World)
 	{
 		return 1;
+	}
+
+	@Override
+	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int metadata)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isBlockReplaceable(World world, int x, int y, int z)
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
+	{
+		return false;
 	}
 
 	@Override

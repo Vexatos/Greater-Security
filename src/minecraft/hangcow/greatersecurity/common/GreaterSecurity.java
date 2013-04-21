@@ -5,6 +5,8 @@ import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
+import hangcow.greatersecurity.common.laser.BlockLaser;
+import hangcow.greatersecurity.common.laser.BlockLaserFence;
 
 import java.io.File;
 
@@ -62,6 +64,8 @@ public class GreaterSecurity
 	/* BLOCKS */
 	public static Block blockLockedChest;
 	public static Block blockLockedDoor;
+	public static Block blockLaser;
+	public static Block blockLaserFence;
 
 	/* ITEMS */
 	public static Item itemLock;
@@ -87,6 +91,8 @@ public class GreaterSecurity
 
 		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChestID", 1777).getInt());
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1714).getInt());
+		blockLaser = new BlockLaser(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1715).getInt());
+		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoorID", 1716).getInt());
 
 		config.save();
 

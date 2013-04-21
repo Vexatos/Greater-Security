@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.prefab.block.BlockAdvanced;
 import dark.library.locking.AccessLevel;
@@ -28,10 +29,11 @@ public class BlockLaserFence extends BlockAdvanced
 			if (fence.canAccess(entityPlayer))
 			{
 				int meta = world.getBlockMetadata(x, y, z);
-				if(meta > 5)
+				if (meta > 5)
 				{
 					meta = meta % 6;
-				}else
+				}
+				else
 				{
 					meta += 6;
 				}
@@ -53,16 +55,22 @@ public class BlockLaserFence extends BlockAdvanced
 		}
 		return this.onUseWrench(world, x, y, z, entityPlayer, side, hitX, hitY, hitZ);
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack stack)
 	{
-		
+
 		if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence && entityLiving instanceof EntityPlayer)
 		{
 			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
 			fence.addUserAccess(new UserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true), !world.isRemote);
 		}
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world)
+	{
+		return new TileEntityLaserFence();
 	}
 
 }
