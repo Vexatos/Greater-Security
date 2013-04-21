@@ -18,7 +18,6 @@
 		</copy>
         
         <mkdir dir="download" />
-        <mkdir dir="download/cc" />
         
         <get src="https://github.com/DarkGuardsman/Dark-Library/archive/master.zip" dest="download" usetimestamp="True"/>
         <unzip dest="download/unzip/.." src="download/master.zip"/>
