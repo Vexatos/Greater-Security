@@ -39,7 +39,10 @@ public class BlockLaserFence extends BlockAdvanced
 				{
 					meta += 6;
 				}
+				world.setBlockMetadataWithNotify(x, y, z, meta, 3);
 			}
+			
+
 		}
 		return false;
 	}
@@ -52,7 +55,16 @@ public class BlockLaserFence extends BlockAdvanced
 			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
 			if (fence.canAccess(entityPlayer))
 			{
-				// open setting gui
+				int meta = world.getBlockMetadata(x, y, z);
+				if (meta > 5)
+				{
+					meta = side + 6;
+				}
+				else
+				{
+					meta = side;
+				}
+				world.setBlockMetadataWithNotify(x, y, z, meta, 3);
 			}
 		}
 		return this.onUseWrench(world, x, y, z, entityPlayer, side, hitX, hitY, hitZ);
@@ -61,11 +73,13 @@ public class BlockLaserFence extends BlockAdvanced
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack stack)
 	{
-
-		if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence && entityLiving instanceof EntityPlayer)
+		if (!world.isRemote)
 		{
-			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
-			fence.addUserAccess(new UserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true), !world.isRemote);
+			if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence && entityLiving instanceof EntityPlayer)
+			{
+				TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
+				fence.addUserAccess(new UserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true), !world.isRemote);
+			}
 		}
 	}
 
@@ -75,4 +89,21 @@ public class BlockLaserFence extends BlockAdvanced
 		return new TileEntityLaserFence();
 	}
 
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+
+	@Override
+	public int getRenderType()
+	{
+		return -1;
+	}
 }

@@ -15,7 +15,7 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 	public void updateEntity()
 	{
 		super.updateEntity();
-		if (!worldObj.isRemote) // TODO add power check
+		if (!worldObj.isRemote && this.ticks % 10 == 0) // TODO add power check
 		{
 			Vector3 vec = new Vector3(this);
 			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
@@ -46,10 +46,14 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 				/* UPDATE OR CHECK LASER PATH */
 				for (int i = 1; i < TileEntityLaserFence.MAX_LASER_RANGE; i++)
 				{
-					Vector3 loc = vec.modifyPositionFromSide(this.getFacingDirection(), i);
+					Vector3 loc = vec.clone().modifyPositionFromSide(this.getFacingDirection().getOpposite(), i);
 					int blockID = loc.getBlockID(this.worldObj);
 					Block block = Block.blocksList[blockID];
 					boolean place = false;
+					if(blockID == this.getBlockType().blockID)
+					{
+						break;
+					}
 					if (blockID == 0)
 					{
 						place = true;
@@ -65,7 +69,8 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 
 					if (place)
 					{
-						loc.setBlock(worldObj, GreaterSecurity.blockLaser.blockID, laserMeta);
+						// GreaterSecurity.blockLaser.blockID
+						loc.setBlock(worldObj, Block.cloth.blockID, laserMeta);
 					}
 				}
 			}
