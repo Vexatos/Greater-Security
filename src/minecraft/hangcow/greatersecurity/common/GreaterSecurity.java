@@ -7,6 +7,7 @@ import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
 import hangcow.greatersecurity.common.laser.BlockLaser;
 import hangcow.greatersecurity.common.laser.BlockLaserFence;
+import hangcow.greatersecurity.common.laser.TileEntityLaserFence;
 
 import java.io.File;
 
@@ -99,6 +100,8 @@ public class GreaterSecurity
 		// // Registration ////
 		GameRegistry.registerBlock(blockLockedChest, "gsChest");
 		GameRegistry.registerBlock(blockLockedDoor, "gsDoor");
+		GameRegistry.registerBlock(blockLaser, "gsLaserWall");
+		GameRegistry.registerBlock(blockLaserFence, "gsLaserFence");
 
 		proxy.preInit();
 
@@ -111,6 +114,7 @@ public class GreaterSecurity
 		// // Register ////
 		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "LChest");
 		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "LDoor");
+		GameRegistry.registerTileEntity(TileEntityLaserFence.class, "LaserFence");
 
 		// // Block Names ////
 		LanguageRegistry.addName(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), "WoodenChest");

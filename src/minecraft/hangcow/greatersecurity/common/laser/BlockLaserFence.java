@@ -1,6 +1,7 @@
 package hangcow.greatersecurity.common.laser;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ public class BlockLaserFence extends BlockAdvanced
 		super(id, Material.iron);
 		this.setHardness(20f);
 		this.setResistance(100f);
+		this.setCreativeTab(CreativeTabs.tabRedstone);
 	}
 
 	@Override
