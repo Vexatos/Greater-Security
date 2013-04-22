@@ -35,6 +35,7 @@ public class FXBeam extends EntityFX
 	private boolean pulse = false;
 	private int rotationSpeed = 20;
 	private float prevSize = 0.0F;
+	private float beamD = 0.08f;
 
 	public FXBeam(World par1World, Vector3 position, Vector3 target, float red, float green, float blue, int age)
 	{
@@ -120,7 +121,7 @@ public class FXBeam extends EntityFX
 		float slide = this.worldObj.getTotalWorldTime();
 		float rot = this.worldObj.provider.getWorldTime() % (360 / this.rotationSpeed) * this.rotationSpeed + this.rotationSpeed * f;
 
-		float size = 0.5F;
+		float size = 1.0F;
 		if (this.pulse)
 		{
 			size = Math.min(this.particleAge / 4.0F, 1.0F);
@@ -160,10 +161,10 @@ public class FXBeam extends EntityFX
 		GL11.glRotatef(180.0F + ry, 0.0F, 0.0F, -1.0F);
 		GL11.glRotatef(rp, 1.0F, 0.0F, 0.0F);
 
-		double var44 = -0.15D * size;
-		double var17 = 0.15D * size;
-		double var44b = -0.15D * size * this.endModifier;
-		double var17b = 0.15D * size * this.endModifier;
+		double var44 = -beamD * size;
+		double var17 = beamD * size;
+		double var44b = -beamD * size * this.endModifier;
+		double var17b = beamD * size * this.endModifier;
 
 		GL11.glRotatef(rot, 0.0F, 1.0F, 0.0F);
 		for (int t = 0; t < 3; t++)
