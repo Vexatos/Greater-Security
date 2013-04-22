@@ -35,7 +35,6 @@ public class FXBeam extends EntityFX
 	private boolean pulse = false;
 	private int rotationSpeed = 20;
 	private float prevSize = 0.0F;
-	private float beamSize = 0.5F;
 
 	public FXBeam(World par1World, Vector3 position, Vector3 target, float red, float green, float blue, int age)
 	{
@@ -121,11 +120,11 @@ public class FXBeam extends EntityFX
 		float slide = this.worldObj.getTotalWorldTime();
 		float rot = this.worldObj.provider.getWorldTime() % (360 / this.rotationSpeed) * this.rotationSpeed + this.rotationSpeed * f;
 
-		
+		float size = 0.5F;
 		if (this.pulse)
 		{
-			beamSize = Math.min(this.particleAge / 4.0F, 1.0F);
-			beamSize = this.prevSize + (beamSize - this.prevSize) * f;
+			size = Math.min(this.particleAge / 4.0F, 1.0F);
+			size = this.prevSize + (size - this.prevSize) * f;
 		}
 
 		float op = 0.5F;
@@ -161,19 +160,19 @@ public class FXBeam extends EntityFX
 		GL11.glRotatef(180.0F + ry, 0.0F, 0.0F, -1.0F);
 		GL11.glRotatef(rp, 1.0F, 0.0F, 0.0F);
 
-		double var44 = -0.15D * beamSize;
-		double var17 = 0.15D * beamSize;
-		double var44b = -0.15D * beamSize * this.endModifier;
-		double var17b = 0.15D * beamSize * this.endModifier;
+		double var44 = -0.15D * size;
+		double var17 = 0.15D * size;
+		double var44b = -0.15D * size * this.endModifier;
+		double var17b = 0.15D * size * this.endModifier;
 
 		GL11.glRotatef(rot, 0.0F, 1.0F, 0.0F);
 		for (int t = 0; t < 3; t++)
 		{
-			double var29 = this.length * beamSize * var9;
+			double var29 = this.length * size * var9;
 			double var31 = 0.0D;
 			double var33 = 1.0D;
 			double var35 = -1.0F + var12 + t / 3.0F;
-			double var37 = this.length * beamSize * var9 + var35;
+			double var37 = this.length * size * var9 + var35;
 
 			GL11.glRotatef(60.0F, 0.0F, 1.0F, 0.0F);
 			tessellator.startDrawingQuads();
@@ -194,7 +193,7 @@ public class FXBeam extends EntityFX
 		GL11.glPopMatrix();
 
 		tessellator.startDrawingQuads();
-		this.prevSize = beamSize;
+		this.prevSize = size;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture("/particles.png");
 	}
