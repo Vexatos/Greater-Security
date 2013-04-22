@@ -1,21 +1,26 @@
 package hangcow.greatersecurity.common.laser;
 
-import java.awt.Color;
-
-import org.lwjgl.opengl.GL11;
-
-import universalelectricity.core.vector.Vector3;
 import hangcow.greatersecurity.common.GreaterSecurity;
+
+import java.awt.Color;
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlower;
+import net.minecraft.block.BlockFluid;
+import net.minecraft.block.BlockMushroom;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.vector.Vector3;
 import dark.library.locking.ISpecialAccess;
 import dark.library.locking.prefab.TileEntityElectricLockable;
 
 public class TileEntityLaserFence extends TileEntityElectricLockable implements ISpecialAccess
 {
 	public static final int MAX_LASER_RANGE = 10;
-	public static final int UPDATE_RATE = 20;
-	int placeID = GreaterSecurity.blockLaser.blockID;
+	public static final int UPDATE_RATE = 3;
 
 	private Color beamColor = Color.red;
 
@@ -40,10 +45,6 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 				this.deployGrid(gridSize);
 			}
 		}
-		else
-		{
-			this.removeGrid();
-		}
 	}
 
 	public boolean canDeployGrid(int gridSize)
@@ -52,10 +53,7 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 		{
 			for (int blockDistance = 1; blockDistance < gridSize; blockDistance++)
 			{
-				Vector3 loc = fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockDistance);
-				int blockID = loc.getBlockID(this.worldObj);
-
-				if (blockID != 0 && blockID != placeID)
+				if (!this.canRenderThrew(fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockDistance)))
 				{
 					// System.out.println("Can't create lasers :: "+loc.toString());
 					return false;
@@ -65,6 +63,28 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 		}
 		// System.out.println("Can create lasers");
 		return true;
+	}
+
+	public boolean canRenderThrew(Vector3 vec)
+	{
+		int blockID = vec.getBlockID(this.worldObj);
+		Block block = Block.blocksList[blockID];
+		
+		if (blockID != 0)
+			return true;
+		if (blockID != Block.fire.blockID)
+			return true;
+		if (blockID != Block.tallGrass.blockID)
+			return true;
+		if (blockID != Block.blockSnow.blockID)
+			return true;
+		if(block != null)
+		{
+			if(block instanceof BlockFlower) return true;
+			if(block instanceof BlockMushroom) return true;
+			if(block instanceof BlockFluid) return true;
+		}
+		return false;
 	}
 
 	/**
@@ -100,18 +120,15 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 	{
 		if (!worldObj.isRemote)
 		{
-			for (int blockPlacement = 1; blockPlacement < gridLength; blockPlacement++)
+			Vector3 end = new Vector3(this.xCoord, this.yCoord, this.zCoord).modifyPositionFromSide(this.getFacingDirection(), gridLength);
+			List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, end.x, end.y, end.z));
+			for (EntityLiving entity : entities)
 			{
-				Vector3 loc = this.fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockPlacement);
-				int blockID = loc.getBlockID(this.worldObj);
-
-				if (blockID == 0)
+				if (entity != null && !entity.isDead)
 				{
-					loc.setBlock(worldObj, placeID);
-				}
-				else
-				{
-					break;
+					entity.addVelocity(-entity.motionX, -entity.motionY, -entity.motionZ);
+					entity.attackEntityFrom(DamageSource.onFire, 40);
+					entity.setFire(5);
 				}
 			}
 		}
@@ -119,114 +136,93 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 		{
 
 			ForgeDirection direction = this.getFacingDirection();
-			
+
 			Vector3 start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
 			Vector3 end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 			Vector3 change = new Vector3(0, 0, 0.28125);
-			
+
 			if (direction == ForgeDirection.DOWN)
 			{
 				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.75, this.zCoord + 0.25);
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0, 0, 0.28125);
-				
+
 				if (this.isRotated())
 				{
 					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.75, this.zCoord + 0.5);
 					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 					change = new Vector3(0.28125, 0, 0);
-				}				
+				}
 			}
 			else if (direction == ForgeDirection.UP)
 			{
 				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0, 0, 0.28125);
-				
+
 				if (this.isRotated())
 				{
 					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
 					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 					change = new Vector3(0.28125, 0, 0);
-				}				
+				}
 			}
 			else if (direction == ForgeDirection.EAST)
 			{
 				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0, 0.28125, 0);
-				
+
 				if (this.isRotated())
 				{
 					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.25);
 					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 					change = new Vector3(0, 0, 0.28125);
-				}	
+				}
 			}
 			else if (direction == ForgeDirection.WEST)
 			{
 				start = new Vector3(this.xCoord + 0.75, this.yCoord + 0.25, this.zCoord + 0.5);
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0, 0.28125, 0);
-				
+
 				if (this.isRotated())
 				{
 					start = new Vector3(this.xCoord + 0.75, this.yCoord + 0.5, this.zCoord + 0.25);
 					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 					change = new Vector3(0, 0, 0.28125);
-				}	
+				}
 			}
 			else if (direction == ForgeDirection.NORTH)
 			{
 				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.75);
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0, 0.28125, 0);
-				
+
 				if (this.isRotated())
 				{
 					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.75);
 					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 					change = new Vector3(0.28125, 0, 0);
-				}	
+				}
 			}
 			else if (direction == ForgeDirection.SOUTH)
 			{
 				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0, 0.28125, 0);
-				
+
 				if (this.isRotated())
 				{
 					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.25);
 					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 					change = new Vector3(0.28125, 0, 0);
-				}	
+				}
 			}
-			
+
 			GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
 			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
 			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
-		}
-	}
-
-	/**
-	 * Removes the laser grid on shutdown
-	 */
-	public void removeGrid()
-	{
-		for (int blockPlacement = 0; blockPlacement < this.MAX_LASER_RANGE; blockPlacement++)
-		{
-			Vector3 loc = this.fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockPlacement);
-			int blockID = loc.getBlockID(this.worldObj);
-
-			if (blockID == placeID)
-			{
-				loc.setBlock(worldObj, 0);
-			}
-			else
-			{
-				break;
-			}
 		}
 	}
 

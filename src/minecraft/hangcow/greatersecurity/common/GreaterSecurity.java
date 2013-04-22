@@ -5,7 +5,6 @@ import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
-import hangcow.greatersecurity.common.laser.BlockLaser;
 import hangcow.greatersecurity.common.laser.BlockLaserFence;
 import hangcow.greatersecurity.common.laser.TileEntityLaserFence;
 
@@ -65,7 +64,6 @@ public class GreaterSecurity
 	/* BLOCKS */
 	public static Block blockLockedChest;
 	public static Block blockLockedDoor;
-	public static Block blockLaser;
 	public static Block blockLaserFence;
 
 	/* ITEMS */
@@ -92,15 +90,13 @@ public class GreaterSecurity
 
 		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChest", 1777).getInt());
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoor", 1714).getInt());
-		blockLaser = new BlockLaser(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserBlock", 1715).getInt());
-		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserFence", 1716).getInt());
+		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserFence", 1715).getInt());
 
 		config.save();
 
 		// // Registration ////
 		GameRegistry.registerBlock(blockLockedChest, "gsChest");
 		GameRegistry.registerBlock(blockLockedDoor, "gsDoor");
-		GameRegistry.registerBlock(blockLaser, "gsLaserWall");
 		GameRegistry.registerBlock(blockLaserFence, "gsLaserFence");
 
 		proxy.preInit();
