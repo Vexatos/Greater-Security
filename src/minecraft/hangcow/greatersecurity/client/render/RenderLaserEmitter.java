@@ -44,22 +44,48 @@ public class RenderLaserEmitter extends TileEntitySpecialRenderer
 		else if (direction == ForgeDirection.DOWN)
 		{
 			GL11.glRotatef(90f, 1f, 0f, 0f);
+			GL11.glTranslatef(0f, -1f, -1f);
+			if (rotate)
+			{
+				GL11.glRotatef(90f, 0f, 0f, 1f);
+				GL11.glTranslatef(1f, -1f, 0f);
+			}
 		}
 		else if (direction == ForgeDirection.EAST)
 		{
 			GL11.glRotatef(90f, 0f, 1f, 0f);
+			if (rotate)
+			{
+				GL11.glRotatef(90f, 0f, 0f, 1f);
+				GL11.glTranslatef(1f, -1f, 0f);
+			}
 		}
 		else if (direction == ForgeDirection.WEST)
 		{
 			GL11.glRotatef(270f, 0f, 1f, 0f);
+			if (rotate)
+			{
+				GL11.glRotatef(90f, 0f, 0f, 1f);
+				GL11.glTranslatef(1f, -1f, 0f);
+			}
 		}
 		else if (direction == ForgeDirection.NORTH)
 		{
 			GL11.glRotatef(0f, 0f, 1f, 0f);
+			if (rotate)
+			{
+				GL11.glRotatef(90f, 0f, 0f, 1f);
+				GL11.glTranslatef(1f, -1f, 0f);
+			}
 		}
 		else if (direction == ForgeDirection.SOUTH)
 		{
 			GL11.glRotatef(180f, 0f, 1f, 0f);
+			if (rotate)
+			{
+				GL11.glRotatef(90f, 0f, 0f, 1f);
+				GL11.glTranslatef(1f, -1f, 0f);
+			}
 		}
 
 		model.render(0.0625F);
