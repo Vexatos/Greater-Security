@@ -1,5 +1,9 @@
 package hangcow.greatersecurity.common.laser;
 
+import java.awt.Color;
+
+import org.lwjgl.opengl.GL11;
+
 import universalelectricity.core.vector.Vector3;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.Block;
@@ -10,73 +14,198 @@ import dark.library.locking.prefab.TileEntityElectricLockable;
 public class TileEntityLaserFence extends TileEntityElectricLockable implements ISpecialAccess
 {
 	public static final int MAX_LASER_RANGE = 10;
+	public static final int UPDATE_RATE = 20;
+	int placeID = GreaterSecurity.blockLaser.blockID;
+
+	private Color beamColor = Color.red;
+
+	Vector3 fenceLocation = null;
 
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
-		if (!worldObj.isRemote && this.ticks % 10 == 0) // TODO add power check
+
+		if (fenceLocation == null)
 		{
-			Vector3 vec = new Vector3(this);
-			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+			fenceLocation = new Vector3(this);
+		}
+
+		if (this.ticks % UPDATE_RATE == 0) // TODO add power check
+		{
+			int gridSize = this.getGridSize();
+			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize))
 			{
-				/* GET LASER BLOCK META PLACEMENT */
-				int laserMeta = 0;
-				int laserRotation = 1;
-				if (vec.getBlockMetadata(worldObj) > 5)
-				{
-					laserRotation = 2;
-				}
-				switch (this.getFacingDirection().ordinal())
-				{
-					case 0:
-					case 1:
-						laserMeta = 0 * laserRotation;
-						break;
-					case 2:
-					case 3:
-						laserMeta = 1 * laserRotation;
-						break;
-					case 4:
-					case 5:
-						laserMeta = 2 * laserRotation;
-						break;
-				}
+				// System.out.println("Creating Lasers");
+				this.deployGrid(gridSize);
+			}
+		}
+		else
+		{
+			this.removeGrid();
+		}
+	}
 
-				/* UPDATE OR CHECK LASER PATH */
-				for (int i = 1; i < TileEntityLaserFence.MAX_LASER_RANGE; i++)
-				{
-					Vector3 loc = vec.clone().modifyPositionFromSide(this.getFacingDirection().getOpposite(), i);
-					int blockID = loc.getBlockID(this.worldObj);
-					Block block = Block.blocksList[blockID];
-					boolean place = false;
-					if(blockID == this.getBlockType().blockID)
-					{
-						break;
-					}
-					if (blockID == 0)
-					{
-						place = true;
-					}
-					else if (blockID == GreaterSecurity.blockLaser.blockID && loc.getBlockMetadata(worldObj) != laserMeta)
-					{
-						place = true;
-					}
-					else if (block != null && block.isBlockReplaceable(worldObj, loc.intX(), loc.intY(), loc.intZ()))
-					{
-						place = true;
-					}
+	public boolean canDeployGrid(int gridSize)
+	{
+		if (gridSize > 1)
+		{
+			for (int blockDistance = 1; blockDistance < gridSize; blockDistance++)
+			{
+				Vector3 loc = fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockDistance);
+				int blockID = loc.getBlockID(this.worldObj);
 
-					if (place)
-					{
-						// GreaterSecurity.blockLaser.blockID
-						loc.setBlock(worldObj, Block.cloth.blockID, laserMeta);
-					}
+				if (blockID != 0 && blockID != placeID)
+				{
+					// System.out.println("Can't create lasers :: "+loc.toString());
+					return false;
+
 				}
+			}
+		}
+		// System.out.println("Can create lasers");
+		return true;
+	}
+
+	/**
+	 * Gets the max size of the laser grid
+	 * 
+	 * @return zero if grid can't be created too a size.
+	 */
+	public int getGridSize()
+	{
+		for (int tileDistance = TileEntityLaserFence.MAX_LASER_RANGE; tileDistance > 1; tileDistance--)
+		{
+			Vector3 tileLoc = fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), tileDistance);
+
+			if (tileLoc.getTileEntity(worldObj) instanceof TileEntityLaserFence)
+			{
+				TileEntityLaserFence fence = (TileEntityLaserFence) tileLoc.getTileEntity(worldObj);
+				if (fence.getFacingDirection() == this.getFacingDirection().getOpposite() && fence.isRotated() == this.isRotated())
+				{
+					return tileDistance;
+				}
+			}
+
+		}
+		return 0;
+	}
+
+	/**
+	 * Creates or renews the laser grid by size
+	 * 
+	 * @param gridLength - size of laser grid from emitter
+	 */
+	public void deployGrid(int gridLength)
+	{
+		if (!worldObj.isRemote)
+		{
+			for (int blockPlacement = 1; blockPlacement < gridLength; blockPlacement++)
+			{
+				Vector3 loc = this.fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockPlacement);
+				int blockID = loc.getBlockID(this.worldObj);
+
+				if (blockID == 0)
+				{
+					loc.setBlock(worldObj, placeID);
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			
+			ForgeDirection direction = this.getFacingDirection();
+			if (direction == ForgeDirection.DOWN)
+			{
+				if (this.isRotated())
+				{
+
+				}else
+				{
+					
+				}
+			}
+			else if (direction == ForgeDirection.UP)
+			{
+				if (this.isRotated())
+				{
+
+				}else
+				{
+					Vector3 start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.2);
+					Vector3 end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength+1.5);
+					Vector3 change = new Vector3(0,0,0.28125);
+					
+					GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
+					
+					
+					
+					GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
+					
+					
+					
+					GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
+				}
+			}
+			else if (direction == ForgeDirection.EAST)
+			{
+				if (this.isRotated())
+				{
+
+				}
+			}
+			else if (direction == ForgeDirection.WEST)
+			{
+				if (this.isRotated())
+				{
+
+				}
+			}
+			else if (direction == ForgeDirection.NORTH)
+			{
+				if (this.isRotated())
+				{
+
+				}
+			}
+			else if (direction == ForgeDirection.SOUTH)
+			{
+				if (this.isRotated())
+				{
+
+				}
+			}			
+		}
+	}
+
+	/**
+	 * Removes the laser grid on shutdown
+	 */
+	public void removeGrid()
+	{
+		for (int blockPlacement = 0; blockPlacement < this.MAX_LASER_RANGE; blockPlacement++)
+		{
+			Vector3 loc = this.fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockPlacement);
+			int blockID = loc.getBlockID(this.worldObj);
+
+			if (blockID == placeID)
+			{
+				loc.setBlock(worldObj, 0);
+			}
+			else
+			{
+				break;
 			}
 		}
 	}
 
+	/**
+	 * Gets the direction this tile faces for rendering
+	 */
 	public ForgeDirection getFacingDirection()
 	{
 		int meta = 0;
@@ -85,6 +214,20 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 			meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) % 6;
 		}
 		return ForgeDirection.getOrientation(meta);
+	}
+
+	/**
+	 * is this block rotated on its facing side
+	 * 
+	 * @return true if its been rotated 90 degrees more than normal
+	 */
+	public boolean isRotated()
+	{
+		if (worldObj != null)
+		{
+			return worldObj.getBlockMetadata(xCoord, yCoord, zCoord) > 5;
+		}
+		return false;
 	}
 
 	@Override

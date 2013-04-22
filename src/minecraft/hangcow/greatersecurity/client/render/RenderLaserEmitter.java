@@ -31,7 +31,7 @@ public class RenderLaserEmitter extends TileEntitySpecialRenderer
 
 		ForgeDirection direction = ForgeDirection.getOrientation(meta);
 
-		if (direction == ForgeDirection.UP)
+		if (direction == ForgeDirection.DOWN)
 		{
 			GL11.glRotatef(-90f, 1f, 0f, 0f);
 			GL11.glTranslatef(0f, -1f, 1f);
@@ -41,7 +41,7 @@ public class RenderLaserEmitter extends TileEntitySpecialRenderer
 				GL11.glTranslatef(1f, -1f, 0f);
 			}
 		}
-		else if (direction == ForgeDirection.DOWN)
+		else if (direction == ForgeDirection.UP)
 		{
 			GL11.glRotatef(90f, 1f, 0f, 0f);
 			GL11.glTranslatef(0f, -1f, -1f);
