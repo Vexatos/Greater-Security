@@ -117,39 +117,38 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 		}
 		else
 		{
-			
+
 			ForgeDirection direction = this.getFacingDirection();
+			
+			Vector3 start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
+			Vector3 end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			Vector3 change = new Vector3(0, 0, 0.28125);
+			
 			if (direction == ForgeDirection.DOWN)
 			{
+				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.75, this.zCoord + 0.25);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0, 0, 0.28125);
+				
 				if (this.isRotated())
 				{
-
-				}else
-				{
-					
-				}
+					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.75, this.zCoord + 0.5);
+					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+					change = new Vector3(0.28125, 0, 0);
+				}				
 			}
 			else if (direction == ForgeDirection.UP)
 			{
+				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0, 0, 0.28125);
+				
 				if (this.isRotated())
 				{
-
-				}else
-				{
-					Vector3 start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.2);
-					Vector3 end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength+1.5);
-					Vector3 change = new Vector3(0,0,0.28125);
-					
-					GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
-					
-					
-					
-					GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
-					
-					
-					
-					GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
-				}
+					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
+					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+					change = new Vector3(0.28125, 0, 0);
+				}				
 			}
 			else if (direction == ForgeDirection.EAST)
 			{
@@ -178,7 +177,11 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 				{
 
 				}
-			}			
+			}
+			
+			GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
+			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
+			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
 		}
 	}
 
