@@ -69,7 +69,7 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 	{
 		int blockID = vec.getBlockID(this.worldObj);
 		Block block = Block.blocksList[blockID];
-		
+
 		if (blockID != 0)
 			return true;
 		if (blockID != Block.fire.blockID)
@@ -78,11 +78,14 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 			return true;
 		if (blockID != Block.blockSnow.blockID)
 			return true;
-		if(block != null)
+		if (block != null)
 		{
-			if(block instanceof BlockFlower) return true;
-			if(block instanceof BlockMushroom) return true;
-			if(block instanceof BlockFluid) return true;
+			if (block instanceof BlockFlower)
+				return true;
+			if (block instanceof BlockMushroom)
+				return true;
+			if (block instanceof BlockFluid)
+				return true;
 		}
 		return false;
 	}
@@ -118,10 +121,104 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 	 */
 	public void deployGrid(int gridLength)
 	{
+		gridLength = Math.abs(gridLength);
+		ForgeDirection direction = this.getFacingDirection();
+
+		Vector3 start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
+		Vector3 end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+		Vector3 change = new Vector3(0, 0, 0.28125);
+
+		if (direction == ForgeDirection.DOWN)
+		{
+			start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.75, this.zCoord + 0.25);
+			end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			change = new Vector3(0, 0, 0.28125);
+
+			if (this.isRotated())
+			{
+				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.75, this.zCoord + 0.5);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0.28125, 0, 0);
+			}
+		}
+		else if (direction == ForgeDirection.UP)
+		{
+			start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
+			end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			change = new Vector3(0, 0, 0.28125);
+
+			if (this.isRotated())
+			{
+				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0.28125, 0, 0);
+			}
+		}
+		else if (direction == ForgeDirection.EAST)
+		{
+			start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
+			end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			change = new Vector3(0, 0.28125, 0);
+
+			if (this.isRotated())
+			{
+				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.25);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0, 0, 0.28125);
+			}
+		}
+		else if (direction == ForgeDirection.WEST)
+		{
+			start = new Vector3(this.xCoord + 0.75, this.yCoord + 0.25, this.zCoord + 0.5);
+			end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			change = new Vector3(0, 0.28125, 0);
+
+			if (this.isRotated())
+			{
+				start = new Vector3(this.xCoord + 0.75, this.yCoord + 0.5, this.zCoord + 0.25);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0, 0, 0.28125);
+			}
+		}
+		else if (direction == ForgeDirection.NORTH)
+		{
+			start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.75);
+			end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			change = new Vector3(0, 0.28125, 0);
+
+			if (this.isRotated())
+			{
+				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.75);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0.28125, 0, 0);
+			}
+		}
+		else if (direction == ForgeDirection.SOUTH)
+		{
+			start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
+			end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+			change = new Vector3(0, 0.28125, 0);
+
+			if (this.isRotated())
+			{
+				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.25);
+				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
+				change = new Vector3(0.28125, 0, 0);
+			}
+		} 
+		
 		if (!worldObj.isRemote)
 		{
-			Vector3 end = new Vector3(this.xCoord, this.yCoord, this.zCoord).modifyPositionFromSide(this.getFacingDirection(), gridLength);
-			List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, end.x, end.y, end.z));
+			end = end.clone().add(change).add(change);
+			List<EntityLiving> entities;
+				entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
+						start.x < end.x ? start.x : end.x,
+						start.y < end.y ? start.y : end.y,
+						start.z < end.z ? start.z : end.z,
+										
+						start.x > end.x ? start.x : end.x,
+						start.y > end.y ? start.y : end.y,
+						start.z > end.z ? start.z : end.z));
 			for (EntityLiving entity : entities)
 			{
 				if (entity != null && !entity.isDead)
@@ -135,92 +232,8 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 		else
 		{
 
-			ForgeDirection direction = this.getFacingDirection();
-
-			Vector3 start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
-			Vector3 end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-			Vector3 change = new Vector3(0, 0, 0.28125);
-
-			if (direction == ForgeDirection.DOWN)
-			{
-				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.75, this.zCoord + 0.25);
-				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-				change = new Vector3(0, 0, 0.28125);
-
-				if (this.isRotated())
-				{
-					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.75, this.zCoord + 0.5);
-					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-					change = new Vector3(0.28125, 0, 0);
-				}
-			}
-			else if (direction == ForgeDirection.UP)
-			{
-				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
-				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-				change = new Vector3(0, 0, 0.28125);
-
-				if (this.isRotated())
-				{
-					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
-					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-					change = new Vector3(0.28125, 0, 0);
-				}
-			}
-			else if (direction == ForgeDirection.EAST)
-			{
-				start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.25, this.zCoord + 0.5);
-				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-				change = new Vector3(0, 0.28125, 0);
-
-				if (this.isRotated())
-				{
-					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.25);
-					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-					change = new Vector3(0, 0, 0.28125);
-				}
-			}
-			else if (direction == ForgeDirection.WEST)
-			{
-				start = new Vector3(this.xCoord + 0.75, this.yCoord + 0.25, this.zCoord + 0.5);
-				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-				change = new Vector3(0, 0.28125, 0);
-
-				if (this.isRotated())
-				{
-					start = new Vector3(this.xCoord + 0.75, this.yCoord + 0.5, this.zCoord + 0.25);
-					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-					change = new Vector3(0, 0, 0.28125);
-				}
-			}
-			else if (direction == ForgeDirection.NORTH)
-			{
-				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.75);
-				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-				change = new Vector3(0, 0.28125, 0);
-
-				if (this.isRotated())
-				{
-					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.75);
-					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-					change = new Vector3(0.28125, 0, 0);
-				}
-			}
-			else if (direction == ForgeDirection.SOUTH)
-			{
-				start = new Vector3(this.xCoord + 0.5, this.yCoord + 0.25, this.zCoord + 0.25);
-				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-				change = new Vector3(0, 0.28125, 0);
-
-				if (this.isRotated())
-				{
-					start = new Vector3(this.xCoord + 0.25, this.yCoord + 0.5, this.zCoord + 0.25);
-					end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
-					change = new Vector3(0.28125, 0, 0);
-				}
-			}
-
 			GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
+			//GreaterSecurity.proxy.renderBeam(worldObj, start, end.clone().add(change).add(change), Color.BLUE, UPDATE_RATE);
 			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
 			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
 		}
