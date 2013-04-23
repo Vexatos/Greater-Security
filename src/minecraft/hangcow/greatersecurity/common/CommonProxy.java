@@ -13,6 +13,7 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
 import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.gui.ContainerFake;
+import dark.library.terminal.TileEntityTerminal;
 
 public class CommonProxy implements IGuiHandler
 {
@@ -45,7 +46,7 @@ public class CommonProxy implements IGuiHandler
 			switch (ID)
 			{
 				case USERACCESS_GUI:
-					return new GuiUserAccess(tileEntity, player, (ISpecialAccess) tileEntity, showBreakButton);
+					return new GuiUserAccess(player, (TileEntityTerminal)tileEntity, showBreakButton);
 				case YES_NO_GUI:
 					return new GuiDestroyResponce(player, (TileEntityLockedChest) tileEntity);
 			}

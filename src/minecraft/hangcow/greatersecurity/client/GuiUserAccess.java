@@ -19,12 +19,14 @@ import org.lwjgl.opengl.GL11;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 import dark.library.access.interfaces.ISpecialAccess;
+import dark.library.access.interfaces.ITerminal;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiButtonArrow;
+import dark.library.terminal.TileEntityTerminal;
 
 public class GuiUserAccess extends GuiContainer
 {
-	private TileEntity tileEntity;
+	private TileEntityTerminal tileEntity;
 	private ISpecialAccess lock;
 	private EntityPlayer player;
 
@@ -36,16 +38,16 @@ public class GuiUserAccess extends GuiContainer
 	int currentPage = 0;
 	int namesPerPage = 5;
 
-	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, Boolean showBreakButton, String texture)
+	public GuiUserAccess(EntityPlayer player, TileEntityTerminal access, Boolean showBreakButton, String texture)
 	{
-		this(tileEntity, player, access, showBreakButton);
+		this(player, access, showBreakButton);
 		this.texture = texture;
 	}
 
-	public GuiUserAccess(TileEntity tileEntity, EntityPlayer player, ISpecialAccess access, Boolean showBreakButton)
+	public GuiUserAccess(EntityPlayer player, TileEntityTerminal access, Boolean showBreakButton)
 	{
-		super(new ContainerFake(tileEntity));
-		this.tileEntity = tileEntity;
+		super(new ContainerFake(access));
+		this.tileEntity = access;
 		this.player = player;
 		this.lock = access;
 	}
@@ -59,18 +61,18 @@ public class GuiUserAccess extends GuiContainer
 		this.buttonList.clear();
 		int wid = (this.width - this.xSize) / 2 + 13;
 		int hig = (this.height - this.ySize) / 2 + 25;
-		int bWid = 41;
-		int bHig = 10;
+		int buttomWidth = 41;
+		int buttonHight = 10;
 		int tWid = 85;
 		this.buttonList.add(new GuiButton(0, wid + tWid + 20, hig, 40, 12, var1.translateKey("Add")));
-		this.buttonList.add(new GuiButton(1, wid + tWid + 20, hig + bHig + 1, 40, 12, var1.translateKey("Remove")));
+		this.buttonList.add(new GuiButton(1, wid + tWid + 20, hig + buttonHight + 1, 40, 12, var1.translateKey("Remove")));
 		this.buttonList.add(new GuiButton(2, wid + 105, hig + 50, 40, 12, var1.translateKey("Exit")));
 		this.buttonList.add(new GuiButtonArrow(3, wid - 9, hig, true));
 		this.buttonList.add(new GuiButtonArrow(4, wid + tWid + 1, hig, false));
-		this.buttonList.add(new GuiButton(5, wid + tWid + 20, hig + bHig + bHig + bHig + 1, 40, 12, var1.translateKey("Break")));
+		this.buttonList.add(new GuiButton(5, wid + tWid + 20, hig + buttonHight + buttonHight + buttonHight + 1, 40, 12, var1.translateKey("Break")));
 		// ---------
 
-		this.varType = new GuiTextField(this.fontRenderer, wid, hig, tWid, bHig);
+		this.varType = new GuiTextField(this.fontRenderer, wid, hig, tWid, buttonHight);
 		this.varType.setMaxStringLength(30);
 		this.varType.setText("username");
 	}
@@ -93,17 +95,19 @@ public class GuiUserAccess extends GuiContainer
 		{
 			if (!lock.getUsers().contains(name))
 			{
-				lock.addUserAccess(name, AccessLevel.USER, true);
+				this.tileEntity.sendCommandToServer(this.player, "users add " + name);
+				varType.setText("");
 			}
 		}
 		if (par1GuiButton.id == 1)// Remove
 		{
 			if (lock.getUsers().contains(name))
 			{
-				lock.removeUserAccess(name);
+				this.tileEntity.sendCommandToServer(this.player, "users remove " + name);
+				varType.setText("");
 			}
 		}
-		if (par1GuiButton.id == 2)// Remove
+		if (par1GuiButton.id == 2)// Exit
 		{
 			this.mc.thePlayer.closeScreen();
 		}

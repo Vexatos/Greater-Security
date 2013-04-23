@@ -35,6 +35,9 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import dark.library.terminal.commands.CommandHelp;
+import dark.library.terminal.commands.CommandRegistry;
+import dark.library.terminal.commands.CommandUser;
 
 /**
  * 
@@ -128,7 +131,8 @@ public class GreaterSecurity
 	public void generalLoad(FMLInitializationEvent event)
 	{
 		proxy.init();
-
+		CommandRegistry.register(new CommandUser());
+		CommandRegistry.register(new CommandHelp());
 		/* MCMOD.INFO FILE BUILDER? */
 		meta.modId = GreaterSecurity.MOD_ID;
 		meta.name = GreaterSecurity.MOD_NAME;
