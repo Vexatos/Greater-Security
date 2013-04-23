@@ -1,5 +1,6 @@
 package hangcow.greatersecurity.common.laser;
 
+import hangcow.greatersecurity.client.render.BlockRenderHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -104,6 +105,6 @@ public class BlockLaserFence extends BlockAdvanced
 	@Override
 	public int getRenderType()
 	{
-		return -1;
+		return BlockRenderHelper.renderID;
 	}
 }

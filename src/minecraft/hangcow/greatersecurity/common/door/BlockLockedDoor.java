@@ -126,7 +126,7 @@ public class BlockLockedDoor extends BlockAdvanced
 
 		for (int i = 0; i < ICON_NAMES.length; ++i)
 		{
-			this.icons[i] = par1IconRegister.registerIcon(ICON_NAMES[i]);
+			this.icons[i] = par1IconRegister.registerIcon(GreaterSecurity.TEXTURE_NAME_PREFIX+ICON_NAMES[i]);
 			this.icons[i + ICON_NAMES.length] = new IconFlipped(this.icons[i], true, false);
 		}
 	}

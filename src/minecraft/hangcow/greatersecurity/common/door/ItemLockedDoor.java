@@ -4,7 +4,11 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -32,6 +36,13 @@ public class ItemLockedDoor extends Item
 	public Icon getIconFromDamage(int i)
 	{
 		return this.itemIcon;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister)
+	{
+		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.TEXTURE_NAME_PREFIX + "LockedDoor");
 	}
 
 	@Override
@@ -112,10 +123,10 @@ public class ItemLockedDoor extends Item
 		{
 			var12 = true;
 		}
-		
+
 		world.setBlock(x, y, z, placeBlock.blockID, angle, 3);
 		world.setBlock(x, y + 1, z, placeBlock.blockID, 8 | (var12 ? 1 : 0), 3);
-		
+
 		world.notifyBlocksOfNeighborChange(x, y, z, placeBlock.blockID);
 		world.notifyBlocksOfNeighborChange(x, y + 1, z, placeBlock.blockID);
 
