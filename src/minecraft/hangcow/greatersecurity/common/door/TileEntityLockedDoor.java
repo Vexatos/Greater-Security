@@ -2,11 +2,11 @@ package hangcow.greatersecurity.common.door;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.nbt.NBTTagCompound;
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
-import dark.library.locking.prefab.TileEntityLockable;
+import net.minecraftforge.common.ForgeDirection;
+import dark.library.access.AccessLevel;
+import dark.library.terminal.TileEntityTerminal;
 
-public class TileEntityLockedDoor extends TileEntityLockable
+public class TileEntityLockedDoor extends TileEntityTerminal
 {
 	int timeOpen = 0;
 	public boolean isOpen = false;
@@ -18,7 +18,7 @@ public class TileEntityLockedDoor extends TileEntityLockable
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("Owner"))
 		{
-			this.addUserAccess(new UserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true), true);
+			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
 		}
 		if (nbt.hasKey("users"))
 		{
@@ -26,7 +26,7 @@ public class TileEntityLockedDoor extends TileEntityLockable
 			for (int i = 0; i < userSize; i++)
 			{
 				String read = nbt.getString("user" + i);
-				this.addUserAccess(new UserAccess(read, AccessLevel.USER, true), true);
+				this.addUserAccess(read, AccessLevel.USER, true);
 			}
 		}
 	}
@@ -50,5 +50,11 @@ public class TileEntityLockedDoor extends TileEntityLockable
 	public String getChannel()
 	{
 		return GreaterSecurity.CHANNEL;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{
+		return false;
 	}
 }

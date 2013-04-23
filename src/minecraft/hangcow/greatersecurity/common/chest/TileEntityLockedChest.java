@@ -16,11 +16,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
-import dark.library.locking.prefab.TileEntityLockable;
+import dark.library.access.AccessLevel;
+import dark.library.terminal.TileEntityTerminal;
 
-public class TileEntityLockedChest extends TileEntityLockable implements IInventory
+public class TileEntityLockedChest extends TileEntityTerminal implements IInventory
 {
 	private ItemStack[] chestContents = new ItemStack[36];
 
@@ -156,7 +155,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 		// // Check for old save list and convert //
 		if (nbt.hasKey("Owner"))
 		{
-			this.addUserAccess(new UserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true), true);
+			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
 		}
 		if (nbt.hasKey("users"))
 		{
@@ -164,7 +163,7 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 			for (int i = 0; i < userSize; i++)
 			{
 				String read = nbt.getString("user" + i);
-				this.addUserAccess(new UserAccess(read, AccessLevel.USER, true), true);
+				this.addUserAccess(read, AccessLevel.USER, true);
 			}
 		}
 		// chest inv reading
@@ -478,18 +477,18 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	}
 
 	@Override
-	public boolean addUserAccess(UserAccess user, boolean isServer)
+	public boolean addUserAccess(String username, AccessLevel level, boolean shouldSave)
 	{
-		boolean added = super.addUserAccess(user, isServer);
+		boolean added = super.addUserAccess(username, level, shouldSave);
 		try
 		{
-			if (isServer && worldObj != null)
+			if (worldObj != null)
 			{
 				TileEntityLockedChest chest = this.getAdjacentChest();
 
-				if (added && !worldObj.isRemote && chest != null && !chest.isOnList(user.username))
+				if (added && !worldObj.isRemote && chest != null && chest.getUserAccess(username) != AccessLevel.NONE)
 				{
-					chest.addUserAccess(user, isServer);
+					chest.addUserAccess(username, level, shouldSave);
 				}
 			}
 		}
@@ -502,18 +501,18 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	}
 
 	@Override
-	public boolean removeUserAccess(String player, boolean isServer)
+	public boolean removeUserAccess(String player)
 	{
-		boolean removed = super.removeUserAccess(player, isServer);
+		boolean removed = super.removeUserAccess(player);
 		try
 		{
-			if (isServer && worldObj != null)
+			if (worldObj != null)
 			{
 				TileEntityLockedChest chest = this.getAdjacentChest();
 
-				if (removed && !worldObj.isRemote && chest != null && chest.isOnList(player))
+				if (removed && !worldObj.isRemote && chest != null && chest.getUserAccess(player) != AccessLevel.NONE)
 				{
-					chest.removeUserAccess(player, isServer);
+					chest.removeUserAccess(player);
 				}
 			}
 		}
@@ -546,5 +545,11 @@ public class TileEntityLockedChest extends TileEntityLockable implements IInvent
 	public boolean isStackValidForSlot(int i, ItemStack itemstack)
 	{
 		return true;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{
+		return false;
 	}
 }

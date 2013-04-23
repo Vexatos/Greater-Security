@@ -14,8 +14,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.block.BlockAdvanced;
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
+import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
 
 public class BlockLaserFence extends BlockAdvanced
 {
@@ -25,6 +25,7 @@ public class BlockLaserFence extends BlockAdvanced
 		super(id, Material.iron);
 		this.setHardness(20f);
 		this.setResistance(100f);
+		this.setUnlocalizedName("LaserFence");
 		this.setCreativeTab(CreativeTabs.tabRedstone);
 
 	}
@@ -118,7 +119,7 @@ public class BlockLaserFence extends BlockAdvanced
 		if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence)
 		{
 			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
-			if (fence.canAccess(entityPlayer))
+			if (fence.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.USER.ordinal())
 			{
 				int meta = world.getBlockMetadata(x, y, z);
 				if (meta > 5)
@@ -142,7 +143,7 @@ public class BlockLaserFence extends BlockAdvanced
 		if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence)
 		{
 			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
-			if (fence.canAccess(entityPlayer))
+			if (fence.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.USER.ordinal())
 			{
 				int meta = world.getBlockMetadata(x, y, z);
 				if (meta > 5)
@@ -167,7 +168,7 @@ public class BlockLaserFence extends BlockAdvanced
 			if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence && entityLiving instanceof EntityPlayer)
 			{
 				TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
-				fence.addUserAccess(new UserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true), !world.isRemote);
+				fence.addUserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true);
 			}
 		}
 	}

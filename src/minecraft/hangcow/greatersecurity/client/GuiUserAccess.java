@@ -16,11 +16,11 @@ import net.minecraft.util.StringTranslate;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
+import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiButtonArrow;
-import dark.library.locking.AccessLevel;
-import dark.library.locking.ISpecialAccess;
-import dark.library.locking.UserAccess;
 
 public class GuiUserAccess extends GuiContainer
 {
@@ -93,14 +93,14 @@ public class GuiUserAccess extends GuiContainer
 		{
 			if (!lock.getUsers().contains(name))
 			{
-				lock.addUserAccess(new UserAccess(name, AccessLevel.USER, true), false);
+				lock.addUserAccess(name, AccessLevel.USER, true);
 			}
 		}
 		if (par1GuiButton.id == 1)// Remove
 		{
 			if (lock.getUsers().contains(name))
 			{
-				lock.removeUserAccess(name, false);
+				lock.removeUserAccess(name);
 			}
 		}
 		if (par1GuiButton.id == 2)// Remove

@@ -22,8 +22,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.prefab.block.BlockAdvanced;
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
+import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
 
 public class BlockLockedChest extends BlockAdvanced
 {
@@ -204,7 +204,7 @@ public class BlockLockedChest extends BlockAdvanced
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
 		if (entityLiving instanceof EntityPlayer && ent instanceof TileEntityLockedChest)
 		{
-			((TileEntityLockedChest) ent).addUserAccess(new UserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true), !world.isRemote);
+			((TileEntityLockedChest) ent).addUserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true);
 		}
 	}
 
@@ -409,7 +409,7 @@ public class BlockLockedChest extends BlockAdvanced
 		{
 			return true;
 		}
-		else if (var10 instanceof TileEntityLockedChest && !((TileEntityLockedChest) var10).canAccess(player))
+		else if (var10 instanceof TileEntityLockedChest && ((TileEntityLockedChest) var10).getUserAccess(player.username).ordinal() > AccessLevel.BASIC.ordinal())
 		{
 			player.sendChatToPlayer("-=|[Locked]|=-");
 			return true;

@@ -21,7 +21,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.locking.AccessLevel;
+import dark.library.access.AccessLevel;
 
 public class BlockLockedDoor extends BlockAdvanced
 {
@@ -322,7 +322,7 @@ public class BlockLockedDoor extends BlockAdvanced
 		{
 			return true;
 		}
-		if (ent instanceof TileEntityLockedDoor && ((TileEntityLockedDoor) ent).canAccess(player))
+		if (ent instanceof TileEntityLockedDoor && ((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() > AccessLevel.USER.ordinal())
 		{
 			this.activateDoor((TileEntityLockedDoor) ent);
 		}
@@ -342,7 +342,7 @@ public class BlockLockedDoor extends BlockAdvanced
 		}
 		if (ent instanceof TileEntityLockedDoor)
 		{
-			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal() || ((TileEntityLockedChest) ent).getUsersWithAcess(AccessLevel.ADMIN).size() <= 0)
+			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal() || ((TileEntityLockedDoor) ent).getUsersWithAcess(AccessLevel.ADMIN).size() <= 0)
 			{
 				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.yCoord, ent.zCoord);
 				return true;

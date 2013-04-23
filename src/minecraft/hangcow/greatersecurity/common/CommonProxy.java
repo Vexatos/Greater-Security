@@ -11,8 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
+import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.gui.ContainerFake;
-import dark.library.locking.ISpecialAccess;
 
 public class CommonProxy implements IGuiHandler
 {

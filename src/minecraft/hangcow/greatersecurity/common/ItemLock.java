@@ -14,8 +14,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.locking.AccessLevel;
-import dark.library.locking.UserAccess;
+import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
 
 /**
  * 
@@ -79,12 +79,12 @@ public class ItemLock extends Item
 						{
 							for (UserAccess user : connectedChest.getUsers())
 							{
-								lockedChest.addUserAccess(new UserAccess(user.username, user.level, user.shouldSave), true);
+								lockedChest.addUserAccess(user.username, user.level, user.shouldSave);
 							}
 						}
 						else
 						{
-							lockedChest.addUserAccess(new UserAccess(entityplayer.username, AccessLevel.OWNER, true), true);
+							lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
 						}
 						// // add chest inv to new locked chest //
 						for (int b = 0; b < lockedChest.getSizeInventory(); b++)

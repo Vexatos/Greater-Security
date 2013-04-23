@@ -14,10 +14,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import dark.library.locking.ISpecialAccess;
-import dark.library.locking.prefab.TileEntityElectricLockable;
+import dark.library.access.interfaces.ISpecialAccess;
+import dark.library.terminal.TileEntityTerminal;
 
-public class TileEntityLaserFence extends TileEntityElectricLockable implements ISpecialAccess
+public class TileEntityLaserFence extends TileEntityTerminal implements ISpecialAccess
 {
 	public static final int MAX_LASER_RANGE = 10;
 	public static final int UPDATE_RATE = 3;
@@ -219,6 +219,7 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 						start.x > end.x ? start.x : end.x,
 						start.y > end.y ? start.y : end.y,
 						start.z > end.z ? start.z : end.z));
+				
 			for (EntityLiving entity : entities)
 			{
 				if (entity != null && !entity.isDead)
