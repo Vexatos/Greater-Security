@@ -90,15 +90,15 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 	/**
 	 * Gets the max size of the laser grid
 	 * 
-	 * @return zero if grid can't be created too a size.
+	 * @return neg one if grid can't be created too a size.
 	 */
 	public int getGridSize()
 	{
-		for (int tileDistance = TileEntityLaserFence.MAX_LASER_RANGE; tileDistance > 1; tileDistance--)
+		for (int tileDistance = TileEntityLaserFence.MAX_LASER_RANGE; tileDistance > 0; tileDistance--)
 		{
 			Vector3 tileLoc = fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), tileDistance);
 
-			if (tileLoc.getTileEntity(worldObj) instanceof TileEntityLaserFence)
+			if (tileLoc.getTileEntity(worldObj) instanceof TileEntityLaserFence && tileLoc.getTileEntity(worldObj) != this)
 			{
 				TileEntityLaserFence fence = (TileEntityLaserFence) tileLoc.getTileEntity(worldObj);
 				if (fence.getFacingDirection() == this.getFacingDirection().getOpposite() && fence.isRotated() == this.isRotated())
@@ -108,7 +108,7 @@ public class TileEntityLaserFence extends TileEntityElectricLockable implements 
 			}
 
 		}
-		return 0;
+		return -1;
 	}
 
 	/**
