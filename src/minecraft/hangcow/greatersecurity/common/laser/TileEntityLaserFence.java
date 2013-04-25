@@ -14,6 +14,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
+import dark.library.DarkMain;
 import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.terminal.TileEntityTerminal;
 
@@ -233,10 +234,10 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		else
 		{
 
-			GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
-			//GreaterSecurity.proxy.renderBeam(worldObj, start, end.clone().add(change).add(change), Color.BLUE, UPDATE_RATE);
-			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
-			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
+			DarkMain.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
+			//DarkMain.renderBeam(worldObj, start, end.clone().add(change).add(change), Color.BLUE, UPDATE_RATE);
+			DarkMain.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
+			DarkMain.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
 		}
 	}
 
