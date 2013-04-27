@@ -3,15 +3,10 @@ package hangcow.greatersecurity.common;
 import hangcow.greatersecurity.client.GuiDestroyResponce;
 import hangcow.greatersecurity.client.GuiUserAccess;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
-
-import java.awt.Color;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
-import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiGlobalList;
 import dark.library.terminal.TileEntityTerminal;

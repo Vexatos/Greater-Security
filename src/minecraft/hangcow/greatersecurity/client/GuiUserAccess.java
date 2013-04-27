@@ -10,7 +10,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.input.Keyboard;
@@ -19,7 +18,6 @@ import org.lwjgl.opengl.GL11;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 import dark.library.access.interfaces.ISpecialAccess;
-import dark.library.access.interfaces.ITerminal;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiButtonArrow;
 import dark.library.terminal.TileEntityTerminal;

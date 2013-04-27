@@ -2,15 +2,15 @@ package hangcow.greatersecurity.common;
 
 import java.util.EnumSet;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.world.World;
+
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
-import dark.library.DarkMain;
 
 public class PlayerKeyHandler extends KeyHandler
 {

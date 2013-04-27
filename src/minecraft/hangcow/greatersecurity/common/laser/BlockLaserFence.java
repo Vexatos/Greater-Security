@@ -1,7 +1,5 @@
 package hangcow.greatersecurity.common.laser;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import hangcow.greatersecurity.client.render.BlockRenderHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,8 +12,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.block.BlockAdvanced;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
-import dark.library.access.UserAccess;
 
 public class BlockLaserFence extends BlockAdvanced
 {

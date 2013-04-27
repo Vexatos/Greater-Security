@@ -6,16 +6,9 @@ import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.PlayerKeyHandler;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.laser.TileEntityLaserFence;
-
-import java.awt.Color;
-
-import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import dark.library.effects.FXBeam;
 
 public class ClientProxy extends CommonProxy
 {

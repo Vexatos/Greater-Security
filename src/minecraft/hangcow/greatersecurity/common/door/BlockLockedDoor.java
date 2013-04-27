@@ -2,11 +2,8 @@ package hangcow.greatersecurity.common.door;
 
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 
 import java.util.Random;
-
-import universalelectricity.prefab.block.BlockAdvanced;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
@@ -19,6 +16,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import universalelectricity.prefab.block.BlockAdvanced;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;

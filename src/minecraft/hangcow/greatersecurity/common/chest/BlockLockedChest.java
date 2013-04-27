@@ -23,7 +23,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.prefab.block.BlockAdvanced;
 import dark.library.access.AccessLevel;
-import dark.library.access.UserAccess;
 
 public class BlockLockedChest extends BlockAdvanced
 {
