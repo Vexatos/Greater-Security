@@ -408,7 +408,7 @@ public class BlockLockedChest extends BlockAdvanced
 		{
 			return true;
 		}
-		else if (var10 instanceof TileEntityLockedChest && ((TileEntityLockedChest) var10).getUserAccess(player.username).ordinal() > AccessLevel.BASIC.ordinal())
+		else if (var10 instanceof TileEntityLockedChest && ((TileEntityLockedChest) var10).getUserAccess(player.username).ordinal() <= AccessLevel.BASIC.ordinal())
 		{
 			player.sendChatToPlayer("-=|[Locked]|=-");
 			return true;

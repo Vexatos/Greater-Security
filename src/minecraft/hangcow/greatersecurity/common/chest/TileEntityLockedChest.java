@@ -44,9 +44,6 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 	/** The angle of the lid last tick */
 	public float prevLidAngle;
 
-	/** The number of players currently using this chest */
-	public int numUsingPlayers;
-
 	/** The type of chest 0 = woord 1 = stone 2 = Iron 3 = obby */
 	private int chestType = 0;
 
@@ -338,9 +335,9 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 		this.checkForAdjacentChests();
 		float f;
 
-		if (!this.worldObj.isRemote && this.numUsingPlayers != 0 && (this.ticks + this.xCoord + this.yCoord + this.zCoord) % 200 == 0)
+		if (!this.worldObj.isRemote && this.playersUsing != 0 && (this.ticks + this.xCoord + this.yCoord + this.zCoord) % 200 == 0)
 		{
-			this.numUsingPlayers = 0;
+			this.playersUsing = 0;
 			f = 5.0F;
 			List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((double) ((float) this.xCoord - f), (double) ((float) this.yCoord - f), (double) ((float) this.zCoord - f), (double) ((float) (this.xCoord + 1) + f), (double) ((float) (this.yCoord + 1) + f), (double) ((float) (this.zCoord + 1) + f)));
 			Iterator var3 = list.iterator();
@@ -355,7 +352,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 
 					if (var5 == this || var5 instanceof InventoryLargeChest && ((InventoryLargeChest) var5).isPartOfLargeChest(this))
 					{
-						++this.numUsingPlayers;
+						++this.playersUsing;
 					}
 				}
 			}
@@ -365,7 +362,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 		f = 0.1F;
 		double var11;
 
-		if (this.numUsingPlayers > 0 && this.lidAngle == 0.0F && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null)
+		if (this.playersUsing > 0 && this.lidAngle == 0.0F && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null)
 		{
 			double var8 = (double) this.xCoord + 0.5D;
 			var11 = (double) this.zCoord + 0.5D;
@@ -383,11 +380,11 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 			this.worldObj.playSoundEffect(var8, (double) this.yCoord + 0.5D, var11, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
-		if (this.numUsingPlayers == 0 && this.lidAngle > 0.0F || this.numUsingPlayers > 0 && this.lidAngle < 1.0F)
+		if (this.playersUsing == 0 && this.lidAngle > 0.0F || this.playersUsing > 0 && this.lidAngle < 1.0F)
 		{
 			float var9 = this.lidAngle;
 
-			if (this.numUsingPlayers > 0)
+			if (this.playersUsing > 0)
 			{
 				this.lidAngle += f;
 			}
@@ -430,14 +427,14 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 
 	public void openChest()
 	{
-		++this.numUsingPlayers;
-		this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, Block.chest.blockID, 1, this.numUsingPlayers);
+		++this.playersUsing;
+		this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, Block.chest.blockID, 1, this.playersUsing);
 	}
 
 	public void closeChest()
 	{
-		--this.numUsingPlayers;
-		this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, Block.chest.blockID, 1, this.numUsingPlayers);
+		--this.playersUsing;
+		this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, Block.chest.blockID, 1, this.playersUsing);
 	}
 
 	/**
@@ -525,7 +522,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 	}
 
 	public int getType()
-	{ // TODO Auto-generated method stub
+	{ 
 		return this.chestType;
 	}
 
@@ -537,7 +534,6 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 	@Override
 	public boolean isInvNameLocalized()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
