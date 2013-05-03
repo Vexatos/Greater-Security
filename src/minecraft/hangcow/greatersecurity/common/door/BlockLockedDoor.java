@@ -58,7 +58,7 @@ public class BlockLockedDoor extends BlockAdvanced
 	{
 		if (par5 != 1 && par5 != 0)
 		{
-			int i1 = this.getFullMetadata(par1IBlockAccess, par2, par3, par4);
+			int i1 = BlockLockedDoor.getFullMetadata(par1IBlockAccess, par2, par3, par4);
 			int j1 = i1 & 3;
 			boolean flag = (i1 & 4) != 0;
 			boolean flag1 = false;
@@ -143,7 +143,7 @@ public class BlockLockedDoor extends BlockAdvanced
 	@Override
 	public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int x, int y, int z)
 	{
-		int var5 = this.getFullMetadata(par1IBlockAccess, x, y, z);
+		int var5 = BlockLockedDoor.getFullMetadata(par1IBlockAccess, x, y, z);
 		return (var5 & 4) != 0;
 	}
 
@@ -194,7 +194,7 @@ public class BlockLockedDoor extends BlockAdvanced
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		this.setDoorRotation(this.getFullMetadata(par1IBlockAccess, par2, par3, par4));
+		this.setDoorRotation(BlockLockedDoor.getFullMetadata(par1IBlockAccess, par2, par3, par4));
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class BlockLockedDoor extends BlockAdvanced
 	 */
 	public int getDoorOrientation(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		return this.getFullMetadata(par1IBlockAccess, par2, par3, par4) & 3;
+		return BlockLockedDoor.getFullMetadata(par1IBlockAccess, par2, par3, par4) & 3;
 	}
 
 	public static boolean isDoorOpen(IBlockAccess world, int x, int y, int z)
@@ -320,9 +320,9 @@ public class BlockLockedDoor extends BlockAdvanced
 		{
 			return true;
 		}
-		if (ent instanceof TileEntityLockedDoor && ((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() > AccessLevel.USER.ordinal())
+		if (ent instanceof TileEntityLockedDoor && ((TileEntityLockedDoor) ent).canUserAccess(player.username))
 		{
-			this.activateDoor((TileEntityLockedDoor) ent);
+			BlockLockedDoor.activateDoor((TileEntityLockedDoor) ent);
 		}
 		else
 		{
@@ -340,7 +340,7 @@ public class BlockLockedDoor extends BlockAdvanced
 		}
 		if (ent instanceof TileEntityLockedDoor)
 		{
-			if (((TileEntityLockedDoor) ent).getUserAccess(player.username).ordinal() >= AccessLevel.ADMIN.ordinal() || ((TileEntityLockedDoor) ent).getUsersWithAcess(AccessLevel.ADMIN).size() <= 0)
+			if (((TileEntityLockedDoor) ent).canUserAccess(player.username) || ((TileEntityLockedDoor) ent).getUsersWithAcess(AccessLevel.ADMIN).size() <= 0)
 			{
 				player.openGui(GreaterSecurity.instance, CommonProxy.USERACCESS_GUI, ent.worldObj, ent.xCoord, ent.yCoord, ent.zCoord);
 				return true;

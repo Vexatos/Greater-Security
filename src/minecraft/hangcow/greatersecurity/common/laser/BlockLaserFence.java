@@ -118,7 +118,7 @@ public class BlockLaserFence extends BlockAdvanced
 		if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence)
 		{
 			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
-			if (fence.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.USER.ordinal())
+			if (fence.canUserAccess(entityPlayer.username))
 			{
 				int meta = world.getBlockMetadata(x, y, z);
 				if (meta > 5)
@@ -142,7 +142,7 @@ public class BlockLaserFence extends BlockAdvanced
 		if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence)
 		{
 			TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
-			if (fence.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.USER.ordinal())
+			if (fence.canUserAccess(entityPlayer.username))
 			{
 				int meta = world.getBlockMetadata(x, y, z);
 				if (meta > 5)

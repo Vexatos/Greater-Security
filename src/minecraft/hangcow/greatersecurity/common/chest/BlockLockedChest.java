@@ -26,8 +26,6 @@ import dark.library.access.AccessLevel;
 
 public class BlockLockedChest extends BlockAdvanced
 {
-	private Random random = new Random();
-
 	public BlockLockedChest(int par1)
 	{
 		super(par1, Material.wood);
@@ -408,7 +406,7 @@ public class BlockLockedChest extends BlockAdvanced
 		{
 			return true;
 		}
-		else if (var10 instanceof TileEntityLockedChest && ((TileEntityLockedChest) var10).getUserAccess(player.username).ordinal() <= AccessLevel.BASIC.ordinal())
+		else if (var10 instanceof TileEntityLockedChest && !((TileEntityLockedChest) var10).canUserAccess(player.username))
 		{
 			player.sendChatToPlayer("-=|[Locked]|=-");
 			return true;
