@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -164,10 +165,12 @@ public class BlockLaserFence extends BlockAdvanced
 	{
 		if (!world.isRemote)
 		{
+			int angle = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 			if (world.getBlockTileEntity(x, y, z) instanceof TileEntityLaserFence && entityLiving instanceof EntityPlayer)
 			{
 				TileEntityLaserFence fence = (TileEntityLaserFence) world.getBlockTileEntity(x, y, z);
 				fence.addUserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true);
+				world.setBlockMetadataWithNotify(x, y, z, angle, 3);
 			}
 		}
 	}

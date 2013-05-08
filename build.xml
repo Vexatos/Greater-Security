@@ -10,17 +10,11 @@
 
 		<delete dir="contents" />
 		<delete dir="build" />
-        <delete dir="download" />
 		<delete dir="${dir.development}/forge" />
 		
 		<copy todir="${dir.development}">
 			<fileset dir="../Minecraft Forge/" />
 		</copy>
-        
-        <mkdir dir="download" />
-        
-        <get src="https://github.com/DarkGuardsman/Dark-Library/archive/master.zip" dest="download" usetimestamp="True"/>
-        <unzip dest="download/unzip/.." src="download/master.zip"/>
         
 		<copy todir="${dir.mcp}/src/minecraft">
 			
@@ -34,7 +28,7 @@
 				<exclude name="**/*.xml"/>
 			</fileset>
             
-             <fileset dir="download/Dark-Library-master/src/minecraft/">
+             <fileset dir="download/Dark-Library/src/minecraft/">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
@@ -64,7 +58,6 @@
 
 		<copy todir="contents">
 			<fileset dir="${dir.mcp}/reobf/minecraft" excludes=".git/**">
-				<exclude name="**/BCLoader.class"/>
 			</fileset>
 		
 			<fileset dir="${dir.development}resources">
@@ -74,12 +67,12 @@
 				<exclude name="**/*.xml"/>
 			</fileset>
 		
-			<fileset dir="download/Dark-Library-master/resources">
+			<fileset dir="download/Dark-Library/resources">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>
             </fileset>  
-            <fileset dir="download/Dark-Library-master/Basic-Components/resources">
+            <fileset dir="download/Dark-Library/Basic-Components/resources">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>
