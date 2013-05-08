@@ -54,7 +54,7 @@ public class ItemLock extends Item
 		{
 			TileEntity entity = world.getBlockTileEntity(i, j, k);
 
-			if (entity.getClass().equals(TileEntityChest.class))
+			if (entity != null && entity.getClass().equals(TileEntityChest.class))
 			{
 				// // Get current chest //
 				TileEntityChest chest = ((TileEntityChest) entity);
