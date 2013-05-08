@@ -32,6 +32,11 @@
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
+            
+            <fileset dir="${dir.development}../Basic-Components/src">
+				<exclude name=".git/**"/>
+				<exclude name="**/*.xml"/>
+			</fileset>
 		</copy>
 		
 		<mkdir dir="contents" />
@@ -67,12 +72,12 @@
 				<exclude name="**/*.xml"/>
 			</fileset>
 		
-			<fileset dir="download/Dark-Library/resources">
+			<fileset dir="Dark-Library/resources">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>
             </fileset>  
-            <fileset dir="download/Dark-Library/Basic-Components/resources">
+            <fileset dir="Dark-Library/Basic-Components/resources">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>
