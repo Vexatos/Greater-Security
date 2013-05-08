@@ -80,7 +80,7 @@
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>
             </fileset>  
-            <fileset dir="${dir.development}Dark-Library/Basic-Components/resources">
+            <fileset dir="${dir.development}Basic-Components/resources">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>
