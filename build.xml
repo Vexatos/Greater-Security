@@ -28,7 +28,7 @@
 				<exclude name="**/*.xml"/>
 			</fileset>
             
-             <fileset dir="download/Dark-Library/src/minecraft/">
+             <fileset dir="${dir.development}../Dark-Library/src/minecraft/">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
