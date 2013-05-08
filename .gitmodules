@@ -4,3 +4,6 @@
 [submodule "Basic-Components"]
 	path = Basic-Components
 	url = git://github.com/calclavia/Basic-Components.git
+[submodule "Modding-Library.git"]
+	path = Modding-Library.git
+	url = git@github.com:calclavia/Modding-Library.git
