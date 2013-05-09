@@ -1,17 +1,17 @@
 package hangcow.greatersecurity.common.alarm;
 
+import hangcow.greatersecurity.common.GreaterSecurity;
+
 import java.util.List;
 
-import hangcow.greatersecurity.common.GreaterSecurity;
-import dark.library.access.AccessLevel;
-import dark.library.access.UserAccess;
-import dark.library.terminal.TileEntityTerminal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
+import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
+import dark.library.terminal.TileEntityTerminal;
 
 public class TileEntityAlarm extends TileEntityTerminal
 {

@@ -5,7 +5,6 @@ import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.Iterator;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
