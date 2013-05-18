@@ -155,9 +155,6 @@ public class GreaterSecurity
 	@PostInit
 	public void postLoad(FMLPostInitializationEvent event)
 	{
-
-		// boolean ic2 = Loader.isModLoaded("IC2");
-		// boolean ue = Loader.isModLoaded("BasicComponents");
 		proxy.postInit();
 
 		// // Locked Chest ////
@@ -165,11 +162,11 @@ public class GreaterSecurity
 		GameRegistry.addShapelessRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1), new Object[] { new ItemStack(Block.chest), new ItemStack(GreaterSecurity.itemLock, 1) });
 
 		// // Stone Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new Object[] { "SSS", "SCS", "SSS", 'S', Block.stone, 'C', GreaterSecurity.blockLockedChest });
+		//GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new Object[] { "SSS", "SCS", "SSS", 'S', Block.stone, 'C', GreaterSecurity.blockLockedChest });
 		// // Iron Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new Object[] { "SSS", "SCS", "SSS", 'S', Item.ingotIron, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
+		//GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new Object[] { "SSS", "SCS", "SSS", 'S', Item.ingotIron, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 		// // Obby Chest ////
-		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new Object[] { "SSS", "SCS", "SSS", 'S', Block.obsidian, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
+		//GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new Object[] { "SSS", "SCS", "SSS", 'S', Block.obsidian, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 		// // Laser Fence ////
 		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLaserFence, 1), new Object[] { "GGG", "CRC", "WBW", 'G', Block.glass, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 
