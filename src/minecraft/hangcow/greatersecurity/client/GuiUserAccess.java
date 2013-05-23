@@ -15,6 +15,7 @@ import net.minecraft.util.StringTranslate;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import dark.library.DarkMain;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 import dark.library.access.interfaces.ISpecialAccess;
@@ -30,7 +31,7 @@ public class GuiUserAccess extends GuiContainer
 
 	private GuiTextField varType;
 
-	private String texture = GreaterSecurity.GUI_File_PATH + "userAccessGui.png";
+	private String texture = DarkMain.GUI_DIRECTORY + "gui_grey.png";
 
 	// private IInventory chest;
 	int currentPage = 0;

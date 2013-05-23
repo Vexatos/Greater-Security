@@ -2,6 +2,7 @@ package hangcow.greatersecurity.common;
 
 import hangcow.greatersecurity.common.chest.BlockLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
+import hangcow.greatersecurity.common.cmd.CommandBreak;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
@@ -131,6 +132,7 @@ public class GreaterSecurity
 		proxy.init();
 		CommandRegistry.register(new CommandUser());
 		CommandRegistry.register(new CommandHelp());
+		CommandRegistry.register(new CommandBreak());
 		/* MCMOD.INFO FILE BUILDER? */
 		meta.modId = GreaterSecurity.MOD_ID;
 		meta.name = GreaterSecurity.MOD_NAME;

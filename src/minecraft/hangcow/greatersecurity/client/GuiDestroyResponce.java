@@ -14,23 +14,28 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import dark.library.DarkMain;
+import dark.library.access.interfaces.ITerminal;
 import dark.library.gui.ContainerFake;
+import dark.library.terminal.TileEntityTerminal;
 
 public class GuiDestroyResponce extends GuiContainer
 {
 	private TileEntity tileEntity;
+	private TileEntityTerminal term;
 	private EntityPlayer player;
 	private IInventory iInventory;
 	private IInventory chest;
 	int page = 0;
 
-	public GuiDestroyResponce(EntityPlayer invPlayer, TileEntity tile)
+	public GuiDestroyResponce(EntityPlayer invPlayer, TileEntityTerminal tile)
 	{
-		super(new ContainerFake(tile));
-		this.tileEntity = tile;
+		super(new ContainerFake((TileEntity) tile));
+		this.tileEntity = (TileEntity) tile;
+		this.term = tile;
 		this.player = invPlayer;
 	}
 
+	@Override
 	public void initGui()
 	{
 		super.initGui();
@@ -46,6 +51,7 @@ public class GuiDestroyResponce extends GuiContainer
 		this.buttonList.add(new GuiButton(1, wid + tWid + 20, hig + bHig + 1, 40, 12, var1.translateKey("No")));
 	}
 
+	@Override
 	public void updateScreen()
 	{
 	}
@@ -54,20 +60,12 @@ public class GuiDestroyResponce extends GuiContainer
 	 * Fired when a control is clicked. This is the equivalent of
 	 * ActionListener.actionPerformed(ActionEvent e).
 	 */
+	@Override
 	protected void actionPerformed(GuiButton par1GuiButton)
 	{
 		if (par1GuiButton.id == 0)// boom
 		{
-			int id = tileEntity.worldObj.getBlockId(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
-			int meta = tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
-			Block block = Block.blocksList[id];
-			if (block != null)
-			{
-				block.dropBlockAsItem(tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, meta, 0);
-				block.breakBlock(tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, meta, 0);
-			}
-			// tileEntity.worldObj.setBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord,
-			// 0, 0, 3);
+			this.term.sendCommandToServer(this.player, "break");
 			this.mc.thePlayer.closeScreen();
 		}
 		if (par1GuiButton.id == 1)// Exit
@@ -82,6 +80,7 @@ public class GuiDestroyResponce extends GuiContainer
 	/**
 	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
 	 */
+	@Override
 	protected void keyTyped(char par1, int par2)
 	{
 	}
@@ -89,6 +88,7 @@ public class GuiDestroyResponce extends GuiContainer
 	/**
 	 * Called when the mouse is clicked.
 	 */
+	@Override
 	protected void mouseClicked(int par1, int par2, int par3)
 	{
 		super.mouseClicked(par1, par2, par3);
@@ -97,12 +97,14 @@ public class GuiDestroyResponce extends GuiContainer
 	/**
 	 * Called when the screen is unloaded. Used to disable keyboard repeat events
 	 */
+	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
 		Keyboard.enableRepeatEvents(false);
 	}
 
+	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		this.fontRenderer.drawString("Are you Sure?", 7, 17, 000000);
@@ -111,6 +113,7 @@ public class GuiDestroyResponce extends GuiContainer
 	/**
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		this.mc.renderEngine.bindTexture(DarkMain.GUI_DIRECTORY + "GuiGrey.png");
