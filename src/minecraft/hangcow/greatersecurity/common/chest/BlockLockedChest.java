@@ -20,8 +20,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
 
 public class BlockLockedChest extends BlockAdvanced
 {
@@ -136,6 +139,8 @@ public class BlockLockedChest extends BlockAdvanced
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack stack)
 	{
+		Vector3 vec = new Vector3(x, y, z);
+
 		int westBlock = world.getBlockId(x, y, z - 1);
 		int eastBlock = world.getBlockId(x, y, z + 1);
 		int northBlock = world.getBlockId(x - 1, y, z);
@@ -197,10 +202,39 @@ public class BlockLockedChest extends BlockAdvanced
 				world.setBlockMetadataWithNotify(x, y, z, placementMeta, 3);
 			}
 		}
-		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		/* User List editing */
+		TileEntityLockedChest chect = null;
+
+		for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+		{
+			if (direction != ForgeDirection.DOWN && direction != ForgeDirection.UP)
+			{
+				Vector3 pos = vec.clone().modifyPositionFromSide(direction);
+				TileEntity sampleTile = pos.getTileEntity(world);
+				if (sampleTile instanceof TileEntityLockedChest)
+				{
+					chect = (TileEntityLockedChest) sampleTile;
+					break;
+				}
+			}
+		}
+
+		TileEntity ent = vec.getTileEntity(world);
 		if (entityLiving instanceof EntityPlayer && ent instanceof TileEntityLockedChest)
 		{
-			((TileEntityLockedChest) ent).addUserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true);
+			if (chect instanceof TileEntityLockedChest)
+			{
+				for (UserAccess user : chect.getUsers())
+				{
+					((TileEntityLockedChest) ent).addUserAccess(user.username, user.level, user.shouldSave);
+					System.out.println("Adding User: " + user.username + vec.toString());
+				}
+			}
+			else
+			{
+				((TileEntityLockedChest) ent).addUserAccess(((EntityPlayer) entityLiving).username, AccessLevel.OWNER, true);
+				System.out.println("Setting Owner: " + ((EntityPlayer) entityLiving).username);
+			}
 		}
 	}
 
