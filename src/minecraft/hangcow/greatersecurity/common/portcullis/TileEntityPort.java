@@ -1,12 +1,12 @@
-package hangcow.greatersecurity.common.portcuils;
+package hangcow.greatersecurity.common.portcullis;
 
-import hangcow.greatersecurity.api.IPorticuils;
+import hangcow.greatersecurity.api.IPortcullis;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
-public class TileEntityPort extends TileEntity implements IPorticuils
+public class TileEntityPort extends TileEntity implements IPortcullis
 {
 	private boolean isExtended = false;
 	private ForgeDirection facing = ForgeDirection.UP;

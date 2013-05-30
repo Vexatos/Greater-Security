@@ -1,4 +1,4 @@
-package hangcow.greatersecurity.common.portcuils;
+package hangcow.greatersecurity.common.portcullis;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
