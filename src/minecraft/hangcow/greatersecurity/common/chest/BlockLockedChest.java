@@ -31,7 +31,7 @@ public class BlockLockedChest extends BlockAdvanced
 	public BlockLockedChest(int par1)
 	{
 		super(par1, Material.wood);
-		this.setCreativeTab(CreativeTabs.tabDecorations);
+		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
 		this.setUnlocalizedName("LockedChest");
 		this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 		this.blockResistance = 1000F;// TODO set this based on tier if possible

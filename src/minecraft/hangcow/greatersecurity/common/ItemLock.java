@@ -32,7 +32,7 @@ public class ItemLock extends Item
 		this.setUnlocalizedName("Lock");
 		maxStackSize = 10;
 		setMaxDamage(0);
-		this.setCreativeTab(CreativeTabs.tabTools);
+		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
 	}
 
 	@Override

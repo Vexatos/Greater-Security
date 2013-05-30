@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
@@ -96,6 +97,14 @@ public class GreaterSecurity
 	/* CONFIG VARS */
 	public static Boolean breakChests;
 	public static Boolean breakDoors;
+
+	// CreativeTab GreaterSecurity.tabGreaterSecurity
+	public static CreativeTabs tabGreaterSecurity = new CreativeTabs("tabGreaterSecurity"){
+		        
+		public ItemStack getIconItemStack() {
+			return new ItemStack(GreaterSecurity.itemLock, 1, 0);
+	            }
+			};
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)

@@ -1,6 +1,7 @@
 package hangcow.greatersecurity.common.laser;
 
 import hangcow.greatersecurity.client.render.BlockRenderHelper;
+import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -26,7 +27,7 @@ public class BlockLaserFence extends BlockAdvanced
 		this.setHardness(20f);
 		this.setResistance(100f);
 		this.setUnlocalizedName("LaserFence");
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
 
 	}
 

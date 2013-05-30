@@ -1,5 +1,6 @@
 package hangcow.greatersecurity.common.portcuils;
 
+import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -17,7 +18,7 @@ public class BlockPort extends BlockAdvanced
 	protected BlockPort(int par1)
 	{
 		super(par1, Material.rock);
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
 		this.setUnlocalizedName("port");
 	}
 
