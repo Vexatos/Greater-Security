@@ -21,17 +21,6 @@ import dark.library.terminal.TileEntityTerminal;
 
 public class TileEntityLockedChest extends TileEntityTerminal implements IInventory
 {
-	/* TYPE OF LOCKS */
-	enum LockTypes
-	{
-		CLASSIC("Key", null), NAME("User", null), PIN("Code", null);
-		
-		private LockTypes(String name, Class Gui)
-		{
-			
-		}
-	}
-
 	private ItemStack[] chestContents = new ItemStack[36];
 
 	/** Determines if the check for adjacent chests has taken place. */
