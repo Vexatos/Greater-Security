@@ -21,28 +21,15 @@ import dark.library.terminal.TileEntityTerminal;
 
 public class TileEntityLockedChest extends TileEntityTerminal implements IInventory
 {
-	/* EFFECT VALUE FOR THE RESISTANCE TYPE OF THE CHEST */
-	enum Hardness
-	{
-		// TODO Implement and add values
-		WOOD("wood", 0, 0), STONE("wood", 0, 0), COPPER("wood", 0, 0), BRONZE("wood", 0, 0), IRON("wood", 0, 0), STEEL("wood", 0, 0), DIAMOND("wood", 0, 0);
-
-		public String name;
-		public float resistance;
-		public float hardness;
-
-		private Hardness(String name, float resistance, float hardness)
-		{
-			this.name = name;
-			this.resistance = resistance;
-			this.hardness = hardness;
-		}
-	}
-
 	/* TYPE OF LOCKS */
 	enum LockTypes
 	{
-		CLASSIC(), NAME(), PIN();
+		CLASSIC("Key", null), NAME("User", null), PIN("Code", null);
+		
+		private LockTypes(String name, Class Gui)
+		{
+			
+		}
 	}
 
 	private ItemStack[] chestContents = new ItemStack[36];
