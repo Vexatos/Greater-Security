@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.terminal.TileEntityTerminal;
@@ -21,6 +22,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 {
 	public static final int MAX_LASER_RANGE = 10;
 	public static final int UPDATE_RATE = 3;
+	public static final double WattTick = 10;
 
 	private Color beamColor = Color.red;
 
@@ -39,8 +41,9 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		if (this.ticks % UPDATE_RATE == 0) // TODO add power check
 		{
 			int gridSize = this.getGridSize();
-			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize))
+			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize) && this.wattsReceived >= TileEntityLaserFence.WattTick)
 			{
+				this.wattsReceived -= TileEntityLaserFence.WattTick;
 				// System.out.println("Creating Lasers");
 				this.deployGrid(gridSize);
 			}
@@ -205,21 +208,16 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 				end = start.clone().modifyPositionFromSide(this.getFacingDirection(), gridLength + .75);
 				change = new Vector3(0.28125, 0, 0);
 			}
-		} 
-		
+		}
+
 		if (!worldObj.isRemote)
 		{
 			end = end.clone().add(change).add(change);
 			List<EntityLiving> entities;
-				entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(
-						start.x < end.x ? start.x : end.x,
-						start.y < end.y ? start.y : end.y,
-						start.z < end.z ? start.z : end.z,
-										
-						start.x > end.x ? start.x : end.x,
-						start.y > end.y ? start.y : end.y,
-						start.z > end.z ? start.z : end.z));
-				
+			entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(start.x < end.x ? start.x : end.x, start.y < end.y ? start.y : end.y, start.z < end.z ? start.z : end.z,
+
+			start.x > end.x ? start.x : end.x, start.y > end.y ? start.y : end.y, start.z > end.z ? start.z : end.z));
+
 			for (EntityLiving entity : entities)
 			{
 				if (entity != null && !entity.isDead)
@@ -234,7 +232,8 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		{
 
 			GreaterSecurity.proxy.renderBeam(worldObj, start, end, beamColor, UPDATE_RATE);
-			//DarkMain.renderBeam(worldObj, start, end.clone().add(change).add(change), Color.BLUE, UPDATE_RATE);
+			// DarkMain.renderBeam(worldObj, start, end.clone().add(change).add(change), Color.BLUE,
+			// UPDATE_RATE);
 			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change), end.clone().add(change), beamColor, UPDATE_RATE);
 			GreaterSecurity.proxy.renderBeam(worldObj, start.clone().add(change).add(change), end.clone().add(change).add(change), beamColor, UPDATE_RATE);
 		}
@@ -277,6 +276,11 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public String getChannel()
 	{
 		return GreaterSecurity.CHANNEL;
+	}
+
+	public ElectricityPack getRequest()
+	{
+		return new ElectricityPack(120, TileEntityLaserFence.WattTick / 120);
 	}
 
 }
