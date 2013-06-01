@@ -34,7 +34,7 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 			switch (facing){
 			
 			case 0:
-				entity.motionZ += this.KNOCKBACK;
+				entity.motionZ -= this.KNOCKBACK;
 				break;
 				
 			case 1:
@@ -42,7 +42,7 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 				break;
 				
 			case 2:
-				entity.motionZ -= this.KNOCKBACK;
+				entity.motionZ += this.KNOCKBACK;
 				break;
 				
 			case 3:
@@ -50,7 +50,10 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 				break;
 				
 			default:
+				// TODO Possibly change, added for switch statement stability.
 				entity.motionY += this.KNOCKBACK;
+				
+				// Facing source: http://www.minecraftwiki.net/wiki/Coordinates
 			
 			}
 		}
