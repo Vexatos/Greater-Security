@@ -99,13 +99,15 @@ public class GreaterSecurity
 	public static Boolean breakChests;
 	public static Boolean breakDoors;
 
-	// CreativeTab GreaterSecurity.tabGreaterSecurity
-	public static CreativeTabs tabGreaterSecurity = new CreativeTabs("tabGreaterSecurity"){
-		        
-		public ItemStack getIconItemStack() {
+	// CreativeTab GreaterSecurity.tabGreaterSecurity 
+	public static CreativeTabs tabGreaterSecurity = new CreativeTabs("GreaterSecurity")
+	{
+
+		public ItemStack getIconItemStack()
+		{
 			return new ItemStack(GreaterSecurity.itemLock, 1, 0);
-	            }
-			};
+		}
+	};
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
@@ -159,10 +161,10 @@ public class GreaterSecurity
 		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "LChest");
 		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "LDoor");
 		GameRegistry.registerTileEntity(TileEntityLaserFence.class, "LaserFence");
-		
+
 		// TODO Added string localisation for creative tab
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabGreaterSecurity", "en_US", this.MOD_NAME);
-		
+
 		FMLLog.info(" Loaded: " + TranslationHelper.loadLanguages(LANGUAGE_PATH, LANGUAGES_SUPPORTED) + " Languages.");
 
 	}
@@ -177,11 +179,17 @@ public class GreaterSecurity
 		GameRegistry.addShapelessRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1), new Object[] { new ItemStack(Block.chest), new ItemStack(GreaterSecurity.itemLock, 1) });
 
 		// // Stone Chest ////
-		//GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new Object[] { "SSS", "SCS", "SSS", 'S', Block.stone, 'C', GreaterSecurity.blockLockedChest });
+		// GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new
+		// Object[] { "SSS", "SCS", "SSS", 'S', Block.stone, 'C', GreaterSecurity.blockLockedChest
+		// });
 		// // Iron Chest ////
-		//GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new Object[] { "SSS", "SCS", "SSS", 'S', Item.ingotIron, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
+		// GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new
+		// Object[] { "SSS", "SCS", "SSS", 'S', Item.ingotIron, 'C', new
+		// ItemStack(GreaterSecurity.blockLockedChest, 1) });
 		// // Obby Chest ////
-		//GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new Object[] { "SSS", "SCS", "SSS", 'S', Block.obsidian, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
+		// GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new
+		// Object[] { "SSS", "SCS", "SSS", 'S', Block.obsidian, 'C', new
+		// ItemStack(GreaterSecurity.blockLockedChest, 1) });
 		// // Laser Fence ////
 		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLaserFence, 1), new Object[] { "GGG", "CRC", "WBW", 'G', Block.glass, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 
@@ -190,7 +198,6 @@ public class GreaterSecurity
 
 		// // Item Lock ////
 		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.itemLock, 2), new Object[] { "III", "I I", "WIW", 'W', Block.wood, 'I', Item.ingotIron });
-		
-		
+
 	}
 }
