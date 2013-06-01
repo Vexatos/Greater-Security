@@ -1,16 +1,15 @@
 package hangcow.greatersecurity.common.fence.eltro;
 
-import dark.library.machine.TileEntityRunnableMachine;
 import net.minecraft.entity.Entity;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.CustomDamageSource;
+import dark.library.machine.TileEntityRunnableMachine;
 
 public class TileEntityEltroFence extends TileEntityRunnableMachine
 {
 
 	private static final double WATT_PER_SHOCK = 30;
 	private static final double WATT_PER_TICK = 10;
-	private boolean canShock = true;
 
 	/**
 	 * Shock an entity if there is power
@@ -18,11 +17,13 @@ public class TileEntityEltroFence extends TileEntityRunnableMachine
 	public void shockEntity(Entity entity)
 	{
 
-		if (this.canShock && entity != null)
+		if (entity != null && this.wattsReceived >= this.WATT_PER_SHOCK)
 		{
-			int damage = (int) (this.getVoltage() % 120);
+			int damage = 1; // getVoltage() always return the same #
+
 			/* DAMAGE PER TICK OF COLLISION (20ticks a sec) */
-			entity.attackEntityFrom(CustomDamageSource.electrocution, damage);
+			entity.attackEntityFrom(CustomDamageSource.electrocution.setDeathMessage("%1$s tried to climb an electric fence!"), damage);
+
 			// TODO knock back entity and cause disabling potion effects
 			this.wattsReceived -= this.WATT_PER_SHOCK;
 		}
@@ -31,19 +32,12 @@ public class TileEntityEltroFence extends TileEntityRunnableMachine
 	@Override
 	public double getWattBuffer()
 	{
-		return this.getRequest().getWatts() * 5;
+		return (this.WATT_PER_TICK + this.WATT_PER_SHOCK) * 5;
 	}
 
 	@Override
 	public ElectricityPack getRequest()
 	{
-		return new ElectricityPack(120, Math.max(this.WATT_PER_TICK / 120, 0));
-	}
-
-	@Override
-	public double getVoltage()
-	{
-		/* THIS IS NOT RUNNING VOLTAGE BUT MAX */
-		return 10000;
+		return new ElectricityPack(120, Math.max((this.getWattBuffer() - this.wattsReceived) / 120, 0));
 	}
 }
