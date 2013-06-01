@@ -6,6 +6,8 @@ import hangcow.greatersecurity.common.cmd.CommandBreak;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
+import hangcow.greatersecurity.common.fence.eltro.BlockEletroFence;
+import hangcow.greatersecurity.common.fence.eltro.TileEntityEltroFence;
 import hangcow.greatersecurity.common.fence.laser.BlockLaserFence;
 import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 
@@ -90,6 +92,7 @@ public class GreaterSecurity
 	public static Block blockLockedChest;
 	public static Block blockLockedDoor;
 	public static Block blockLaserFence;
+	public static BlockEletroFence blockEltroFence;
 
 	/* ITEMS */
 	public static Item itemLock;
@@ -126,6 +129,7 @@ public class GreaterSecurity
 		blockLockedChest = new BlockLockedChest(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedChest", 1777).getInt());
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoor", 1714).getInt());
 		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserFence", 1715).getInt());
+		blockEltroFence = new BlockEletroFence(config.getBlock(Configuration.CATEGORY_BLOCK, "EltroFence", 1716).getInt());
 
 		config.save();
 
@@ -133,6 +137,7 @@ public class GreaterSecurity
 		GameRegistry.registerBlock(blockLockedChest, "gsChest");
 		GameRegistry.registerBlock(blockLockedDoor, "gsDoor");
 		GameRegistry.registerBlock(blockLaserFence, "gsLaserFence");
+		GameRegistry.registerBlock(blockEltroFence, "gsEltroFence");
 
 		proxy.preInit();
 
@@ -161,6 +166,7 @@ public class GreaterSecurity
 		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "LChest");
 		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "LDoor");
 		GameRegistry.registerTileEntity(TileEntityLaserFence.class, "LaserFence");
+		GameRegistry.registerTileEntity(TileEntityEltroFence.class, "EltroFence");
 
 		// TODO Added string localisation for creative tab
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabGreaterSecurity", "en_US", this.MOD_NAME);

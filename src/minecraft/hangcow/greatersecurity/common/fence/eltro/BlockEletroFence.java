@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -17,13 +18,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEletroFence extends BlockAdvanced
 {
-	private final String textureName;
 
-	public BlockEletroFence(int ID, String texture)
+	public BlockEletroFence(int Id)
 	{
-		super(ID, Material.iron);
-		this.textureName = texture;
+		super(Id, Material.iron);
 		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
+		this.setUnlocalizedName("EltroFence");
 	}
 
 	@Override
@@ -139,12 +139,10 @@ public class BlockEletroFence extends BlockAdvanced
 		return false;
 	}
 
-	/**
-	 * The type of render function that is called for this block
-	 */
+	@Override
 	public int getRenderType()
 	{
-		return 11;
+		return -1;
 	}
 
 	/**
@@ -176,6 +174,29 @@ public class BlockEletroFence extends BlockAdvanced
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.blockIcon = par1IconRegister.registerIcon(this.textureName);
+		// this.blockIcon = par1IconRegister.registerIcon(this.textureName);
+		this.blockIcon = Block.blockIron.getBlockTextureFromSide(0);
+	}
+
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
+	{
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if (ent instanceof TileEntityEltroFence)
+		{
+			((TileEntityEltroFence) ent).shockEntity(entity);
+		}
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world)
+	{
+		return new TileEntityEltroFence();
+	}
+
+	@Override
+	public boolean isLadder(World world, int x, int y, int z)
+	{
+		return true;
 	}
 }

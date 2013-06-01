@@ -10,7 +10,7 @@ public class TileEntityEltroFence extends TileEntityRunnableMachine
 
 	private static final double WATT_PER_SHOCK = 30;
 	private static final double WATT_PER_TICK = 10;
-	private boolean canShock = false;
+	private boolean canShock = true;
 
 	/**
 	 * Shock an entity if there is power
@@ -23,7 +23,7 @@ public class TileEntityEltroFence extends TileEntityRunnableMachine
 			int damage = (int) (this.getVoltage() % 60);
 
 			entity.attackEntityFrom(CustomDamageSource.electrocution, damage);
-
+			// TODO knock back entity and cause disabling potion effects
 			this.wattsReceived -= this.WATT_PER_SHOCK;
 		}
 	}
@@ -37,7 +37,7 @@ public class TileEntityEltroFence extends TileEntityRunnableMachine
 	@Override
 	public ElectricityPack getRequest()
 	{
-		return new ElectricityPack(120, Math.max((this.getWattBuffer() - this.wattsReceived) / 120, 0));
+		return new ElectricityPack(120, Math.max(this.WATT_PER_TICK / 120, 0));
 	}
 
 	@Override

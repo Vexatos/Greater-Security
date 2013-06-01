@@ -1,10 +1,12 @@
 package hangcow.greatersecurity.client;
 
 import hangcow.greatersecurity.client.render.RenderChest;
+import hangcow.greatersecurity.client.render.RenderEltroFence;
 import hangcow.greatersecurity.client.render.RenderLaserEmitter;
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.PlayerKeyHandler;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
+import hangcow.greatersecurity.common.fence.eltro.TileEntityEltroFence;
 import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 
 import java.awt.Color;
@@ -33,9 +35,10 @@ public class ClientProxy extends CommonProxy
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLockedChest.class, new RenderChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserFence.class, new RenderLaserEmitter());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEltroFence.class, new RenderEltroFence());
 
 		RenderingRegistry.registerBlockHandler(new hangcow.greatersecurity.client.render.BlockRenderHelper());
-		
+
 	}
 
 	/**
@@ -54,5 +57,5 @@ public class ClientProxy extends CommonProxy
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, color, DarkMain.TEXTURE_DIRECTORY + "", age));
 		}
 	}
-	
+
 }
