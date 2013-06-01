@@ -20,8 +20,8 @@ public class TileEntityEltroFence extends TileEntityRunnableMachine
 
 		if (this.canShock && entity != null)
 		{
-			int damage = (int) (this.getVoltage() % 60);
-
+			int damage = (int) (this.getVoltage() % 120);
+			/* DAMAGE PER TICK OF COLLISION (20ticks a sec) */
 			entity.attackEntityFrom(CustomDamageSource.electrocution, damage);
 			// TODO knock back entity and cause disabling potion effects
 			this.wattsReceived -= this.WATT_PER_SHOCK;

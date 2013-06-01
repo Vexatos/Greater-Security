@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -145,16 +146,22 @@ public class BlockEletroFence extends BlockAdvanced
 		return -1;
 	}
 
+	public boolean canConnectFenceTo(IBlockAccess world, int x, int y, int z)
+	{
+
+		return this.canConnectFenceTo(world, new Vector3(x, y, z));
+	}
+
 	/**
 	 * Returns true if the specified block can be connected by a fence
 	 */
-	public boolean canConnectFenceTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	public boolean canConnectFenceTo(IBlockAccess par1IBlockAccess, Vector3 vec)
 	{
-		int l = par1IBlockAccess.getBlockId(par2, par3, par4);
+		int blockID = par1IBlockAccess.getBlockId(vec.intX(), vec.intY(), vec.intZ());
 
-		if (l != this.blockID && l != Block.fenceGate.blockID)
+		if (blockID != this.blockID && blockID != Block.fenceGate.blockID && blockID != this.blockID)
 		{
-			Block block = Block.blocksList[l];
+			Block block = Block.blocksList[blockID];
 			return block != null && block.blockMaterial.isOpaque() && block.renderAsNormalBlock() ? block.blockMaterial != Material.pumpkin : false;
 		}
 		else
