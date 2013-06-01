@@ -26,7 +26,7 @@ public class ItemLockedDoor extends Item
 		super(par1);
 		this.setMaxStackSize(3);
 		this.setUnlocalizedName("LockedDoor");
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
 		this.setHasSubtypes(true);
 	}
 

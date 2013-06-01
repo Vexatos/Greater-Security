@@ -5,7 +5,7 @@ import hangcow.greatersecurity.client.render.RenderLaserEmitter;
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.PlayerKeyHandler;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
-import hangcow.greatersecurity.common.laser.TileEntityLaserFence;
+import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 
 import java.awt.Color;
 

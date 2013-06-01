@@ -6,8 +6,8 @@ import hangcow.greatersecurity.common.cmd.CommandBreak;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
-import hangcow.greatersecurity.common.laser.BlockLaserFence;
-import hangcow.greatersecurity.common.laser.TileEntityLaserFence;
+import hangcow.greatersecurity.common.fence.laser.BlockLaserFence;
+import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 
 import java.io.File;
 import java.util.Arrays;

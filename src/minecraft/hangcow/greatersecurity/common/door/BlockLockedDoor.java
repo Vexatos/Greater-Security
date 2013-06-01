@@ -33,7 +33,6 @@ public class BlockLockedDoor extends BlockAdvanced
 	{
 		super(id, Material.iron);
 		this.setUnlocalizedName("lockedDoor");
-		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
 		float width = 0.5F;
 		float height = 1.0F;
 		this.setBlockBounds(0.5F - width, 0.0F, 0.5F - width, 0.5F + width, height, 0.5F + width);
