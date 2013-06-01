@@ -3,6 +3,7 @@ package hangcow.greatersecurity.common;
 import hangcow.greatersecurity.common.chest.BlockLockedChest;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
 import hangcow.greatersecurity.common.cmd.CommandBreak;
+import hangcow.greatersecurity.common.detector.BlockDetector;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
@@ -95,6 +96,7 @@ public class GreaterSecurity
 	public static Block blockLockedDoor;
 	public static Block blockLaserFence;
 	public static BlockElectroFence blockElectroFence;
+	public static Block blockItemDetector;
 
 	/* ITEMS */
 	public static Item itemLock;
@@ -103,6 +105,8 @@ public class GreaterSecurity
 	/* CONFIG VARS */
 	public static Boolean breakChests;
 	public static Boolean breakDoors;
+	// TODO Added breakDetetcors field to be read form config
+	public static Boolean breakDetectors;
 
 	// CreativeTab GreaterSecurity.tabGreaterSecurity 
 	public static CreativeTabs tabGreaterSecurity = new CreativeTabs("GreaterSecurity")
@@ -124,6 +128,8 @@ public class GreaterSecurity
 		config.load();
 		breakChests = config.get(Configuration.CATEGORY_GENERAL, "canBreakChests", true).getBoolean(true);
 		breakChests = config.get(Configuration.CATEGORY_GENERAL, "canBreakDoors", true).getBoolean(true);
+		// TODO Added breakDetectors config reading.
+		breakDetectors = config.get(Configuration.CATEGORY_GENERAL, "canBreakDetecors", true).getBoolean(true);
 
 		itemLock = new ItemLock(config.getItem(Configuration.CATEGORY_ITEM, "LockItemID", 30007).getInt());
 		itemLockedDoor = new ItemLockedDoor(config.getItem(Configuration.CATEGORY_ITEM, "DoorItemID", 30008).getInt());
@@ -132,6 +138,8 @@ public class GreaterSecurity
 		blockLockedDoor = new BlockLockedDoor(config.getBlock(Configuration.CATEGORY_BLOCK, "LockedDoor", 1714).getInt());
 		blockLaserFence = new BlockLaserFence(config.getBlock(Configuration.CATEGORY_BLOCK, "LaserFence", 1715).getInt());
 		blockElectroFence = new BlockElectroFence(config.getBlock(Configuration.CATEGORY_BLOCK, "EltroFence", 1716).getInt());
+		// TODO Added blockDetector
+		blockItemDetector = new BlockDetector(config.getBlock(Configuration.CATEGORY_BLOCK, "ItemDetector", 1717).getInt());
 
 		config.save();
 
@@ -140,6 +148,7 @@ public class GreaterSecurity
 		GameRegistry.registerBlock(blockLockedDoor, "gsDoor");
 		GameRegistry.registerBlock(blockLaserFence, "gsLaserFence");
 		GameRegistry.registerBlock(blockElectroFence, "gsEltroFence");
+		GameRegistry.registerBlock(blockItemDetector, "gsItemDetector");
 
 		proxy.preInit();
 
