@@ -2,6 +2,7 @@ package hangcow.greatersecurity.common.chest;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,127 +21,28 @@ import net.minecraftforge.common.ForgeDirection;
 import dark.library.access.AccessLevel;
 import dark.library.terminal.TileEntityTerminal;
 
-public class TileEntityLockedChest extends TileEntityTerminal implements IInventory
+public class TileEntityLockedChest extends TileEntityTerminal
 {
 	private ItemStack[] chestContents = new ItemStack[36];
-
+	private List<ItemStack> inputItems = new ArrayList<ItemStack>();
+	private List<ItemStack> outputItems = new ArrayList<ItemStack>();
 	/** Determines if the check for adjacent chests has taken place. */
 	public boolean adjacentChestChecked = false;
 
 	/** Contains the chest tile located adjacent to this one (if any) */
 	public TileEntityLockedChest adjacentChestZNeg;
-
-	/** Contains the chest tile located adjacent to this one (if any) */
 	public TileEntityLockedChest adjacentChestXPos;
-
-	/** Contains the chest tile located adjacent to this one (if any) */
 	public TileEntityLockedChest adjacentChestXNeg;
-
-	/** Contains the chest tile located adjacent to this one (if any) */
 	public TileEntityLockedChest adjacentChestZPosition;
 
 	/** The current angle of the lid (between 0 and 1) */
 	public float lidAngle;
-
-	/** The angle of the lid last tick */
 	public float prevLidAngle;
 
 	/** The type of chest 0 = woord 1 = stone 2 = Iron 3 = obby */
-	private int chestType = 0;
+	private HardnessTiers hardnessType = HardnessTiers.WOOD;
 
-	/**
-	 * Returns the number of slots in the inventory.
-	 */
-	public int getSizeInventory()
-	{
-		return 27;
-	}
-
-	/**
-	 * Returns the stack in slot i
-	 */
-	public ItemStack getStackInSlot(int slot)
-	{
-		return this.chestContents[slot];
-	}
-
-	/**
-	 * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and
-	 * returns them in a new stack.
-	 */
-	public ItemStack decrStackSize(int slot, int ammount)
-	{
-		if (this.chestContents[slot] != null)
-		{
-			ItemStack var3;
-
-			if (this.chestContents[slot].stackSize <= ammount)
-			{
-				var3 = this.chestContents[slot];
-				this.chestContents[slot] = null;
-				this.onInventoryChanged();
-				return var3;
-			}
-			else
-			{
-				var3 = this.chestContents[slot].splitStack(ammount);
-
-				if (this.chestContents[slot].stackSize == 0)
-				{
-					this.chestContents[slot] = null;
-				}
-
-				this.onInventoryChanged();
-				return var3;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * When some containers are closed they call this on each slot, then drop whatever it returns as
-	 * an EntityItem - like when you close a workbench GUI.
-	 */
-	public ItemStack getStackInSlotOnClosing(int par1)
-	{
-		if (this.chestContents[par1] != null)
-		{
-			ItemStack var2 = this.chestContents[par1];
-			this.chestContents[par1] = null;
-			return var2;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor
-	 * sections).
-	 */
-	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
-	{
-		this.chestContents[par1] = par2ItemStack;
-
-		if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-		{
-			par2ItemStack.stackSize = this.getInventoryStackLimit();
-		}
-
-		this.onInventoryChanged();
-	}
-
-	/**
-	 * Returns the name of the inventory.
-	 */
-	public String getInvName()
-	{
-		return "container.chest";
-	}
+	public InvChest chestInv = new InvChest(this);
 
 	/**
 	 * Reads a tile entity from NBT.
@@ -148,7 +51,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.chestType = nbt.getInteger("chestType");
+		this.hardnessType = HardnessTiers.get(nbt.getInteger("chestType"));
 		// // Check for old save list and convert //
 		if (nbt.hasKey("Owner"))
 		{
@@ -165,7 +68,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 		}
 		// chest inv reading
 		NBTTagList var2 = nbt.getTagList("Items");
-		this.chestContents = new ItemStack[this.getSizeInventory()];
+		this.chestContents = new ItemStack[this.chestInv.getSizeInventory()];
 
 		for (int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -186,7 +89,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setInteger("chestType", this.chestType);
+		nbt.setInteger("chestType", this.hardnessType.ordinal());
 
 		NBTTagList var2 = new NBTTagList();
 		for (int var3 = 0; var3 < this.chestContents.length; ++var3)
@@ -201,23 +104,6 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 		}
 
 		nbt.setTag("Items", var2);
-	}
-
-	/**
-	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
-	 * extended. *Isn't this more of a set than a get?*
-	 */
-	public int getInventoryStackLimit()
-	{
-		return 64;
-	}
-
-	/**
-	 * Do not make give this method the name canInteractWith because it clashes with Container
-	 */
-	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-	{
-		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
 	}
 
 	/**
@@ -350,7 +236,7 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 				{
 					IInventory playerInv = ((ContainerChest) player.openContainer).getLowerChestInventory();
 
-					if (playerInv == this || playerInv instanceof InventoryLargeChest && ((InventoryLargeChest) playerInv).isPartOfLargeChest(this))
+					if (playerInv == this || playerInv instanceof InventoryLargeChest && ((InventoryLargeChest) playerInv).isPartOfLargeChest(this.chestInv))
 					{
 						this.playersUsing.add(player);
 					}
@@ -423,17 +309,6 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 				this.lidAngle = 0.0F;
 			}
 		}
-	}
-
-	@Override
-	public void openChest()
-	{
-	}
-
-	@Override
-	public void closeChest()
-	{
-
 	}
 
 	@Override
@@ -518,31 +393,23 @@ public class TileEntityLockedChest extends TileEntityTerminal implements IInvent
 		return removed;
 	}
 
-	public int getType()
+	public ItemStack[] getContainingItems()
 	{
-		return this.chestType;
+		return this.chestContents;
 	}
 
-	public void setType(int type)
+	public boolean canInsertItem(int i, ItemStack itemstack, int j)
 	{
-		this.chestType = type;
+		return this.inputItems.contains(itemstack);
 	}
 
-	@Override
-	public boolean isInvNameLocalized()
+	public boolean canExtractItem(int i, ItemStack itemstack, int j)
 	{
-		return false;
+		return this.outputItems.contains(itemstack);
 	}
 
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack)
+	public HardnessTiers getType()
 	{
-		return true;
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction)
-	{
-		return false;
+		return this.hardnessType;
 	}
 }

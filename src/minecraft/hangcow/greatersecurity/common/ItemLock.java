@@ -87,9 +87,9 @@ public class ItemLock extends Item
 							lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
 						}
 						// // add chest inv to new locked chest //
-						for (int b = 0; b < lockedChest.getSizeInventory(); b++)
+						for (int b = 0; b < lockedChest.chestInv.getSizeInventory(); b++)
 						{
-							lockedChest.setInventorySlotContents(b, chestItems[b]);
+							lockedChest.chestInv.setInventorySlotContents(b, chestItems[b]);
 
 						}
 						entityplayer.sendChatToPlayer("Chest Locked");

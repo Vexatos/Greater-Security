@@ -37,4 +37,13 @@ public enum HardnessTiers
 
 		return item;
 	}
+
+	public static HardnessTiers get(int i)
+	{
+		if( i < HardnessTiers.values().length)
+		{
+			return HardnessTiers.values()[i];
+		}
+		return WOOD;
+	}
 }

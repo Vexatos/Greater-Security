@@ -50,7 +50,11 @@ public class BlockLockedChest extends BlockAdvanced
 			TileEntity ent = world.getBlockTileEntity(x, y, z);
 			if (ent instanceof TileEntityLockedChest)
 			{
-				int type = ((TileEntityLockedChest) ent).getType();
+				HardnessTiers type = ((TileEntityLockedChest) ent).getType();
+				if (type != null)
+				{
+					hardness = type.hardness;
+				}
 
 			}
 			return hardness;
@@ -439,35 +443,22 @@ public class BlockLockedChest extends BlockAdvanced
 		{
 			return true;
 		}
-		else if (var10 instanceof TileEntityLockedChest && !((TileEntityLockedChest) var10).canUserAccess(player.username))
+		else if (var10 instanceof TileEntityLockedChest)
 		{
-			player.sendChatToPlayer("-=|[Locked]|=-");
-			return true;
-		}
-		else
-		{
-			if (world.getBlockId(x - 1, y, z) == this.blockID)
+			TileEntityLockedChest chest = ((TileEntityLockedChest) var10);
+			if (!chest.canUserAccess(player.username))
 			{
-				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) world.getBlockTileEntity(x - 1, y, z), (IInventory) var10);
+				player.sendChatToPlayer("-=|[Locked]|=-");
+				return true;
 			}
-
-			if (world.getBlockId(x + 1, y, z) == this.blockID)
+			else if (chest.getAdjacentChest() != null)
 			{
-				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) var10, (IInventory) world.getBlockTileEntity(x + 1, y, z));
-			}
-
-			if (world.getBlockId(x, y, z - 1) == this.blockID)
-			{
-				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) world.getBlockTileEntity(x, y, z - 1), (IInventory) var10);
-			}
-
-			if (world.getBlockId(x, y, z + 1) == this.blockID)
-			{
-				var10 = new InventoryLargeChest("container.chestDouble", (IInventory) var10, (IInventory) world.getBlockTileEntity(x, y, z + 1));
+				var10 = new InventoryLargeChest("container.chestDouble", chest.getAdjacentChest().chestInv, chest.chestInv);
 			}
 			player.displayGUIChest((IInventory) var10);
-			return true;
 		}
+
+		return true;
 	}
 
 	@Override
