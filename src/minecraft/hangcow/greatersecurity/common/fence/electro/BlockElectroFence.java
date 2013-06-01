@@ -1,4 +1,4 @@
-package hangcow.greatersecurity.common.fence.eltro;
+package hangcow.greatersecurity.common.fence.electro;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 

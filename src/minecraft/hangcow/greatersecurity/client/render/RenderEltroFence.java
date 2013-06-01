@@ -1,7 +1,7 @@
 package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.fence.eltro.BlockEletroFence;
+import hangcow.greatersecurity.common.fence.electro.BlockEletroFence;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

@@ -6,8 +6,8 @@ import hangcow.greatersecurity.common.cmd.CommandBreak;
 import hangcow.greatersecurity.common.door.BlockLockedDoor;
 import hangcow.greatersecurity.common.door.ItemLockedDoor;
 import hangcow.greatersecurity.common.door.TileEntityLockedDoor;
-import hangcow.greatersecurity.common.fence.eltro.BlockEletroFence;
-import hangcow.greatersecurity.common.fence.eltro.TileEntityEltroFence;
+import hangcow.greatersecurity.common.fence.electro.BlockEletroFence;
+import hangcow.greatersecurity.common.fence.electro.TileEntityEltroFence;
 import hangcow.greatersecurity.common.fence.laser.BlockLaserFence;
 import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 
