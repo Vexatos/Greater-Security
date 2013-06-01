@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +37,7 @@ public class BlockLockedChest extends BlockAdvanced
 		if (!GreaterSecurity.breakChests)
 		{
 			this.setBlockUnbreakable();
-		}
+		}		
 	}
 
 	@Override

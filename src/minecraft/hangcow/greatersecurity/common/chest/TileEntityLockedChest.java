@@ -39,7 +39,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 	public float lidAngle;
 	public float prevLidAngle;
 
-	/** The type of chest 0 = woord 1 = stone 2 = Iron 3 = obby */
+	/** The type of material the chest is made from */
 	private HardnessTiers hardnessType = HardnessTiers.WOOD;
 
 	public InvChest chestInv = new InvChest(this);
@@ -363,7 +363,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 		catch (Exception e)
 		{
-			System.out.println("Failed to add user to linked chest");
+			System.out.println("LockedChest>>>RemoveUser>>>Failed");
 			e.printStackTrace();
 		}
 		return added;
@@ -387,7 +387,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 		catch (Exception e)
 		{
-			System.out.println("Failed to remove a user from a linked chest");
+			System.out.println("LockedChest>>>AddUser>>Failed");
 			e.printStackTrace();
 		}
 		return removed;
