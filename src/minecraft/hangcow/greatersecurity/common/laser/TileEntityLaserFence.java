@@ -26,6 +26,8 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public static final int MAX_LASER_RANGE = 10;
 	public static final int UPDATE_RATE = 3;
 	public static final double WattTick = 10;
+	
+	/** The required and deducted watts for each shock */
 	public static final double WATT_PER_SHOCK = 10;
 
 	private Color beamColor = Color.red;

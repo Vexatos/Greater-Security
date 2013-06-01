@@ -35,6 +35,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import dark.library.terminal.commands.CommandHelp;
 import dark.library.terminal.commands.CommandRegistry;
 import dark.library.terminal.commands.CommandUser;
@@ -158,6 +159,9 @@ public class GreaterSecurity
 		GameRegistry.registerTileEntity(TileEntityLockedChest.class, "LChest");
 		GameRegistry.registerTileEntity(TileEntityLockedDoor.class, "LDoor");
 		GameRegistry.registerTileEntity(TileEntityLaserFence.class, "LaserFence");
+		
+		// TODO Added string localisation for creative tab
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabGreaterSecurity", "en_US", this.MOD_NAME);
 		
 		FMLLog.info(" Loaded: " + TranslationHelper.loadLanguages(LANGUAGE_PATH, LANGUAGES_SUPPORTED) + " Languages.");
 
