@@ -6,7 +6,7 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.CustomDamageSource;
 import dark.library.machine.TileEntityRunnableMachine;
 
-public class TileEntityEltroFence extends TileEntityRunnableMachine
+public class TileEntityElectroFence extends TileEntityRunnableMachine
 {
 
 	private static final double WATT_PER_SHOCK = 30;

@@ -17,10 +17,10 @@ import universalelectricity.prefab.block.BlockAdvanced;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEletroFence extends BlockAdvanced
+public class BlockElectroFence extends BlockAdvanced
 {
 
-	public BlockEletroFence(int Id)
+	public BlockElectroFence(int Id)
 	{
 		super(Id, Material.iron);
 		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
@@ -189,16 +189,16 @@ public class BlockEletroFence extends BlockAdvanced
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (ent instanceof TileEntityEltroFence)
+		if (ent instanceof TileEntityElectroFence)
 		{
-			((TileEntityEltroFence) ent).shockEntity(entity);
+			((TileEntityElectroFence) ent).shockEntity(entity);
 		}
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
-		return new TileEntityEltroFence();
+		return new TileEntityElectroFence();
 	}
 
 	@Override
