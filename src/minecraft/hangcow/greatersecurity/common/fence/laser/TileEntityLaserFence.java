@@ -1,4 +1,4 @@
-package hangcow.greatersecurity.common.laser;
+package hangcow.greatersecurity.common.fence.laser;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 
@@ -15,7 +15,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
 import dark.library.access.interfaces.ISpecialAccess;
@@ -26,16 +25,13 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public static final int MAX_LASER_RANGE = 10;
 	public static final int UPDATE_RATE = 3;
 	public static final double WattTick = 10;
-	
+
 	/** The required and deducted watts for each shock */
 	public static final double WATT_PER_SHOCK = 10;
 
 	private Color beamColor = Color.red;
 
 	Vector3 fenceLocation = null;
-	
-	/** Whether or not the tile entity can shock */
-	public boolean canShock;
 
 	@Override
 	public void updateEntity()
@@ -46,26 +42,19 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		{
 			fenceLocation = new Vector3(this);
 		}
-
-		if (this.ticks % UPDATE_RATE == 0) // TODO add power check
+		/* TICK REDUCTION UPDATE */
+		if (this.ticks % UPDATE_RATE == 0)
 		{
+			/* LASER GRID SETUP */
 			int gridSize = this.getGridSize();
+			/* HAS REDSTONE POWER, CAN GENERATE LASER, HAS POWER CHECKS */
 			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize) && this.wattsReceived >= TileEntityLaserFence.WattTick)
 			{
+				/* POWER DRAIN */
 				this.wattsReceived -= TileEntityLaserFence.WattTick;
-				// System.out.println("Creating Lasers");
+				/* DEPLOY GRID */
 				this.deployGrid(gridSize);
 			}
-		}
-		// TODO Added power check for canShock
-		if (this.wattsReceived >= this.WATT_PER_SHOCK){
-			
-			this.canShock = true;
-			
-		}else{
-			
-			this.canShock = false;
-			
 		}
 	}
 
@@ -87,6 +76,12 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return true;
 	}
 
+	/**
+	 * Can the laser pass threw the block without being sloped
+	 * 
+	 * @param vec - location of the block
+	 * @return true if it can
+	 */
 	public boolean canRenderThrew(Vector3 vec)
 	{
 		int blockID = vec.getBlockID(this.worldObj);
@@ -300,41 +295,6 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public ElectricityPack getRequest()
 	{
 		return new ElectricityPack(120, TileEntityLaserFence.WattTick / 120);
-	}
-
-	// TODO Added shockEntity method for use in BlockLaserFence
-	/**
-	 * Checks if an entity can be shocked / electocuted and does it if possible. 
-	 * @param entity
-	 */
-	public void shockEntity(Entity par5Entity) {
-		
-		if (this.canShock){
-			
-			double voltage = this.getVoltage();
-			
-			int damage;
-			
-			if (voltage == 120.0){
-				
-				damage = 2;
-			
-			}else if (voltage == 240.0){
-				
-				damage = 4;
-				
-			}else{
-				
-				damage = 0;
-				
-			}
-			
-			par5Entity.attackEntityFrom(CustomDamageSource.electrocution, damage);
-			
-			this.wattsReceived -= this.WATT_PER_SHOCK;
-			
-		}
-		
 	}
 
 }

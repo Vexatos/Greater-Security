@@ -1,7 +1,7 @@
 package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.laser.TileEntityLaserFence;
+import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
