@@ -4,6 +4,7 @@ import hangcow.greatersecurity.client.render.BlockRenderHelper;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -175,6 +176,15 @@ public class BlockLaserFence extends BlockAdvanced
 			}
 		}
 	}
+	
+	// TODO Review
+	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+    {
+    	TileEntityLaserFence fenceBlock = (TileEntityLaserFence) par1World.getBlockTileEntity(par2, par3, par4);
+    	
+    	fenceBlock.shockEntity(par5Entity);
+    	
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World world)
@@ -199,4 +209,6 @@ public class BlockLaserFence extends BlockAdvanced
 	{
 		return BlockRenderHelper.renderID;
 	}
+	
+	
 }

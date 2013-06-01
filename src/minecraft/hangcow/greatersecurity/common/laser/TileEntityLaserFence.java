@@ -9,12 +9,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.BlockMushroom;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.electricity.IElectricityNetwork;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.CustomDamageSource;
 import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.terminal.TileEntityTerminal;
 
@@ -23,10 +26,14 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public static final int MAX_LASER_RANGE = 10;
 	public static final int UPDATE_RATE = 3;
 	public static final double WattTick = 10;
+	public static final double WATT_PER_SHOCK = 10;
 
 	private Color beamColor = Color.red;
 
 	Vector3 fenceLocation = null;
+	
+	/** Whether or not the tile entity can shock */
+	public boolean canShock;
 
 	@Override
 	public void updateEntity()
@@ -47,6 +54,16 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 				// System.out.println("Creating Lasers");
 				this.deployGrid(gridSize);
 			}
+		}
+		// TODO Added power check for canShock
+		if (this.wattsReceived >= this.WATT_PER_SHOCK){
+			
+			this.canShock = true;
+			
+		}else{
+			
+			this.canShock = false;
+			
 		}
 	}
 
@@ -281,6 +298,41 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public ElectricityPack getRequest()
 	{
 		return new ElectricityPack(120, TileEntityLaserFence.WattTick / 120);
+	}
+
+	// TODO Added shockEntity method for use in BlockLaserFence
+	/**
+	 * Checks if an entity can be shocked / electocuted and does it if possible. 
+	 * @param entity
+	 */
+	public void shockEntity(Entity par5Entity) {
+		
+		if (this.canShock){
+			
+			double voltage = this.getVoltage();
+			
+			int damage;
+			
+			if (voltage == 120.0){
+				
+				damage = 2;
+			
+			}else if (voltage == 240.0){
+				
+				damage = 4;
+				
+			}else{
+				
+				damage = 0;
+				
+			}
+			
+			par5Entity.attackEntityFrom(CustomDamageSource.electrocution, damage);
+			
+			this.wattsReceived -= this.WATT_PER_SHOCK;
+			
+		}
+		
 	}
 
 }
