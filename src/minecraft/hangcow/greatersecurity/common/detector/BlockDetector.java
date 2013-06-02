@@ -1,15 +1,26 @@
 package hangcow.greatersecurity.common.detector;
 
+import java.util.List;
+
+import universalelectricity.prefab.block.BlockAdvanced;
+
+import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
+import hangcow.greatersecurity.common.fence.electro.TileEntityElectroFence;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockDetector extends BlockDoor{
+public class BlockDetector extends BlockAdvanced {
 	
 	public BlockDetector(int par1) {
 		super(par1, Material.iron);
@@ -22,9 +33,9 @@ public class BlockDetector extends BlockDoor{
 		}else{
 		
 			setHardness(10F);
+			setResistance(100F); // TODO Test and improve, this is just an experimental number.
 		
 		}
-		setResistance(100F);
 	}
 	
 	@Override
@@ -39,6 +50,12 @@ public class BlockDetector extends BlockDoor{
 		
 		return false;
 		
+	}
+	
+	@Override
+	public TileEntity createNewTileEntity(World world)
+	{
+		return new TileEntityDetector();
 	}
 	
 	@Override
@@ -62,20 +79,36 @@ public class BlockDetector extends BlockDoor{
 	}
 	
 	@Override
-	public void onPoweredBlockChange(World par1World, int par2, int par3, int par4, boolean par5){
+	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
+	   {
+		// TODO Add sufficient collision boxes.
+	   }
+	
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		
-		TileEntityDetector tileEntity = (TileEntityDetector) par1World.getBlockTileEntity(par2, par3, par4);
+		TileEntityDetector tile = (TileEntityDetector)world.getBlockTileEntity(x, y, z);
 		
-		if (tileEntity.isDetectorPowered(tileEntity)){
+		int requiredItem = tile.getRequiredItem();
+		
+		if (entity instanceof EntityPlayer){
 			
-			tileEntity.setDetectorPowered(tileEntity, false);
-			
-		}else{
-			
-			tileEntity.setDetectorPowered(tileEntity, true);
+			// TODO Can't work out how to fix entity not being a player.
+			// I tried casting (EntityPlayer) but it didn't work.
+						
+			if (/*(EntityPlayer)*/entity.inventory.hasItem(requiredItem) || /*(EntityPlayer)*/entity.capabilities.isCreativeMode){
+				
+				CommonProxy.entityPush(entity, 1, true);
+				
+			}else{
+				
+				CommonProxy.entityPush(entity, 1, false);
+				// TODO Alarm sounding code.
+				
+			}
 			
 		}
-		
+				
 	}
 	
 	// TODO Set block bounds, register icons and possible GUI display

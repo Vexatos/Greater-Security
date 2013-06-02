@@ -1,5 +1,6 @@
 package hangcow.greatersecurity.common.fence.electro;
 
+import hangcow.greatersecurity.common.CommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.core.electricity.ElectricityPack;
@@ -30,33 +31,11 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 			// TODO knock back entity and cause disabling potion effects
 			this.wattsReceived -= this.WATT_PER_SHOCK;
 			
-			int facing = MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-			switch (facing){
+			// TODO Added push method to CommonPorxy for use in multiple classes.
+			CommonProxy.entityPush(entity, this.KNOCKBACK, false);
 			
-			case 0:
-				entity.motionZ -= this.KNOCKBACK;
-				break;
-				
-			case 1:
-				entity.motionX += this.KNOCKBACK;
-				break;
-				
-			case 2:
-				entity.motionZ += this.KNOCKBACK;
-				break;
-				
-			case 3:
-				entity.motionX -= this.KNOCKBACK;
-				break;
-				
-			default:
-				// TODO Possibly change, added for switch statement stability.
-				entity.motionY += this.KNOCKBACK;
-				
-				// Facing source: http://www.minecraftwiki.net/wiki/Coordinates
-			
-			}
 		}
+			
 	}
 
 	@Override
