@@ -57,4 +57,5 @@ public class TileEntityLockedDoor extends TileEntityTerminal
 	{
 		return false;
 	}
+
 }
