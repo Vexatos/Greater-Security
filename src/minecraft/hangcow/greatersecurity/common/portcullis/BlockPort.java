@@ -2,7 +2,6 @@ package hangcow.greatersecurity.common.portcullis;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

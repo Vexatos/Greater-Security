@@ -9,14 +9,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.BlockMushroom;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.CustomDamageSource;
 import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.terminal.TileEntityTerminal;
 

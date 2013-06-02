@@ -2,7 +2,6 @@ package hangcow.greatersecurity.client;
 
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +13,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import dark.library.DarkMain;
-import dark.library.access.interfaces.ITerminal;
 import dark.library.gui.ContainerFake;
 import dark.library.terminal.TileEntityTerminal;
 

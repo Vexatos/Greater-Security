@@ -1,8 +1,6 @@
 package hangcow.greatersecurity.common.detector;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityDetector extends TileEntity{

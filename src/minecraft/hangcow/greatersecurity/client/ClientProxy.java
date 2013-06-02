@@ -6,7 +6,7 @@ import hangcow.greatersecurity.client.render.RenderLaserEmitter;
 import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.PlayerKeyHandler;
 import hangcow.greatersecurity.common.chest.TileEntityLockedChest;
-import hangcow.greatersecurity.common.fence.electro.TileEntityEltroFence;
+import hangcow.greatersecurity.common.fence.electro.TileEntityElectroFence;
 import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
 
 import java.awt.Color;
@@ -35,7 +35,7 @@ public class ClientProxy extends CommonProxy
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLockedChest.class, new RenderChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserFence.class, new RenderLaserEmitter());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEltroFence.class, new RenderEltroFence());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectroFence.class, new RenderEltroFence());
 
 		RenderingRegistry.registerBlockHandler(new hangcow.greatersecurity.client.render.BlockRenderHelper());
 

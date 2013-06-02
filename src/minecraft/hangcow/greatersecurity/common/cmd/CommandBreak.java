@@ -3,12 +3,11 @@ package hangcow.greatersecurity.common.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
-import universalelectricity.core.vector.Vector3;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 import dark.library.access.AccessLevel;
 import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.access.interfaces.ITerminal;

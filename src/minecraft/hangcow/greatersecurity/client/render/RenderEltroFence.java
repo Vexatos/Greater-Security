@@ -1,7 +1,7 @@
 package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
-import hangcow.greatersecurity.common.fence.electro.BlockEletroFence;
+import hangcow.greatersecurity.common.fence.electro.BlockElectroFence;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -26,7 +26,7 @@ public class RenderEltroFence extends TileEntitySpecialRenderer
 
 			this.bindTextureByName(GreaterSecurity.MODEL_File_PATH + "EltroFence.png");
 
-			BlockEletroFence fence = GreaterSecurity.blockEltroFence;
+			BlockElectroFence fence = GreaterSecurity.blockElectroFence;
 
 			fenceModel.render(0.0625F, tileEntity.worldObj.getBlockId(tileEntity.xCoord, tileEntity.yCoord + 1, tileEntity.zCoord) == 0);
 
@@ -38,11 +38,11 @@ public class RenderEltroFence extends TileEntitySpecialRenderer
 			{
 				fenceModel.renderFence(0.0625F, false, false, 1);
 			}
-			if (fence.canConnectFenceTo(tileEntity.worldObj, tileEntity.xCoord-1, tileEntity.yCoord, tileEntity.zCoord))
+			if (fence.canConnectFenceTo(tileEntity.worldObj, tileEntity.xCoord - 1, tileEntity.yCoord, tileEntity.zCoord))
 			{
 				fenceModel.renderFence(0.0625F, false, false, 0);
 			}
-			if (fence.canConnectFenceTo(tileEntity.worldObj, tileEntity.xCoord+1, tileEntity.yCoord, tileEntity.zCoord))
+			if (fence.canConnectFenceTo(tileEntity.worldObj, tileEntity.xCoord + 1, tileEntity.yCoord, tileEntity.zCoord))
 			{
 				fenceModel.renderFence(0.0625F, false, false, 2);
 			}

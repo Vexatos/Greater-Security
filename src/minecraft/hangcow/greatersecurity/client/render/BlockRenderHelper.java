@@ -2,7 +2,6 @@ package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockWall;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 
@@ -30,7 +29,7 @@ public class BlockRenderHelper implements ISimpleBlockRenderingHandler
 			laser.render(0.0725F);
 			GL11.glPopMatrix();
 		}
-		else if (block.blockID == GreaterSecurity.blockEltroFence.blockID)
+		else if (block.blockID == GreaterSecurity.blockElectroFence.blockID)
 		{
 		}
 

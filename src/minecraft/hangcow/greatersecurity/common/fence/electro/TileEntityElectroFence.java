@@ -2,7 +2,6 @@ package hangcow.greatersecurity.common.fence.electro;
 
 import hangcow.greatersecurity.common.CommonProxy;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.CustomDamageSource;
 import dark.library.machine.TileEntityRunnableMachine;
