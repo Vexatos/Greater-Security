@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityDetector extends TileEntity{
 	
 	private int requiredItem;
+	public boolean isOpen;
 
 	public int getRequiredItem() {
 		
@@ -27,7 +28,7 @@ public class TileEntityDetector extends TileEntity{
 		super.writeToNBT(par1NBTTagCompound);
 
 		NBTTagCompound var4 = new NBTTagCompound();
-		var4.setInteger("RequiredItem", (Integer) this.requiredItem);
+		var4.setInteger("RequiredItem", (int) this.requiredItem);
 
 	}
 

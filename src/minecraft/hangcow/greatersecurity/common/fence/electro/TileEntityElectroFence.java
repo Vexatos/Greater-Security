@@ -33,6 +33,8 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 			// TODO Added push method to CommonPorxy for use in multiple classes.
 			CommonProxy.entityPush(entity, this.KNOCKBACK, false);
 			
+			entity.motionY += this.KNOCKBACK;
+			
 		}
 			
 	}
