@@ -5,6 +5,7 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -104,22 +105,102 @@ public class BlockDetector extends BlockAdvanced
 
 			if (((EntityPlayer) entity).inventory.hasItem(requiredItem) || ((EntityPlayer) entity).capabilities.isCreativeMode)
 			{
-
-				CommonProxy.entityPush(entity, 1, true);
-
-			}
-			else
-			{
-
+				
+				passEntityThroughDetector(entity, world, x, y, z);
+				
+			
+			}else{
+				
 				CommonProxy.entityPush(entity, 1, false);
-				// TODO Alarm sounding code.
-
+				
 			}
-
 		}
 
 	}
+	
+	public int getEntityFacing(Entity entity){
+		
+		int facing = MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		return facing;
+		
+	}
+	
+	public String getEntityFacingString(int facing){
+		
+		switch (facing){
+		
+		case 0:
+			return "south";
+			
+		case 1:
+			return "west";
+			
+		case 2:
+			return "north";
+			
+		default:
+			return "east";
+			
+		}
+		
+	}
+	
+	public void passEntityThroughDetector(Entity entity, World world, int x, int y, int z){
+		
+		int facing = getEntityFacing(entity);
+		
+		switch (getEntityFacing(entity)){
+		
+		case 0:
+			boolean aIsAir = world.isAirBlock(x, y, z+1);
+			boolean aIsAir2 = world.isAirBlock(x, y-1, z+1);
+			
+			if (aIsAir && aIsAir2){
+				
+				CommonProxy.entityPush(entity, 1, true);
+				
+			}
+			
+			break;
+			
+		case 1:
+			boolean bIsAir = world.isAirBlock(x-1, y, z);
+			boolean bIsAir2 = world.isAirBlock(x-1, y-1, z);
+			
+			if (bIsAir && bIsAir2){
+				
+				CommonProxy.entityPush(entity, 1, true);
+				
+			}
+			
+			break;
+			
+		case 2:
+			boolean cIsAir = world.isAirBlock(x, y, z-1);
+			boolean cIsAir2 = world.isAirBlock(x, y-1, z-1);
+			
+			if (cIsAir && cIsAir2){
+				
+				CommonProxy.entityPush(entity, 1, true);
+				
+			}
+			
+			break;
+			
+		case 3:
+			boolean dIsAir = world.isAirBlock(x+1, y, z);
+			boolean dIsAir2 = world.isAirBlock(x+1, y-1, z);
+			
+			if (dIsAir && dIsAir2){
+				
+				CommonProxy.entityPush(entity, 1, true);
+				
+			}
+					
+		}
 
+	}
+		
 	// TODO Set block bounds, register icons and possible GUI display
 
 }
