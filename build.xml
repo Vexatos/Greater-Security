@@ -4,7 +4,7 @@
 
 	<property file="build.properties" />
 	<property environment="env" />
-	<property name="file.EEjar" value="FluidMechanics_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.EEjar" value="GreaterProtection_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
     
 	<target name="build"> 
     	<copy todir="${dir.development}">
