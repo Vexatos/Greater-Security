@@ -12,9 +12,9 @@ import net.minecraft.util.StringTranslate;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import dark.library.DarkMain;
+import dark.core.DarkMain;
 import dark.library.gui.ContainerFake;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class GuiDestroyResponce extends GuiContainer
 {

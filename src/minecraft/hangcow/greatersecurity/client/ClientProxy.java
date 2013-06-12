@@ -19,7 +19,7 @@ import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import dark.library.DarkMain;
+import dark.core.DarkMain;
 import dark.library.effects.FXBeam;
 
 public class ClientProxy extends CommonProxy

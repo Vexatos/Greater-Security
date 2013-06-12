@@ -15,13 +15,13 @@ import net.minecraft.util.StringTranslate;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import dark.library.DarkMain;
+import dark.core.DarkMain;
+import dark.core.api.terminal.ISpecialAccess;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
-import dark.library.access.interfaces.ISpecialAccess;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiButtonArrow;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class GuiUserAccess extends GuiContainer
 {

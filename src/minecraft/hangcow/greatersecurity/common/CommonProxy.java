@@ -15,7 +15,7 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiGlobalList;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class CommonProxy implements IGuiHandler
 {

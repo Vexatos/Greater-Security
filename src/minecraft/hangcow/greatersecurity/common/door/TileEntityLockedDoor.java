@@ -4,7 +4,7 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import dark.library.access.AccessLevel;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityLockedDoor extends TileEntityTerminal
 {

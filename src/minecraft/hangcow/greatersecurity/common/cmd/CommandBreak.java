@@ -8,11 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
+import dark.core.api.terminal.ISpecialAccess;
+import dark.core.api.terminal.ITerminal;
 import dark.library.access.AccessLevel;
-import dark.library.access.interfaces.ISpecialAccess;
-import dark.library.access.interfaces.ITerminal;
-import dark.library.terminal.TileEntityTerminal;
-import dark.library.terminal.commands.TerminalCommand;
+import dark.library.machine.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.commands.TerminalCommand;
 
 public class CommandBreak extends TerminalCommand
 {

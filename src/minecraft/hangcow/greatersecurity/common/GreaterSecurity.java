@@ -39,9 +39,9 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import dark.library.terminal.commands.CommandHelp;
-import dark.library.terminal.commands.CommandRegistry;
-import dark.library.terminal.commands.CommandUser;
+import dark.library.machine.terminal.commands.CommandHelp;
+import dark.library.machine.terminal.commands.CommandRegistry;
+import dark.library.machine.terminal.commands.CommandUser;
 
 /**
  * 

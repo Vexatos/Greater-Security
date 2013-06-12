@@ -11,7 +11,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityAlarm extends TileEntityTerminal
 {

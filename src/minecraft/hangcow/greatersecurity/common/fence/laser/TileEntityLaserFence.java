@@ -15,8 +15,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
-import dark.library.access.interfaces.ISpecialAccess;
-import dark.library.terminal.TileEntityTerminal;
+import dark.core.api.terminal.ISpecialAccess;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityLaserFence extends TileEntityTerminal implements ISpecialAccess
 {
