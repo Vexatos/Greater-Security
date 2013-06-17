@@ -2,6 +2,7 @@ package hangcow.greatersecurity.common.fence.electro;
 
 import hangcow.greatersecurity.common.CommonProxy;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.CustomDamageSource;
 import dark.library.machine.TileEntityRunnableMachine;
@@ -49,5 +50,11 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 	public ElectricityPack getRequest()
 	{
 		return new ElectricityPack(120, Math.max((this.getWattBuffer() - this.wattsReceived) / 120, 0));
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{
+		return true;
 	}
 }

@@ -361,7 +361,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 		catch (Exception e)
 		{
-			System.out.println("LockedChest>>>RemoveUser>>>Failed");
+			System.out.println("LockedChest>>>AddUser>>>Failed");
 			e.printStackTrace();
 		}
 		return added;
@@ -385,7 +385,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 		catch (Exception e)
 		{
-			System.out.println("LockedChest>>>AddUser>>Failed");
+			System.out.println("LockedChest>>>RemoveUser>>Failed");
 			e.printStackTrace();
 		}
 		return removed;
@@ -409,5 +409,11 @@ public class TileEntityLockedChest extends TileEntityTerminal
 	public HardnessTiers getType()
 	{
 		return this.hardnessType;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{		
+		return false;
 	}
 }
