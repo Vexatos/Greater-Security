@@ -8,9 +8,9 @@ public class TileEntityDetector extends TileEntity{
 	private int requiredItem;
 	public boolean isOpen;
 
-	public int getRequiredItem() {
+	public int getRequiredItem(TileEntityDetector tile) {
 		
-		return this.requiredItem;
+		return tile.requiredItem;
 		
 	}
 	

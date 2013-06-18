@@ -98,7 +98,7 @@ public class BlockDetector extends BlockAdvanced
 
 		TileEntityDetector tile = (TileEntityDetector) world.getBlockTileEntity(x, y, z);
 
-		int requiredItem = tile.getRequiredItem();
+		int requiredItem = tile.getRequiredItem(tile);
 
 		if (entity instanceof EntityPlayer)
 		{
