@@ -454,7 +454,7 @@ public class BlockLockedChest extends BlockAdvanced
 			{
 				var10 = new InventoryLargeChest("container.chestDouble", chest.getAdjacentChest().chestInv, chest.chestInv);
 			}
-			player.displayGUIChest((IInventory) var10);
+			player.displayGUIChest(chest.chestInv);
 		}
 
 		return true;
