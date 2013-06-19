@@ -16,7 +16,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import dark.core.DarkMain;
-import dark.core.api.terminal.ISpecialAccess;
+import dark.core.api.ISpecialAccess;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 import dark.library.gui.ContainerFake;
