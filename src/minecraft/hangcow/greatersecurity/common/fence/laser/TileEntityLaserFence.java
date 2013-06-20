@@ -71,12 +71,10 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return true;
 	}
 
-	/**
-	 * Can the laser pass threw the block without being sloped
+	/** Can the laser pass threw the block without being sloped
 	 * 
 	 * @param vec - location of the block
-	 * @return true if it can
-	 */
+	 * @return true if it can */
 	public boolean canRenderThrew(Vector3 vec)
 	{
 		int blockID = vec.getBlockID(this.worldObj);
@@ -102,11 +100,9 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return false;
 	}
 
-	/**
-	 * Gets the max size of the laser grid
+	/** Gets the max size of the laser grid
 	 * 
-	 * @return neg one if grid can't be created too a size.
-	 */
+	 * @return neg one if grid can't be created too a size. */
 	public int getGridSize()
 	{
 		for (int tileDistance = TileEntityLaserFence.MAX_LASER_RANGE; tileDistance > 0; tileDistance--)
@@ -126,11 +122,9 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return -1;
 	}
 
-	/**
-	 * Creates or renews the laser grid by size
+	/** Creates or renews the laser grid by size
 	 * 
-	 * @param gridLength - size of laser grid from emitter
-	 */
+	 * @param gridLength - size of laser grid from emitter */
 	public void deployGrid(int gridLength)
 	{
 		gridLength = Math.abs(gridLength);
@@ -248,9 +242,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		}
 	}
 
-	/**
-	 * Gets the direction this tile faces for rendering
-	 */
+	/** Gets the direction this tile faces for rendering */
 	public ForgeDirection getFacingDirection()
 	{
 		int meta = 0;
@@ -261,11 +253,9 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return ForgeDirection.getOrientation(meta);
 	}
 
-	/**
-	 * is this block rotated on its facing side
+	/** is this block rotated on its facing side
 	 * 
-	 * @return true if its been rotated 90 degrees more than normal
-	 */
+	 * @return true if its been rotated 90 degrees more than normal */
 	public boolean isRotated()
 	{
 		if (worldObj != null)
@@ -290,6 +280,12 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	public ElectricityPack getRequest()
 	{
 		return new ElectricityPack(120, TileEntityLaserFence.WattTick / 120);
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 
 }

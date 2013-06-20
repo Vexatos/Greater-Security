@@ -2,6 +2,7 @@ package hangcow.greatersecurity.common.fence.electro;
 
 import hangcow.greatersecurity.common.CommonProxy;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.CustomDamageSource;
@@ -56,5 +57,11 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 	public boolean canConnect(ForgeDirection direction)
 	{
 		return true;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 }
