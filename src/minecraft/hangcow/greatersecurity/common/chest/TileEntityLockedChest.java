@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import universalelectricity.core.electricity.ElectricityPack;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
@@ -415,5 +417,11 @@ public class TileEntityLockedChest extends TileEntityTerminal
 	public boolean canConnect(ForgeDirection direction)
 	{		
 		return false;
+	}
+
+	@Override
+	public double getRequest()
+	{
+		return 0;
 	}
 }

@@ -48,9 +48,9 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 	}
 
 	@Override
-	public ElectricityPack getRequest()
+	public double getRequest()
 	{
-		return new ElectricityPack(120, Math.max((this.getWattBuffer() - this.wattsReceived) / 120, 0));
+		return this.WATT_PER_TICK;
 	}
 
 	@Override

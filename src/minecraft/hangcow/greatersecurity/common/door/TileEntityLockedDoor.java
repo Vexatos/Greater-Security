@@ -58,4 +58,10 @@ public class TileEntityLockedDoor extends TileEntityTerminal
 		return false;
 	}
 
+	@Override
+	public double getRequest()
+	{
+		return 0;
+	}
+
 }

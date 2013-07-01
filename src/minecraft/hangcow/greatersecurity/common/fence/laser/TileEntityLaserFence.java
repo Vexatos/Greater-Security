@@ -277,9 +277,9 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return GreaterSecurity.CHANNEL;
 	}
 
-	public ElectricityPack getRequest()
+	public double getRequest()
 	{
-		return new ElectricityPack(120, TileEntityLaserFence.WattTick / 120);
+		return TileEntityLaserFence.WattTick;
 	}
 
 	@Override

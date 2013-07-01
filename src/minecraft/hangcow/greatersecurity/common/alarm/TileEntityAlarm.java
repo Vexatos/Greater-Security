@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
@@ -56,5 +57,11 @@ public class TileEntityAlarm extends TileEntityTerminal
 	public String getChannel()
 	{
 		return GreaterSecurity.CHANNEL;
+	}
+
+	@Override
+	public double getRequest()
+	{
+		return  1;
 	}
 }
