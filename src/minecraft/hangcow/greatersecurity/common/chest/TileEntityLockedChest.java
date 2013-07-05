@@ -420,7 +420,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 	}
 
 	@Override
-	public double getRequest()
+	public double getRequest(ForgeDirection side)
 	{
 		return 0;
 	}

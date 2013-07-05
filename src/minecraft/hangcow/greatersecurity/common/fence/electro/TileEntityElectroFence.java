@@ -42,13 +42,13 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 	}
 
 	@Override
-	public double getWattBuffer()
+	public double getBattery(ForgeDirection side)
 	{
 		return (this.WATT_PER_TICK + this.WATT_PER_SHOCK) * 5;
 	}
 
 	@Override
-	public double getRequest()
+	public double getRequest(ForgeDirection side)
 	{
 		return this.WATT_PER_TICK;
 	}

@@ -60,7 +60,7 @@ public class TileEntityAlarm extends TileEntityTerminal
 	}
 
 	@Override
-	public double getRequest()
+	public double getRequest(ForgeDirection side)
 	{
 		return  1;
 	}

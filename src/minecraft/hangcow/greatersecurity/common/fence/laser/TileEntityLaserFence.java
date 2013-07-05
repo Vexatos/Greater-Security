@@ -277,7 +277,8 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 		return GreaterSecurity.CHANNEL;
 	}
 
-	public double getRequest()
+	@Override
+	public double getRequest(ForgeDirection side)
 	{
 		return TileEntityLaserFence.WattTick;
 	}
