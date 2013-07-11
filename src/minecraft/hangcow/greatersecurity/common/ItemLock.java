@@ -17,11 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 
-/**
- * 
- * @author DarkGuardsman, TheCowGod
- * 
- */
+/** @author DarkGuardsman, TheCowGod */
 public class ItemLock extends Item
 {
 
@@ -41,6 +37,7 @@ public class ItemLock extends Item
 	{
 		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.TEXTURE_NAME_PREFIX + "lock");
 	}
+
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
@@ -92,13 +89,12 @@ public class ItemLock extends Item
 							lockedChest.chestInv.setInventorySlotContents(b, chestItems[b]);
 
 						}
-						entityplayer.sendChatToPlayer("Chest Locked");
 					}
 
 				}
 				else
 				{
-					entityplayer.sendChatToPlayer("Failed to lock chest");
+					
 				}
 			}
 		}

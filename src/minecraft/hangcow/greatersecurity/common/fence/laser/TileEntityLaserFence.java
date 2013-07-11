@@ -13,20 +13,26 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import dark.core.api.ISpecialAccess;
 import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityLaserFence extends TileEntityTerminal implements ISpecialAccess
 {
+
 	public static final int MAX_LASER_RANGE = 10;
 	public static final int UPDATE_RATE = 3;
-	public static final double WattTick = 10;
+	public static final float WattTick = 10;
 
 	private Color beamColor = Color.red;
 
 	Vector3 fenceLocation = null;
+
+	public TileEntityLaserFence()
+	{
+		super(WattTick);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void updateEntity()
@@ -43,10 +49,10 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 			/* LASER GRID SETUP */
 			int gridSize = this.getGridSize();
 			/* HAS REDSTONE POWER, CAN GENERATE LASER, HAS POWER CHECKS */
-			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize) && this.wattsReceived >= TileEntityLaserFence.WattTick)
+			if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize) && this.getEnergyStored() >= TileEntityLaserFence.WattTick)
 			{
 				/* POWER DRAIN */
-				this.wattsReceived -= TileEntityLaserFence.WattTick;
+				this.setEnergyStored(this.getEnergyStored() - TileEntityLaserFence.WattTick);
 				/* DEPLOY GRID */
 				this.deployGrid(gridSize);
 			}
@@ -278,7 +284,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	}
 
 	@Override
-	public double getRequest(ForgeDirection side)
+	public float getRequest(ForgeDirection side)
 	{
 		return TileEntityLaserFence.WattTick;
 	}

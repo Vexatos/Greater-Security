@@ -3,17 +3,19 @@ package hangcow.greatersecurity.common.detector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityDetector extends TileEntity{
-	
+public class TileEntityDetector extends TileEntity
+{
+
 	private int requiredItem;
 	public boolean isOpen;
 
-	public int getRequiredItem(TileEntityDetector tile) {
-		
+	public int getRequiredItem(TileEntityDetector tile)
+	{
+
 		return tile.requiredItem;
-		
+
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{

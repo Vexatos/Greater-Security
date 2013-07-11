@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import universalelectricity.core.electricity.ElectricityPack;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
@@ -23,6 +21,7 @@ import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityLockedChest extends TileEntityTerminal
 {
+
 	private ItemStack[] chestContents = new ItemStack[36];
 	private List<ItemStack> inputItems = new ArrayList<ItemStack>();
 	private List<ItemStack> outputItems = new ArrayList<ItemStack>();
@@ -44,9 +43,12 @@ public class TileEntityLockedChest extends TileEntityTerminal
 
 	public InvChest chestInv = new InvChest(this);
 
-	/**
-	 * Reads a tile entity from NBT.
-	 */
+	public TileEntityLockedChest()
+	{
+		super(0);
+	}
+
+	/** Reads a tile entity from NBT. */
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
@@ -82,9 +84,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 	}
 
-	/**
-	 * Writes a tile entity to NBT.
-	 */
+	/** Writes a tile entity to NBT. */
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
@@ -106,10 +106,8 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		nbt.setTag("Items", var2);
 	}
 
-	/**
-	 * Causes the TileEntity to reset all it's cached values for it's container block, blockID,
-	 * metaData and in the case of chests, the adjcacent chest check
-	 */
+	/** Causes the TileEntity to reset all it's cached values for it's container block, blockID,
+	 * metaData and in the case of chests, the adjcacent chest check */
 	public void updateContainingBlockInfo()
 	{
 		super.updateContainingBlockInfo();
@@ -156,9 +154,7 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 	}
 
-	/**
-	 * Performs the check for adjacent chests to determine if this chest is double or not.
-	 */
+	/** Performs the check for adjacent chests to determine if this chest is double or not. */
 	public void checkForAdjacentChests()
 	{
 		if (!this.adjacentChestChecked)
@@ -211,10 +207,8 @@ public class TileEntityLockedChest extends TileEntityTerminal
 		}
 	}
 
-	/**
-	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
-	 * uses this to count ticks and creates a new spawn inside its implementation.
-	 */
+	/** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
+	 * uses this to count ticks and creates a new spawn inside its implementation. */
 	public void updateEntity()
 	{
 		super.updateEntity();
@@ -415,12 +409,12 @@ public class TileEntityLockedChest extends TileEntityTerminal
 
 	@Override
 	public boolean canConnect(ForgeDirection direction)
-	{		
+	{
 		return false;
 	}
 
 	@Override
-	public double getRequest(ForgeDirection side)
+	public float getRequest(ForgeDirection side)
 	{
 		return 0;
 	}

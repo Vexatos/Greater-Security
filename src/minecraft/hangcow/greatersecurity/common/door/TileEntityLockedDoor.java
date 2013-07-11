@@ -8,6 +8,11 @@ import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityLockedDoor extends TileEntityTerminal
 {
+	public TileEntityLockedDoor()
+	{
+		super(0);
+	}
+
 	int timeOpen = 0;
 	public boolean isOpen = false;
 	private int closeTime = 7; // TODO add gui setting for this
@@ -31,10 +36,8 @@ public class TileEntityLockedDoor extends TileEntityTerminal
 		}
 	}
 
-	/**
-	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
-	 * uses this to count ticks and creates a new spawn inside its implementation.
-	 */
+	/** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
+	 * uses this to count ticks and creates a new spawn inside its implementation. */
 	public void updateEntity()
 	{
 		super.updateEntity();
@@ -59,7 +62,7 @@ public class TileEntityLockedDoor extends TileEntityTerminal
 	}
 
 	@Override
-	public double getRequest(ForgeDirection side)
+	public float getRequest(ForgeDirection side)
 	{
 		return 0;
 	}

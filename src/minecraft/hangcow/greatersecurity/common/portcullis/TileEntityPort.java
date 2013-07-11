@@ -52,8 +52,7 @@ public class TileEntityPort extends TileEntity implements IPortcullis
 		return isExtended;
 	}
 
-	/**
-	 * checks to see if a length of block matches a single block:meta
+	/** checks to see if a length of block matches a single block:meta
 	 * 
 	 * @param world - world
 	 * @param loc - vector3 location to start at
@@ -61,8 +60,7 @@ public class TileEntityPort extends TileEntity implements IPortcullis
 	 * @param length - length to search
 	 * @param blockID - block id
 	 * @param blockMeta - block meta
-	 * @return - true if the length is all the same block:meta as given
-	 */
+	 * @return - true if the length is all the same block:meta as given */
 	public boolean isLengthMatch(World world, Vector3 loc, ForgeDirection facing, int length, int blockID, int blockMeta)
 	{
 		for (int i = 0; i < length; i++)

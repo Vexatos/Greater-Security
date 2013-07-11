@@ -4,25 +4,27 @@ import hangcow.greatersecurity.common.CommonProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.CustomDamageSource;
 import dark.library.machine.TileEntityRunnableMachine;
 
 public class TileEntityElectroFence extends TileEntityRunnableMachine
 {
 
-	private static final double WATT_PER_SHOCK = 30;
-	private static final double WATT_PER_TICK = 10;
+	private static final float WATT_PER_SHOCK = 30;
+	private static final float WATT_PER_TICK = 10;
 	/** How many blocks should the player be knocked-back when shocked? */
 	private static final int KNOCKBACK = 3;
 
-	/**
-	 * Shock an entity if there is power
-	 */
+	public TileEntityElectroFence()
+	{
+		super(10);
+	}
+
+	/** Shock an entity if there is power */
 	public void shockEntity(Entity entity)
 	{
 
-		if (entity != null && this.wattsReceived >= this.WATT_PER_SHOCK)
+		if (entity != null && this.getEnergyStored() >= this.WATT_PER_SHOCK)
 		{
 			int damage = 1; // getVoltage() always return the same #
 
@@ -30,27 +32,15 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 			entity.attackEntityFrom(CustomDamageSource.electrocution.setDeathMessage("%1$s tried to climb an electric fence!"), damage);
 
 			// TODO knock back entity and cause disabling potion effects
-			this.wattsReceived -= this.WATT_PER_SHOCK;
-			
+			this.setEnergyStored(this.getEnergyStored() - this.WATT_PER_SHOCK);
+
 			// TODO Added push method to CommonPorxy for use in multiple classes.
 			CommonProxy.entityPush(entity, this.KNOCKBACK, false);
-			
+
 			entity.motionY += this.KNOCKBACK;
-			
+
 		}
-			
-	}
 
-	@Override
-	public double getBattery(ForgeDirection side)
-	{
-		return (this.WATT_PER_TICK + this.WATT_PER_SHOCK) * 5;
-	}
-
-	@Override
-	public double getRequest(ForgeDirection side)
-	{
-		return this.WATT_PER_TICK;
 	}
 
 	@Override
@@ -58,7 +48,7 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine
 	{
 		return true;
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{

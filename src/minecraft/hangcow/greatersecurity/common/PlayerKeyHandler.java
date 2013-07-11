@@ -18,7 +18,7 @@ public class PlayerKeyHandler extends KeyHandler
 
 	public PlayerKeyHandler()
 	{
-		super(new KeyBinding[] { openUserListGUI }, new boolean[]{false});
+		super(new KeyBinding[] { openUserListGUI }, new boolean[] { false });
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class PlayerKeyHandler extends KeyHandler
 	@Override
 	public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat)
 	{
-		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;		
+		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		if (player == null || tickEnd)
 		{
 			return;
@@ -56,7 +56,7 @@ public class PlayerKeyHandler extends KeyHandler
 	@Override
 	public EnumSet<TickType> ticks()
 	{
-		 return EnumSet.of(TickType.CLIENT);
+		return EnumSet.of(TickType.CLIENT);
 	}
 
 }

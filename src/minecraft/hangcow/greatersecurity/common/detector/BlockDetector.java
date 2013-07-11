@@ -5,19 +5,18 @@ import hangcow.greatersecurity.common.GreaterSecurity;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import universalelectricity.prefab.block.BlockAdvanced;
+import dark.library.machine.BlockMachine;
 
-public class BlockDetector extends BlockAdvanced
+public class BlockDetector extends BlockMachine
 {
 
 	public BlockDetector(int par1)
@@ -63,7 +62,7 @@ public class BlockDetector extends BlockAdvanced
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack itemStack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
 	{
 
 		int angle = MathHelper.floor_double((entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -105,102 +104,112 @@ public class BlockDetector extends BlockAdvanced
 
 			if (((EntityPlayer) entity).inventory.hasItem(requiredItem) || ((EntityPlayer) entity).capabilities.isCreativeMode)
 			{
-				
+
 				passEntityThroughDetector(entity, world, x, y, z);
-				
-			
-			}else{
-				
+
+			}
+			else
+			{
+
 				CommonProxy.entityPush(entity, 1, false);
-				
+
 			}
 		}
 
 	}
-	
-	public int getEntityFacing(Entity entity){
-		
+
+	public int getEntityFacing(Entity entity)
+	{
+
 		int facing = MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		return facing;
-		
+
 	}
-	
-	public String getEntityFacingString(int facing){
-		
-		switch (facing){
-		
-		case 0:
-			return "south";
-			
-		case 1:
-			return "west";
-			
-		case 2:
-			return "north";
-			
-		default:
-			return "east";
-			
-		}
-		
-	}
-	
-	public void passEntityThroughDetector(Entity entity, World world, int x, int y, int z){
-		
-		int facing = getEntityFacing(entity);
-		
-		switch (getEntityFacing(entity)){
-		
-		case 0:
-			boolean aIsAir = world.isAirBlock(x, y, z+1);
-			boolean aIsAir2 = world.isAirBlock(x, y-1, z+1);
-			
-			if (aIsAir && aIsAir2){
-				
-				CommonProxy.entityPush(entity, 1, true);
-				
-			}
-			
-			break;
-			
-		case 1:
-			boolean bIsAir = world.isAirBlock(x-1, y, z);
-			boolean bIsAir2 = world.isAirBlock(x-1, y-1, z);
-			
-			if (bIsAir && bIsAir2){
-				
-				CommonProxy.entityPush(entity, 1, true);
-				
-			}
-			
-			break;
-			
-		case 2:
-			boolean cIsAir = world.isAirBlock(x, y, z-1);
-			boolean cIsAir2 = world.isAirBlock(x, y-1, z-1);
-			
-			if (cIsAir && cIsAir2){
-				
-				CommonProxy.entityPush(entity, 1, true);
-				
-			}
-			
-			break;
-			
-		case 3:
-			boolean dIsAir = world.isAirBlock(x+1, y, z);
-			boolean dIsAir2 = world.isAirBlock(x+1, y-1, z);
-			
-			if (dIsAir && dIsAir2){
-				
-				CommonProxy.entityPush(entity, 1, true);
-				
-			}
-					
+
+	public String getEntityFacingString(int facing)
+	{
+
+		switch (facing)
+		{
+
+			case 0:
+				return "south";
+
+			case 1:
+				return "west";
+
+			case 2:
+				return "north";
+
+			default:
+				return "east";
+
 		}
 
 	}
-		
+
+	public void passEntityThroughDetector(Entity entity, World world, int x, int y, int z)
+	{
+
+		int facing = getEntityFacing(entity);
+
+		switch (getEntityFacing(entity))
+		{
+
+			case 0:
+				boolean aIsAir = world.isAirBlock(x, y, z + 1);
+				boolean aIsAir2 = world.isAirBlock(x, y - 1, z + 1);
+
+				if (aIsAir && aIsAir2)
+				{
+
+					CommonProxy.entityPush(entity, 1, true);
+
+				}
+
+				break;
+
+			case 1:
+				boolean bIsAir = world.isAirBlock(x - 1, y, z);
+				boolean bIsAir2 = world.isAirBlock(x - 1, y - 1, z);
+
+				if (bIsAir && bIsAir2)
+				{
+
+					CommonProxy.entityPush(entity, 1, true);
+
+				}
+
+				break;
+
+			case 2:
+				boolean cIsAir = world.isAirBlock(x, y, z - 1);
+				boolean cIsAir2 = world.isAirBlock(x, y - 1, z - 1);
+
+				if (cIsAir && cIsAir2)
+				{
+
+					CommonProxy.entityPush(entity, 1, true);
+
+				}
+
+				break;
+
+			case 3:
+				boolean dIsAir = world.isAirBlock(x + 1, y, z);
+				boolean dIsAir2 = world.isAirBlock(x + 1, y - 1, z);
+
+				if (dIsAir && dIsAir2)
+				{
+
+					CommonProxy.entityPush(entity, 1, true);
+
+				}
+
+		}
+
+	}
+
 	// TODO Set block bounds, register icons and possible GUI display
 
 }

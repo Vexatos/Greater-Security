@@ -43,11 +43,7 @@ import dark.library.machine.terminal.CommandHelp;
 import dark.library.machine.terminal.CommandRegistry;
 import dark.library.machine.terminal.CommandUser;
 
-/**
- * 
- * @author CowGod, Darkguardsman
- * 
- */
+/** @author CowGod, Darkguardsman */
 @Mod(modid = GreaterSecurity.MOD_ID, name = GreaterSecurity.MOD_NAME, version = GreaterSecurity.VERSION, useMetadata = true)
 // TODO update version #
 @NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)

@@ -1,23 +1,22 @@
 package hangcow.greatersecurity.api;
 
-public interface IPortcullis {
-	
+public interface IPortcullis
+{
+
 	public int getMaxSize();
-	/**
-	 * tells the portcullis to extend up wards, can 
-	 * also be used to check if it even can extend
+
+	/** tells the portcullis to extend up wards, can also be used to check if it even can extend
+	 * 
 	 * @param doExtend - should it actual extend
-	 * @return
-	 */
+	 * @return */
 	public boolean extend(boolean doExtend);
-	/**
-	 * tells the portcullis to retract into itself, 
-	 * can also be used to check if it even can
+
+	/** tells the portcullis to retract into itself, can also be used to check if it even can
+	 * 
 	 * @param doRetract - should it actual retract
-	 * @return
-	 */
+	 * @return */
 	public boolean retract(boolean doRetract);
-	
+
 	public boolean isExtended();
 
 }

@@ -11,17 +11,18 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import universalelectricity.prefab.block.BlockAdvanced;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
+import dark.library.machine.BlockMachine;
 
-public class BlockLockedDoor extends BlockAdvanced
+public class BlockLockedDoor extends BlockMachine
 {
 
 	private static final String[] ICON_NAMES = new String[] { "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper" };
@@ -124,16 +125,14 @@ public class BlockLockedDoor extends BlockAdvanced
 
 		for (int i = 0; i < ICON_NAMES.length; ++i)
 		{
-			this.icons[i] = par1IconRegister.registerIcon(GreaterSecurity.TEXTURE_NAME_PREFIX+ICON_NAMES[i]);
+			this.icons[i] = par1IconRegister.registerIcon(GreaterSecurity.TEXTURE_NAME_PREFIX + ICON_NAMES[i]);
 			this.icons[i + ICON_NAMES.length] = new IconFlipped(this.icons[i], true, false);
 		}
 	}
 
-	/**
-	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the
+	/** Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the
 	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
-	 * wire, etc to this block.
-	 */
+	 * wire, etc to this block. */
 	@Override
 	public boolean isOpaqueCube()
 	{
@@ -147,19 +146,15 @@ public class BlockLockedDoor extends BlockAdvanced
 		return (var5 & 4) != 0;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
-	 * buttons, stairs, etc)
-	 */
+	/** If this block doesn't render as an ordinary block it will return False (examples: signs,
+	 * buttons, stairs, etc) */
 	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
 
-	/**
-	 * The type of render function that is called for this block
-	 */
+	/** The type of render function that is called for this block */
 	@Override
 	public int getRenderType()
 	{
@@ -177,10 +172,8 @@ public class BlockLockedDoor extends BlockAdvanced
 		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
 	}
 
-	/**
-	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
-	 * the pool has been cleared to be reused)
-	 */
+	/** Returns a bounding box from the pool of bounding boxes (this means this box can change after
+	 * the pool has been cleared to be reused) */
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
@@ -188,18 +181,14 @@ public class BlockLockedDoor extends BlockAdvanced
 		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 	}
 
-	/**
-	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
-	 */
+	/** Updates the blocks bounds based on its current state. Args: world, x, y, z */
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		this.setDoorRotation(BlockLockedDoor.getFullMetadata(par1IBlockAccess, par2, par3, par4));
 	}
 
-	/**
-	 * Returns 0, 1, 2 or 3 depending on where the hinge is.
-	 */
+	/** Returns 0, 1, 2 or 3 depending on where the hinge is. */
 	public int getDoorOrientation(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		return BlockLockedDoor.getFullMetadata(par1IBlockAccess, par2, par3, par4) & 3;
@@ -309,9 +298,7 @@ public class BlockLockedDoor extends BlockAdvanced
 
 	}
 
-	/**
-	 * Called upon block activation (right click on the block.)
-	 */
+	/** Called upon block activation (right click on the block.) */
 	@Override
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
@@ -326,7 +313,7 @@ public class BlockLockedDoor extends BlockAdvanced
 		}
 		else
 		{
-			player.sendChatToPlayer("-=|[Locked]|=-");
+			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("-=|[Locked]|=-"));
 		}
 		return true;
 	}
@@ -347,12 +334,12 @@ public class BlockLockedDoor extends BlockAdvanced
 			}
 			else
 			{
-				player.sendChatToPlayer("-=|[Locked]|=-");
+				player.sendChatToPlayer(ChatMessageComponent.func_111066_d("-=|[Locked]|=-"));
 			}
 		}
 		else
 		{
-			player.sendChatToPlayer("-=|[Error]|=-");
+			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("-=|[Error]|=-"));
 		}
 
 		return true;
@@ -381,19 +368,15 @@ public class BlockLockedDoor extends BlockAdvanced
 		}
 	}
 
-	/**
-	 * Returns the ID of the items to drop on destruction.
-	 */
+	/** Returns the ID of the items to drop on destruction. */
 	@Override
 	public int idDropped(int meta, Random par2Random, int par3)
 	{
 		return (meta & 8) != 0 ? 0 : GreaterSecurity.itemLockedDoor.itemID;
 	}
 
-	/**
-	 * Ray traces through the blocks collision from start vector to end vector returning a ray trace
-	 * hit. Args: world, x, y, z, startVec, endVec
-	 */
+	/** Ray traces through the blocks collision from start vector to end vector returning a ray trace
+	 * hit. Args: world, x, y, z, startVec, endVec */
 	@Override
 	public MovingObjectPosition collisionRayTrace(World world, int par2, int par3, int par4, Vec3 par5Vec3, Vec3 par6Vec3)
 	{
@@ -401,30 +384,24 @@ public class BlockLockedDoor extends BlockAdvanced
 		return super.collisionRayTrace(world, par2, par3, par4, par5Vec3, par6Vec3);
 	}
 
-	/**
-	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
-	 * z
-	 */
+	/** Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
+	 * z */
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
 		return y >= 255 ? false : world.doesBlockHaveSolidTopSurface(x, y - 1, z) && super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z);
 	}
 
-	/**
-	 * Returns the mobility information of the block, 0 = free, 1 = can't push but can move over, 2
-	 * = total immobility and stop pistons
-	 */
+	/** Returns the mobility information of the block, 0 = free, 1 = can't push but can move over, 2
+	 * = total immobility and stop pistons */
 	@Override
 	public int getMobilityFlag()
 	{
 		return 1;
 	}
 
-	/**
-	 * Returns the full metadata value created by combining the metadata of both blocks the door
-	 * takes up.
-	 */
+	/** Returns the full metadata value created by combining the metadata of both blocks the door
+	 * takes up. */
 	public static int getFullMetadata(IBlockAccess world, int x, int y, int z)
 	{
 		int blockMeta = world.getBlockMetadata(x, y, z);
@@ -504,9 +481,7 @@ public class BlockLockedDoor extends BlockAdvanced
 		return GreaterSecurity.itemLockedDoor.itemID;
 	}
 
-	/**
-	 * Called when the block is attempted to be harvested
-	 */
+	/** Called when the block is attempted to be harvested */
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player)
 	{

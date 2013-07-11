@@ -9,6 +9,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StringTranslate;
 
@@ -55,7 +56,7 @@ public class GuiUserAccess extends GuiContainer
 	public void initGui()
 	{
 		super.initGui();
-		StringTranslate var1 = StringTranslate.getInstance();
+		//StringTranslate var1 = StringTranslate.getInstance();
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
 		int wid = (this.width - this.xSize) / 2 + 13;
@@ -63,12 +64,12 @@ public class GuiUserAccess extends GuiContainer
 		int buttomWidth = 41;
 		int buttonHight = 10;
 		int tWid = 85;
-		this.buttonList.add(new GuiButton(0, wid + tWid + 20, hig, 40, 12, var1.translateKey("Add")));
-		this.buttonList.add(new GuiButton(1, wid + tWid + 20, hig + buttonHight + 1, 40, 12, var1.translateKey("Remove")));
-		this.buttonList.add(new GuiButton(2, wid + 105, hig + 50, 40, 12, var1.translateKey("Exit")));
+		this.buttonList.add(new GuiButton(0, wid + tWid + 20, hig, 40, 12, "Add"));
+		this.buttonList.add(new GuiButton(1, wid + tWid + 20, hig + buttonHight + 1, 40, 12, "Remove"));
+		this.buttonList.add(new GuiButton(2, wid + 105, hig + 50, 40, 12, "Exit"));
 		this.buttonList.add(new GuiButtonArrow(3, wid - 9, hig, true));
 		this.buttonList.add(new GuiButtonArrow(4, wid + tWid + 1, hig, false));
-		this.buttonList.add(new GuiButton(5, wid + tWid + 20, hig + buttonHight + buttonHight + buttonHight + 1, 40, 12, var1.translateKey("Break")));
+		this.buttonList.add(new GuiButton(5, wid + tWid + 20, hig + buttonHight + buttonHight + buttonHight + 1, 40, 12, "Break"));
 		// ---------
 
 		this.varType = new GuiTextField(this.fontRenderer, wid, hig, tWid, buttonHight);
@@ -82,10 +83,8 @@ public class GuiUserAccess extends GuiContainer
 		this.varType.updateCursorCounter();
 	}
 
-	/**
-	 * Fired when a control is clicked. This is the equivalent of
-	 * ActionListener.actionPerformed(ActionEvent e).
-	 */
+	/** Fired when a control is clicked. This is the equivalent of
+	 * ActionListener.actionPerformed(ActionEvent e). */
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton)
 	{
@@ -125,9 +124,7 @@ public class GuiUserAccess extends GuiContainer
 		super.actionPerformed(par1GuiButton);
 	}
 
-	/**
-	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-	 */
+	/** Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e). */
 	@Override
 	protected void keyTyped(char keycode, int par2)
 	{
@@ -158,9 +155,7 @@ public class GuiUserAccess extends GuiContainer
 		this.currentPage = Math.max(Math.min(length, pages), 0);
 	}
 
-	/**
-	 * Called when the mouse is clicked.
-	 */
+	/** Called when the mouse is clicked. */
 	@Override
 	protected void mouseClicked(int par1, int par2, int par3)
 	{
@@ -168,9 +163,7 @@ public class GuiUserAccess extends GuiContainer
 		this.varType.mouseClicked(par1, par2, par3);
 	}
 
-	/**
-	 * Called when the screen is unloaded. Used to disable keyboard repeat events
-	 */
+	/** Called when the screen is unloaded. Used to disable keyboard repeat events */
 	@Override
 	public void onGuiClosed()
 	{
@@ -185,13 +178,11 @@ public class GuiUserAccess extends GuiContainer
 		DrawPage(0, 0, 10, 40, lock.getUsers(), namesPerPage);
 	}
 
-	/**
-	 * Draw the background layer for the GuiContainer (everything behind the items)
-	 */
+	/** Draw the background layer for the GuiContainer (everything behind the items) */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		this.mc.renderEngine.bindTexture(this.texture);
+		this.mc.func_110434_K().func_110577_a(new ResourceLocation(this.texture));
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int var5 = (this.width - this.xSize) / 2;
 		int var6 = (this.height - this.ySize) / 2;

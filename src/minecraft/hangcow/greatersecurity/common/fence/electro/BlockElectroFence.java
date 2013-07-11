@@ -13,11 +13,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.block.BlockAdvanced;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.machine.BlockMachine;
 
-public class BlockElectroFence extends BlockAdvanced
+public class BlockElectroFence extends BlockMachine
 {
 
 	public BlockElectroFence(int Id)
@@ -152,9 +152,7 @@ public class BlockElectroFence extends BlockAdvanced
 		return this.canConnectFenceTo(world, new Vector3(x, y, z));
 	}
 
-	/**
-	 * Returns true if the specified block can be connected by a fence
-	 */
+	/** Returns true if the specified block can be connected by a fence */
 	public boolean canConnectFenceTo(IBlockAccess par1IBlockAccess, Vector3 vec)
 	{
 		int blockID = par1IBlockAccess.getBlockId(vec.intX(), vec.intY(), vec.intZ());
@@ -199,11 +197,5 @@ public class BlockElectroFence extends BlockAdvanced
 	public TileEntity createNewTileEntity(World world)
 	{
 		return new TileEntityElectroFence();
-	}
-
-	@Override
-	public boolean isLadder(World world, int x, int y, int z)
-	{
-		return true;
 	}
 }

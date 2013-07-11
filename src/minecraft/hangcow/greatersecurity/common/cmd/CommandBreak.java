@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import dark.core.api.ISpecialAccess;
@@ -29,7 +30,7 @@ public class CommandBreak extends TerminalCommand
 	{
 		if (terminal instanceof TileEntity)
 		{
-			player.sendChatToPlayer("Removing Block");
+			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("Removing Block"));
 			Vector3 vec = new Vector3(((TileEntity) terminal).xCoord, ((TileEntity) terminal).yCoord, ((TileEntity) terminal).zCoord);
 			World world = ((TileEntity) terminal).worldObj;
 			int id = vec.getBlockID(world);

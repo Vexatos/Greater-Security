@@ -8,24 +8,24 @@ import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.block.BlockAdvanced;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
+import dark.library.machine.BlockMachine;
 
-public class BlockLockedChest extends BlockAdvanced
+public class BlockLockedChest extends BlockMachine
 {
 	public BlockLockedChest(int par1)
 	{
@@ -37,7 +37,7 @@ public class BlockLockedChest extends BlockAdvanced
 		if (!GreaterSecurity.breakChests)
 		{
 			this.setBlockUnbreakable();
-		}		
+		}
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class BlockLockedChest extends BlockAdvanced
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack stack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack stack)
 	{
 		Vector3 vec = new Vector3(x, y, z);
 
@@ -241,9 +241,7 @@ public class BlockLockedChest extends BlockAdvanced
 		}
 	}
 
-	/**
-	 * Turns the adjacent chests to a double chest.
-	 */
+	/** Turns the adjacent chests to a double chest. */
 	public void unifyAdjacentChests(World world, int x, int y, int z)
 	{
 		if (!world.isRemote)
@@ -382,18 +380,14 @@ public class BlockLockedChest extends BlockAdvanced
 		return chestCount > 1 ? false : (this.isThereANeighborChest(world, x - 1, y, z) ? false : (this.isThereANeighborChest(world, x + 1, y, z) ? false : (this.isThereANeighborChest(world, x, y, z - 1) ? false : !this.isThereANeighborChest(world, x, y, z + 1))));
 	}
 
-	/**
-	 * Checks the neighbor blocks to see if there is a chest there. Args: world, x, y, z
-	 */
+	/** Checks the neighbor blocks to see if there is a chest there. Args: world, x, y, z */
 	private boolean isThereANeighborChest(World world, int x, int y, int z)
 	{
 		return world.getBlockId(x, y, z) != this.blockID ? false : (world.getBlockId(x - 1, y, z) == this.blockID ? true : (world.getBlockId(x + 1, y, z) == this.blockID ? true : (world.getBlockId(x, y, z - 1) == this.blockID ? true : world.getBlockId(x, y, z + 1) == this.blockID)));
 	}
 
-	/**
-	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
-	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
-	 */
+	/** Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
+	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID */
 	public void onNeighborBlockChange(World world, int x, int y, int z, int blockID)
 	{
 		super.onNeighborBlockChange(world, x, y, z, blockID);
@@ -447,7 +441,7 @@ public class BlockLockedChest extends BlockAdvanced
 			TileEntityLockedChest chest = ((TileEntityLockedChest) var10);
 			if (!chest.canUserAccess(player.username))
 			{
-				player.sendChatToPlayer("-=|[Locked]|=-");
+				player.sendChatToPlayer(ChatMessageComponent.func_111066_d("-=|[Locked]|=-"));
 				return true;
 			}
 			else if (chest.getAdjacentChest() != null)
@@ -477,12 +471,12 @@ public class BlockLockedChest extends BlockAdvanced
 			}
 			else
 			{
-				player.sendChatToPlayer("-=|[Locked]|=-");
+				player.sendChatToPlayer(ChatMessageComponent.func_111066_d("-=|[Locked]|=-"));
 			}
 		}
 		else
 		{
-			player.sendChatToPlayer("-=|[Error]|=-");
+			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("-=|[Error]|=-"));
 		}
 		return false;
 	}
@@ -493,10 +487,8 @@ public class BlockLockedChest extends BlockAdvanced
 		return new TileEntityLockedChest();
 	}
 
-	/**
-	 * Looks for a sitting ocelot within certain bounds. Such an ocelot is considered to be blocking
-	 * access to the chest.
-	 */
+	/** Looks for a sitting ocelot within certain bounds. Such an ocelot is considered to be blocking
+	 * access to the chest. */
 	public static boolean isOcelotBlockingChest(World world, int x, int y, int z)
 	{
 		Iterator var4 = world.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double) x, (double) (y + 1), (double) z, (double) (x + 1), (double) (y + 2), (double) (z + 1))).iterator();

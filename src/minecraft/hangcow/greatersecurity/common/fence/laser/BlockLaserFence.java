@@ -4,6 +4,7 @@ import hangcow.greatersecurity.client.render.BlockRenderHelper;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,12 +13,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.block.BlockAdvanced;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
+import dark.library.machine.BlockMachine;
 
-public class BlockLaserFence extends BlockAdvanced
+public class BlockLaserFence extends BlockMachine
 {
 
 	public BlockLaserFence(int id)
@@ -161,7 +162,7 @@ public class BlockLaserFence extends BlockAdvanced
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack stack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack stack)
 	{
 		if (!world.isRemote)
 		{
@@ -198,6 +199,5 @@ public class BlockLaserFence extends BlockAdvanced
 	{
 		return BlockRenderHelper.renderID;
 	}
-	
-	
+
 }

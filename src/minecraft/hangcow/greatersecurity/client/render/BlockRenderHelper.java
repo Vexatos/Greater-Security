@@ -3,6 +3,7 @@ package hangcow.greatersecurity.client.render;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
@@ -25,7 +26,7 @@ public class BlockRenderHelper implements ISimpleBlockRenderingHandler
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) 0.0F, (float) 1.1F, (float) 0.0F);
 			GL11.glRotatef(180f, 0f, 0f, 1f);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(GreaterSecurity.MODEL_File_PATH + "LaserEmitter.png"));
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(new ResourceLocation(GreaterSecurity.MODEL_File_PATH + "LaserEmitter.png"));
 			laser.render(0.0725F);
 			GL11.glPopMatrix();
 		}

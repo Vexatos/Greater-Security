@@ -2,16 +2,16 @@ package hangcow.greatersecurity.common.portcullis;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.block.BlockAdvanced;
+import dark.library.machine.BlockMachine;
 
-public class BlockPort extends BlockAdvanced
+public class BlockPort extends BlockMachine
 {
 
 	protected BlockPort(int par1)
@@ -29,7 +29,7 @@ public class BlockPort extends BlockAdvanced
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity, ItemStack stack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
 		int angle = MathHelper.floor_double((entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int change = 2;
@@ -59,15 +59,13 @@ public class BlockPort extends BlockAdvanced
 			change = ForgeDirection.UP.ordinal();
 		}
 
-		world.setBlockMetadataWithNotify(x, y, z, change,3);
+		world.setBlockMetadataWithNotify(x, y, z, change, 3);
 	}
-
-	
 
 	@Override
 	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		world.setBlockMetadataWithNotify(x, y, z, side,3);
+		world.setBlockMetadataWithNotify(x, y, z, side, 3);
 		return true;
 	}
 

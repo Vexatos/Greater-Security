@@ -112,7 +112,7 @@ public class InvChest implements ISidedInventory
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack)
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
 	{
 		// TODO maybe add a way to restrict item per slot
 		return true;
@@ -135,13 +135,13 @@ public class InvChest implements ISidedInventory
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j)
 	{
-		return this.isStackValidForSlot(i, itemstack) && this.hostChest.canInsertItem(i, itemstack, j);
+		return this.isItemValidForSlot(i, itemstack) && this.hostChest.canInsertItem(i, itemstack, j);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j)
 	{
-		return this.isStackValidForSlot(i, itemstack) && this.hostChest.canExtractItem(i, itemstack, j);
+		return this.isItemValidForSlot(i, itemstack) && this.hostChest.canExtractItem(i, itemstack, j);
 	}
 
 	@Override

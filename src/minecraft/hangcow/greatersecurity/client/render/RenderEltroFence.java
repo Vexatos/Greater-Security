@@ -2,12 +2,14 @@ package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.fence.electro.BlockElectroFence;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderEltroFence extends TileEntitySpecialRenderer
+import dark.core.render.RenderMachine;
+
+public class RenderEltroFence extends RenderMachine
 {
 	ModelEltroFence fenceModel;
 
@@ -54,6 +56,13 @@ public class RenderEltroFence extends TileEntitySpecialRenderer
 	public void renderTileEntityAt(TileEntity tileEntity, double var2, double var4, double var6, float var8)
 	{
 		this.renderAModelAt(tileEntity, var2, var4, var6, var8);
+	}
+
+	@Override
+	public ResourceLocation getTexture(int block, int meta)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
