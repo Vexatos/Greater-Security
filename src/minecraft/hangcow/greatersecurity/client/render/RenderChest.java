@@ -9,8 +9,8 @@ import java.util.Calendar;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -71,27 +71,13 @@ public class RenderChest extends RenderMachine
 			{
 				var14 = this.chestModel;
 
-				if (this.isXmas)
-				{
-					this.bindTextureByName("/item/xmaschest.png");// TODO make my own holiday texture for chests
-				}
-				else
-				{
-					this.bindTextureByName(GreaterSecurity.MODEL_File_PATH + "chest/1XChestRender.png");
-				}
+					this.bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "chest/1XChestRender.png");
 			}
 			else
 			{
 				var14 = this.largeChestModel;
 
-				if (this.isXmas)
-				{
-					this.bindTextureByName("/item/largexmaschest.png");// TODO make my own holiday texture for chests
-				}
-				else
-				{
-					this.bindTextureByName(GreaterSecurity.MODEL_File_PATH + "chest/2xChestRender.png");
-				}
+					this.bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "chest/2xChestRender.png");
 			}
 
 			GL11.glPushMatrix();

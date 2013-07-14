@@ -2,8 +2,8 @@ package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.fence.laser.TileEntityLaserFence;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
@@ -21,7 +21,7 @@ public class RenderLaserEmitter extends RenderMachine
 
 	public void renderAModelAt(TileEntityLaserFence tileEntity, double d, double d1, double d2, float f)
 	{
-		bindTextureByName(GreaterSecurity.MODEL_File_PATH + "LaserEmitter.png");
+		bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png");
 
 		int meta = tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) % 6;
 

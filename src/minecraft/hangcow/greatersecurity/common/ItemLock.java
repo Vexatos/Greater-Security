@@ -35,7 +35,7 @@ public class ItemLock extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.TEXTURE_NAME_PREFIX + "lock");
+		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.PREFIX + "lock");
 	}
 
 	@Override

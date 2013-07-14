@@ -60,6 +60,8 @@ public class GreaterSecurity
 	public static final String MOD_ID = "GreaterSecurity";
 	public static final String MOD_NAME = "Greater Security";
 	public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVIS_VERSION + "." + BUILD_VERSION;
+	public static final String DOMAIN = "greatersecurity";
+	public static final String PREFIX = DOMAIN + ":";
 
 	@SidedProxy(clientSide = "hangcow.greatersecurity.client.ClientProxy", serverSide = "hangcow.greatersecurity.common.CommonProxy")
 	public static CommonProxy proxy;
@@ -69,14 +71,16 @@ public class GreaterSecurity
 	@Metadata(GreaterSecurity.MOD_ID)
 	public static ModMetadata meta;
 
-	public static final String RESOURCE_PATH = "/mods/greatersecurity/";
-	public static final String TEXTURE_PATH = RESOURCE_PATH + "textures/";
-	public static final String ITEM_File_PATH = TEXTURE_PATH + "items/";
-	public static final String BLOCK_File_PATH = TEXTURE_PATH + "blocks/";
-	public static final String MODEL_File_PATH = TEXTURE_PATH + "models/";
-	public static final String GUI_File_PATH = TEXTURE_PATH + "gui/";
-	public static final String TEXTURE_NAME_PREFIX = "greatersecurity:";
-	public static final String LANGUAGE_PATH = RESOURCE_PATH + "languages/";
+	public static final String DIRECTORY_NO_SLASH = "assets/" + DOMAIN + "/";
+	public static final String DIRECTORY = "/" + DIRECTORY_NO_SLASH;
+	public static final String LANGUAGE_PATH = DIRECTORY + "languages/";
+	public static final String SOUND_PATH = DIRECTORY + "audio/";
+
+	public static final String TEXTURE_DIRECTORY = "textures/";
+	public static final String BLOCK_DIRECTORY = TEXTURE_DIRECTORY + "blocks/";
+	public static final String ITEM_DIRECTORY = TEXTURE_DIRECTORY + "items/";
+	public static final String MODEL_DIRECTORY = TEXTURE_DIRECTORY + "models/";
+	public static final String GUI_DIRECTORY = TEXTURE_DIRECTORY + "gui/";
 
 	/* SUPPORTED LANGS */
 	private static final String[] LANGUAGES_SUPPORTED = new String[] { "en_US" };
@@ -161,7 +165,7 @@ public class GreaterSecurity
 		meta.description = "Helps lock your stuff up so it doesn't get stolen";
 		meta.url = "http://www.universalelectricity.com/Greater-Protection";
 
-		meta.logoFile = GreaterSecurity.TEXTURE_PATH + "GP_Banner.png";
+		meta.logoFile = GreaterSecurity.TEXTURE_DIRECTORY + "GP_Banner.png";
 		meta.version = GreaterSecurity.VERSION;
 		meta.authorList = Arrays.asList(new String[] { "DarkGuardsman", "TheCowGod" });
 		meta.credits = "Please see the website.";

@@ -4,11 +4,10 @@ import hangcow.greatersecurity.common.CommonProxy;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;

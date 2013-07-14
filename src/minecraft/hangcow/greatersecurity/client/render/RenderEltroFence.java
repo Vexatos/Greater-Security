@@ -2,8 +2,8 @@ package hangcow.greatersecurity.client.render;
 
 import hangcow.greatersecurity.common.GreaterSecurity;
 import hangcow.greatersecurity.common.fence.electro.BlockElectroFence;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -26,7 +26,7 @@ public class RenderEltroFence extends RenderMachine
 			GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
 			GL11.glScalef(1.0F, -1F, -1F);
 
-			this.bindTextureByName(GreaterSecurity.MODEL_File_PATH + "EltroFence.png");
+			this.bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY+ "EltroFence.png");
 
 			BlockElectroFence fence = GreaterSecurity.blockElectroFence;
 

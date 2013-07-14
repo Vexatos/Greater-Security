@@ -3,7 +3,6 @@ package hangcow.greatersecurity.common.fence.laser;
 import hangcow.greatersecurity.client.render.BlockRenderHelper;
 import hangcow.greatersecurity.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
