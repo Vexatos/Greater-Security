@@ -25,11 +25,11 @@ import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -45,7 +45,6 @@ import dark.library.machine.terminal.CommandUser;
 
 /** @author CowGod, Darkguardsman */
 @Mod(modid = GreaterSecurity.MOD_ID, name = GreaterSecurity.MOD_NAME, version = GreaterSecurity.VERSION, useMetadata = true)
-// TODO update version #
 @NetworkMod(channels = { GreaterSecurity.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class GreaterSecurity
 {
@@ -116,7 +115,7 @@ public class GreaterSecurity
 		}
 	};
 
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		instance = this;
@@ -152,7 +151,7 @@ public class GreaterSecurity
 
 	}
 
-	@Init
+	@EventHandler
 	public void generalLoad(FMLInitializationEvent event)
 	{
 		proxy.init();
@@ -184,7 +183,7 @@ public class GreaterSecurity
 
 	}
 
-	@PostInit
+	@EventHandler
 	public void postLoad(FMLPostInitializationEvent event)
 	{
 		proxy.postInit();
@@ -193,18 +192,6 @@ public class GreaterSecurity
 		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 0), new Object[] { "WWW", "WLW", "WWW", 'W', Block.planks, 'L', new ItemStack(GreaterSecurity.itemLock, 1) });
 		GameRegistry.addShapelessRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1), new Object[] { new ItemStack(Block.chest), new ItemStack(GreaterSecurity.itemLock, 1) });
 
-		// // Stone Chest ////
-		// GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 1), new
-		// Object[] { "SSS", "SCS", "SSS", 'S', Block.stone, 'C', GreaterSecurity.blockLockedChest
-		// });
-		// // Iron Chest ////
-		// GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 2), new
-		// Object[] { "SSS", "SCS", "SSS", 'S', Item.ingotIron, 'C', new
-		// ItemStack(GreaterSecurity.blockLockedChest, 1) });
-		// // Obby Chest ////
-		// GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLockedChest, 1, 3), new
-		// Object[] { "SSS", "SCS", "SSS", 'S', Block.obsidian, 'C', new
-		// ItemStack(GreaterSecurity.blockLockedChest, 1) });
 		// // Laser Fence ////
 		GameRegistry.addRecipe(new ItemStack(GreaterSecurity.blockLaserFence, 1), new Object[] { "GGG", "CRC", "WBW", 'G', Block.glass, 'C', new ItemStack(GreaterSecurity.blockLockedChest, 1) });
 
