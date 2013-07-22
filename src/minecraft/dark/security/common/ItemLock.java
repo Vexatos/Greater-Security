@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
+import dark.security.GreaterSecurity;
 import dark.security.common.chest.TileEntityLockedChest;
 
 /** @author DarkGuardsman, TheCowGod */

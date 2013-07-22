@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import dark.core.render.RenderMachine;
-import dark.security.common.GreaterSecurity;
-import dark.security.common.fence.electro.BlockElectroFence;
+import dark.security.GreaterSecurity;
+import dark.security.common.fence.BlockElectroFence;
 
 public class RenderEltroFence extends RenderMachine
 {

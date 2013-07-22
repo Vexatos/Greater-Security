@@ -3,9 +3,9 @@ package dark.security.common.detector;
 
 import java.util.List;
 
+import dark.security.GreaterSecurity;
 import dark.security.common.BlockGS;
 import dark.security.common.CommonProxy;
-import dark.security.common.GreaterSecurity;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;

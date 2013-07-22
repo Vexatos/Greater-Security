@@ -4,14 +4,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import dark.library.access.AccessLevel;
 import dark.library.machine.terminal.TileEntityTerminal;
-import dark.security.common.GreaterSecurity;
+import dark.security.GreaterSecurity;
 
 public class TileEntityLockedDoor extends TileEntityTerminal
 {
-	public TileEntityLockedDoor()
-	{
-		super(0);
-	}
 
 	int timeOpen = 0;
 	public boolean isOpen = false;

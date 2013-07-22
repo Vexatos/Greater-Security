@@ -1,4 +1,4 @@
-package dark.security.common.fence.laser;
+package dark.security.common.fence;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
-import dark.security.common.GreaterSecurity;
+import dark.security.GreaterSecurity;
 
 public class ItemLockedDoor extends Item
 {

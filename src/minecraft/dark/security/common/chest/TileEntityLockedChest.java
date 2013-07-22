@@ -17,7 +17,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import dark.library.access.AccessLevel;
 import dark.library.machine.terminal.TileEntityTerminal;
-import dark.security.common.GreaterSecurity;
+import dark.security.GreaterSecurity;
 
 public class TileEntityLockedChest extends TileEntityTerminal
 {
@@ -42,11 +42,6 @@ public class TileEntityLockedChest extends TileEntityTerminal
 	private HardnessTiers hardnessType = HardnessTiers.WOOD;
 
 	public InvChest chestInv = new InvChest(this);
-
-	public TileEntityLockedChest()
-	{
-		super(0);
-	}
 
 	/** Reads a tile entity from NBT. */
 	@Override

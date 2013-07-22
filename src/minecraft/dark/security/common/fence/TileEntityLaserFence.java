@@ -1,4 +1,4 @@
-package dark.security.common.fence.laser;
+package dark.security.common.fence;
 
 
 import java.awt.Color;
@@ -15,7 +15,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import dark.core.api.ISpecialAccess;
 import dark.library.machine.terminal.TileEntityTerminal;
-import dark.security.common.GreaterSecurity;
+import dark.security.GreaterSecurity;
 
 public class TileEntityLaserFence extends TileEntityTerminal implements ISpecialAccess
 {
@@ -27,13 +27,6 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	private Color beamColor = Color.red;
 
 	Vector3 fenceLocation = null;
-
-	public TileEntityLaserFence()
-	{
-		super(WattTick);
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public void updateEntity()
 	{
@@ -78,7 +71,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	}
 
 	/** Can the laser pass threw the block without being sloped
-	 * 
+	 *
 	 * @param vec - location of the block
 	 * @return true if it can */
 	public boolean canRenderThrew(Vector3 vec)
@@ -107,7 +100,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	}
 
 	/** Gets the max size of the laser grid
-	 * 
+	 *
 	 * @return neg one if grid can't be created too a size. */
 	public int getGridSize()
 	{
@@ -129,7 +122,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	}
 
 	/** Creates or renews the laser grid by size
-	 * 
+	 *
 	 * @param gridLength - size of laser grid from emitter */
 	public void deployGrid(int gridLength)
 	{
@@ -260,7 +253,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 	}
 
 	/** is this block rotated on its facing side
-	 * 
+	 *
 	 * @return true if its been rotated 90 degrees more than normal */
 	public boolean isRotated()
 	{

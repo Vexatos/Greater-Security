@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import dark.security.common.GreaterSecurity;
+import dark.security.GreaterSecurity;
 
 public class BlockRenderHelper implements ISimpleBlockRenderingHandler
 {

@@ -13,8 +13,8 @@ import org.lwjgl.opengl.GL11;
 import dark.core.DarkMain;
 import dark.library.gui.ContainerFake;
 import dark.library.machine.terminal.TileEntityTerminal;
+import dark.security.GreaterSecurity;
 import dark.security.common.CommonProxy;
-import dark.security.common.GreaterSecurity;
 
 public class GuiDestroyResponce extends GuiContainer
 {

@@ -16,7 +16,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.core.render.RenderMachine;
-import dark.security.common.GreaterSecurity;
+import dark.security.GreaterSecurity;
 import dark.security.common.chest.BlockLockedChest;
 import dark.security.common.chest.TileEntityLockedChest;
 

@@ -19,8 +19,8 @@ import dark.security.client.render.RenderLaserEmitter;
 import dark.security.common.CommonProxy;
 import dark.security.common.PlayerKeyHandler;
 import dark.security.common.chest.TileEntityLockedChest;
-import dark.security.common.fence.electro.TileEntityElectroFence;
-import dark.security.common.fence.laser.TileEntityLaserFence;
+import dark.security.common.fence.TileEntityElectroFence;
+import dark.security.common.fence.TileEntityLaserFence;
 
 public class ClientProxy extends CommonProxy
 {

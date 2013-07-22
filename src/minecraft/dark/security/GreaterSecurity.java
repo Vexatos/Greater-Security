@@ -1,4 +1,4 @@
-package dark.security.common;
+package dark.security;
 
 
 import java.io.File;
@@ -31,6 +31,8 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import dark.library.machine.terminal.CommandHelp;
 import dark.library.machine.terminal.CommandRegistry;
 import dark.library.machine.terminal.CommandUser;
+import dark.security.common.CommonProxy;
+import dark.security.common.ItemLock;
 import dark.security.common.chest.BlockLockedChest;
 import dark.security.common.chest.TileEntityLockedChest;
 import dark.security.common.cmd.CommandBreak;
@@ -38,10 +40,10 @@ import dark.security.common.detector.BlockDetector;
 import dark.security.common.door.BlockLockedDoor;
 import dark.security.common.door.ItemLockedDoor;
 import dark.security.common.door.TileEntityLockedDoor;
-import dark.security.common.fence.electro.BlockElectroFence;
-import dark.security.common.fence.electro.TileEntityElectroFence;
-import dark.security.common.fence.laser.BlockLaserFence;
-import dark.security.common.fence.laser.TileEntityLaserFence;
+import dark.security.common.fence.BlockElectroFence;
+import dark.security.common.fence.BlockLaserFence;
+import dark.security.common.fence.TileEntityElectroFence;
+import dark.security.common.fence.TileEntityLaserFence;
 
 /** @author CowGod, Darkguardsman */
 @Mod(modid = GreaterSecurity.MOD_ID, name = GreaterSecurity.MOD_NAME, version = GreaterSecurity.VERSION, useMetadata = true)

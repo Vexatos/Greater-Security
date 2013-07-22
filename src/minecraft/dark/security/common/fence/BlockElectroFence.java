@@ -1,5 +1,4 @@
-package dark.security.common.fence.electro;
-
+package dark.security.common.fence;
 
 import java.util.List;
 
@@ -25,12 +24,12 @@ public class BlockElectroFence extends BlockGS
 	}
 
 	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity entity)
 	{
-		boolean flag = this.canConnectFenceTo(par1World, par2, par3, par4 - 1);
-		boolean flag1 = this.canConnectFenceTo(par1World, par2, par3, par4 + 1);
-		boolean flag2 = this.canConnectFenceTo(par1World, par2 - 1, par3, par4);
-		boolean flag3 = this.canConnectFenceTo(par1World, par2 + 1, par3, par4);
+		boolean flag = this.canConnectFenceTo(world, x, y, z - 1);
+		boolean flag1 = this.canConnectFenceTo(world, x, y, z + 1);
+		boolean flag2 = this.canConnectFenceTo(world, x - 1, y, z);
+		boolean flag3 = this.canConnectFenceTo(world, x + 1, y, z);
 		float f = 0.375F;
 		float f1 = 0.625F;
 		float f2 = 0.375F;
@@ -49,7 +48,7 @@ public class BlockElectroFence extends BlockGS
 		if (flag || flag1)
 		{
 			this.setBlockBounds(f, 0.0F, f2, f1, 1.5F, f3);
-			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+			super.addCollisionBoxesToList(world, x, y, z, par5AxisAlignedBB, par6List, entity);
 		}
 
 		f2 = 0.375F;
@@ -68,7 +67,7 @@ public class BlockElectroFence extends BlockGS
 		if (flag2 || flag3 || !flag && !flag1)
 		{
 			this.setBlockBounds(f, 0.0F, f2, f1, 1.5F, f3);
-			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+			super.addCollisionBoxesToList(world, x, y, z, par5AxisAlignedBB, par6List, entity);
 		}
 
 		if (flag)
@@ -145,7 +144,6 @@ public class BlockElectroFence extends BlockGS
 
 	public boolean canConnectFenceTo(IBlockAccess world, int x, int y, int z)
 	{
-
 		return this.canConnectFenceTo(world, new Vector3(x, y, z));
 	}
 

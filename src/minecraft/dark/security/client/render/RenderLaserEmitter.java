@@ -7,8 +7,8 @@ import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import dark.core.render.RenderMachine;
-import dark.security.common.GreaterSecurity;
-import dark.security.common.fence.laser.TileEntityLaserFence;
+import dark.security.GreaterSecurity;
+import dark.security.common.fence.TileEntityLaserFence;
 
 public class RenderLaserEmitter extends RenderMachine
 {

@@ -1,7 +1,7 @@
 package dark.security.common.portcullis;
 
+import dark.security.GreaterSecurity;
 import dark.security.common.BlockGS;
-import dark.security.common.GreaterSecurity;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

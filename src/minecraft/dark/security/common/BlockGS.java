@@ -2,6 +2,7 @@ package dark.security.common;
 
 import net.minecraft.block.material.Material;
 import dark.library.machine.BlockMachine;
+import dark.security.GreaterSecurity;
 
 public abstract class BlockGS extends BlockMachine
 {

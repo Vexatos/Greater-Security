@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
+import dark.security.GreaterSecurity;
 import dark.security.common.BlockGS;
 import dark.security.common.CommonProxy;
-import dark.security.common.GreaterSecurity;
 
 public class BlockLockedDoor extends BlockGS
 {
