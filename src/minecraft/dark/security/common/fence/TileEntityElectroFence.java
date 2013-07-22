@@ -9,14 +9,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
-import dark.core.api.INetworkPart;
-import dark.core.api.PowerSystems;
+import dark.api.INetworkPart;
+import dark.api.PowerSystems;
 import dark.core.tile.network.NetworkSharedPower;
 import dark.core.tile.network.NetworkTileEntities;
-import dark.library.machine.TileEntityRunnableMachine;
+import dark.prefab.machine.TileEntityMachine;
 import dark.security.common.CommonProxy;
 
-public class TileEntityElectroFence extends TileEntityRunnableMachine implements INetworkPart
+public class TileEntityElectroFence extends TileEntityMachine implements INetworkPart
 {
 
 	private static final float WATT_PER_SHOCK = 30;
@@ -30,7 +30,7 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine implements
 	public void updateEntity()
 	{
 		super.updateEntity();
-		if (!PowerSystems.runPowerLess(powerList) && !this.runWithOutPower && this.canRun())
+		if (!PowerSystems.runPowerLess(PowerSystems.UE_SUPPORTED_SYSTEMS) && !this.runWithOutPower && this.canRun())
 		{
 			((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_TICK, true);
 		}
@@ -39,7 +39,7 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine implements
 	/** Called by the block on collision to apply shock damage if it has power */
 	public void shockEntity(Entity entity)
 	{
-		if (entity != null && this.canRun() && (PowerSystems.runPowerLess(powerList) || this.runWithOutPower || ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_SHOCK, false)))
+		if (entity != null && this.canRun() && (PowerSystems.runPowerLess(PowerSystems.UE_SUPPORTED_SYSTEMS) || this.runWithOutPower || ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_SHOCK, false)))
 		{
 			((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_SHOCK, true);
 
@@ -55,7 +55,7 @@ public class TileEntityElectroFence extends TileEntityRunnableMachine implements
 	@Override
 	public boolean canRun()
 	{
-		return PowerSystems.runPowerLess(powerList) || this.runWithOutPower || ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_TICK, false);
+		return PowerSystems.runPowerLess(PowerSystems.UE_SUPPORTED_SYSTEMS) || this.runWithOutPower || ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_TICK, false);
 	}
 
 	@Override

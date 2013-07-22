@@ -15,7 +15,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
-import dark.security.GreaterSecurity;
 import dark.security.common.chest.TileEntityLockedChest;
 
 /** @author DarkGuardsman, TheCowGod */
@@ -36,7 +35,7 @@ public class ItemLock extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.PREFIX + "lock");
+		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.instance.PREFIX + "lock");
 	}
 
 	@Override
@@ -95,7 +94,7 @@ public class ItemLock extends Item
 				}
 				else
 				{
-					
+
 				}
 			}
 		}

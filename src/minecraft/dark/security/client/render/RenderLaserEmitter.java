@@ -7,7 +7,7 @@ import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import dark.core.render.RenderMachine;
-import dark.security.GreaterSecurity;
+import dark.security.common.GreaterSecurity;
 import dark.security.common.fence.TileEntityLaserFence;
 
 public class RenderLaserEmitter extends RenderMachine
@@ -21,7 +21,7 @@ public class RenderLaserEmitter extends RenderMachine
 
 	public void renderAModelAt(TileEntityLaserFence tileEntity, double d, double d1, double d2, float f)
 	{
-		bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png");
+		bindTextureByName(GreaterSecurity.instance.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png");
 
 		int meta = tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) % 6;
 

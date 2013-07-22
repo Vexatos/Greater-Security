@@ -16,7 +16,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.core.render.RenderMachine;
-import dark.security.GreaterSecurity;
+import dark.security.common.GreaterSecurity;
 import dark.security.common.chest.BlockLockedChest;
 import dark.security.common.chest.TileEntityLockedChest;
 
@@ -71,13 +71,13 @@ public class RenderChest extends RenderMachine
 			{
 				var14 = this.chestModel;
 
-					this.bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "chest/1XChestRender.png");
+					this.bindTextureByName(GreaterSecurity.instance.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "chest/1XChestRender.png");
 			}
 			else
 			{
 				var14 = this.largeChestModel;
 
-					this.bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "chest/2xChestRender.png");
+					this.bindTextureByName(GreaterSecurity.instance.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "chest/2xChestRender.png");
 			}
 
 			GL11.glPushMatrix();

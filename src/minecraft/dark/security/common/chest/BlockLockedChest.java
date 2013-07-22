@@ -21,9 +21,9 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
-import dark.security.GreaterSecurity;
 import dark.security.common.BlockGS;
 import dark.security.common.CommonProxy;
+import dark.security.common.GreaterSecurity;
 
 public class BlockLockedChest extends BlockGS
 {

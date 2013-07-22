@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import dark.core.render.RenderMachine;
-import dark.security.GreaterSecurity;
+import dark.security.common.GreaterSecurity;
 import dark.security.common.fence.BlockElectroFence;
 
 public class RenderEltroFence extends RenderMachine
@@ -26,7 +26,7 @@ public class RenderEltroFence extends RenderMachine
 			GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
 			GL11.glScalef(1.0F, -1F, -1F);
 
-			this.bindTextureByName(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY+ "EltroFence.png");
+			this.bindTextureByName(GreaterSecurity.instance.DOMAIN,GreaterSecurity.MODEL_DIRECTORY+ "EltroFence.png");
 
 			BlockElectroFence fence = GreaterSecurity.blockElectroFence;
 

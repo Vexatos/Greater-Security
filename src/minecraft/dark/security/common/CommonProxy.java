@@ -12,7 +12,7 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
 import dark.library.gui.ContainerFake;
 import dark.library.gui.GuiGlobalList;
-import dark.library.machine.terminal.TileEntityTerminal;
+import dark.prefab.machine.terminal.TileEntityTerminal;
 import dark.security.client.GuiDestroyResponce;
 import dark.security.client.GuiUserAccess;
 import dark.security.common.chest.TileEntityLockedChest;

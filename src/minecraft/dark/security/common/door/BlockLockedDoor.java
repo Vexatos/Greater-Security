@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
-import dark.security.GreaterSecurity;
 import dark.security.common.BlockGS;
 import dark.security.common.CommonProxy;
+import dark.security.common.GreaterSecurity;
 
 public class BlockLockedDoor extends BlockGS
 {
@@ -125,7 +125,7 @@ public class BlockLockedDoor extends BlockGS
 
 		for (int i = 0; i < ICON_NAMES.length; ++i)
 		{
-			this.icons[i] = par1IconRegister.registerIcon(GreaterSecurity.PREFIX + ICON_NAMES[i]);
+			this.icons[i] = par1IconRegister.registerIcon(GreaterSecurity.instance.PREFIX + ICON_NAMES[i]);
 			this.icons[i + ICON_NAMES.length] = new IconFlipped(this.icons[i], true, false);
 		}
 	}

@@ -9,11 +9,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import dark.core.api.ISpecialAccess;
-import dark.core.api.ITerminal;
+import dark.api.ISpecialAccess;
+import dark.api.ITerminal;
 import dark.library.access.AccessLevel;
-import dark.library.machine.terminal.TerminalCommand;
-import dark.library.machine.terminal.TileEntityTerminal;
+import dark.prefab.machine.terminal.TerminalCommand;
+import dark.prefab.machine.terminal.TileEntityTerminal;
 
 public class CommandBreak extends TerminalCommand
 {

@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import dark.security.GreaterSecurity;
+import dark.security.common.GreaterSecurity;
 
 public class BlockRenderHelper implements ISimpleBlockRenderingHandler
 {
@@ -26,7 +26,7 @@ public class BlockRenderHelper implements ISimpleBlockRenderingHandler
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) 0.0F, (float) 1.1F, (float) 0.0F);
 			GL11.glRotatef(180f, 0f, 0f, 1f);
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(new ResourceLocation(GreaterSecurity.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png"));
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(new ResourceLocation(GreaterSecurity.instance.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png"));
 			laser.render(0.0725F);
 			GL11.glPopMatrix();
 		}

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.access.AccessLevel;
-import dark.security.GreaterSecurity;
+import dark.security.common.GreaterSecurity;
 
 public class ItemLockedDoor extends Item
 {
@@ -40,7 +40,7 @@ public class ItemLockedDoor extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.PREFIX + "LockedDoor");
+		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.instance.PREFIX + "LockedDoor");
 	}
 
 	@Override

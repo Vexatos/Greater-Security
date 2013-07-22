@@ -3,8 +3,8 @@ package dark.security.common.door;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import dark.library.access.AccessLevel;
-import dark.library.machine.terminal.TileEntityTerminal;
-import dark.security.GreaterSecurity;
+import dark.prefab.machine.terminal.TileEntityTerminal;
+import dark.security.common.GreaterSecurity;
 
 public class TileEntityLockedDoor extends TileEntityTerminal
 {
