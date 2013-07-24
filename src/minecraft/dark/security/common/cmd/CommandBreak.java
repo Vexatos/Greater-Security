@@ -11,9 +11,9 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import dark.api.ISpecialAccess;
 import dark.api.ITerminal;
-import dark.library.access.AccessLevel;
-import dark.prefab.machine.terminal.TerminalCommand;
-import dark.prefab.machine.terminal.TileEntityTerminal;
+import dark.core.access.AccessLevel;
+import dark.core.terminal.TerminalCommand;
+import dark.core.terminal.TileEntityTerminal;
 
 public class CommandBreak extends TerminalCommand
 {

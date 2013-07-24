@@ -12,7 +12,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import dark.core.DarkMain;
-import dark.library.effects.FXBeam;
+import dark.core.client.FXBeam;
 import dark.security.client.render.RenderChest;
 import dark.security.client.render.RenderEltroFence;
 import dark.security.client.render.RenderLaserEmitter;

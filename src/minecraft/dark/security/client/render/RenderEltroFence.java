@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import dark.core.render.RenderMachine;
+import dark.core.client.RenderMachine;
 import dark.security.common.GreaterSecurity;
 import dark.security.common.fence.BlockElectroFence;
 

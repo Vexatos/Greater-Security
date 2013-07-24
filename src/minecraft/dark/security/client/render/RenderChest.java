@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL12;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.core.render.RenderMachine;
+import dark.core.client.RenderMachine;
 import dark.security.common.GreaterSecurity;
 import dark.security.common.chest.BlockLockedChest;
 import dark.security.common.chest.TileEntityLockedChest;

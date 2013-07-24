@@ -15,11 +15,11 @@ import org.lwjgl.opengl.GL11;
 
 import dark.api.ISpecialAccess;
 import dark.core.DarkMain;
-import dark.library.access.AccessLevel;
-import dark.library.access.UserAccess;
-import dark.library.gui.ContainerFake;
-import dark.library.gui.GuiButtonArrow;
-import dark.prefab.machine.terminal.TileEntityTerminal;
+import dark.core.access.AccessLevel;
+import dark.core.access.UserAccess;
+import dark.core.gui.ContainerFake;
+import dark.core.gui.GuiButtonArrow;
+import dark.core.terminal.TileEntityTerminal;
 import dark.security.common.CommonProxy;
 import dark.security.common.GreaterSecurity;
 

@@ -15,8 +15,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import dark.library.access.AccessLevel;
-import dark.prefab.machine.terminal.TileEntityTerminal;
+import dark.core.access.AccessLevel;
+import dark.core.terminal.TileEntityTerminal;
 import dark.security.common.GreaterSecurity;
 
 public class TileEntityLockedChest extends TileEntityTerminal

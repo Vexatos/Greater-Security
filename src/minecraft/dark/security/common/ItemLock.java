@@ -13,8 +13,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.access.AccessLevel;
-import dark.library.access.UserAccess;
+import dark.core.access.AccessLevel;
+import dark.core.access.UserAccess;
 import dark.security.common.chest.TileEntityLockedChest;
 
 /** @author DarkGuardsman, TheCowGod */

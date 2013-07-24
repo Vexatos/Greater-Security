@@ -11,9 +11,9 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
 import dark.api.INetworkPart;
 import dark.api.PowerSystems;
+import dark.core.blocks.TileEntityMachine;
 import dark.core.tile.network.NetworkSharedPower;
 import dark.core.tile.network.NetworkTileEntities;
-import dark.prefab.machine.TileEntityMachine;
 import dark.security.common.CommonProxy;
 
 public class TileEntityElectroFence extends TileEntityMachine implements INetworkPart

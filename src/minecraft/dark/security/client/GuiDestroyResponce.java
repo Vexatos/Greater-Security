@@ -11,8 +11,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import dark.core.DarkMain;
-import dark.library.gui.ContainerFake;
-import dark.prefab.machine.terminal.TileEntityTerminal;
+import dark.core.gui.ContainerFake;
+import dark.core.terminal.TileEntityTerminal;
 import dark.security.common.CommonProxy;
 import dark.security.common.GreaterSecurity;
 
