@@ -5,18 +5,18 @@ package dark.security.common.chest;
  * @author DarkGuardsman */
 public enum LockTypes
 {
-	CLASSIC("Key", -1),
-	NAME("User", -1),
-	PIN("Code", -1);
+    CLASSIC("Key", -1),
+    NAME("User", -1),
+    PIN("Code", -1);
 
-	String name;
-	int GUI_ID;
+    String name;
+    int GUI_ID;
 
-	/** @param name - reference and unlocalized gui name
-	 * @param GUI_ID - id reference for the gui manager */
-	private LockTypes(String name, int GUI_ID)
-	{
-		this.name = name;
-		this.GUI_ID = GUI_ID;
-	}
+    /** @param name - reference and unlocalized gui name
+     * @param GUI_ID - id reference for the gui manager */
+    private LockTypes(String name, int GUI_ID)
+    {
+        this.name = name;
+        this.GUI_ID = GUI_ID;
+    }
 }

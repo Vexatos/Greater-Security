@@ -9,58 +9,58 @@ import dark.security.common.GreaterSecurity;
 public class TileEntityLockedDoor extends TileEntityTerminal
 {
 
-	int timeOpen = 0;
-	public boolean isOpen = false;
-	private int closeTime = 7; // TODO add gui setting for this
+    int timeOpen = 0;
+    public boolean isOpen = false;
+    private int closeTime = 7; // TODO add gui setting for this
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		super.readFromNBT(nbt);
-		if (nbt.hasKey("Owner"))
-		{
-			this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
-		}
-		if (nbt.hasKey("users"))
-		{
-			int userSize = nbt.getInteger("users");
-			for (int i = 0; i < userSize; i++)
-			{
-				String read = nbt.getString("user" + i);
-				this.addUserAccess(read, AccessLevel.USER, true);
-			}
-		}
-	}
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if (nbt.hasKey("Owner"))
+        {
+            this.addUserAccess(nbt.getString("Owner"), AccessLevel.OWNER, true);
+        }
+        if (nbt.hasKey("users"))
+        {
+            int userSize = nbt.getInteger("users");
+            for (int i = 0; i < userSize; i++)
+            {
+                String read = nbt.getString("user" + i);
+                this.addUserAccess(read, AccessLevel.USER, true);
+            }
+        }
+    }
 
-	/** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
-	 * uses this to count ticks and creates a new spawn inside its implementation. */
-	public void updateEntity()
-	{
-		super.updateEntity();
-		if (isOpen && this.ticks % 20 == 0 && timeOpen++ >= closeTime)
-		{
-			timeOpen = 0;
-			this.isOpen = false;
-			BlockLockedDoor.activateDoor(this);
-		}
-	}
+    /** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
+     * uses this to count ticks and creates a new spawn inside its implementation. */
+    public void updateEntity()
+    {
+        super.updateEntity();
+        if (isOpen && this.ticks % 20 == 0 && timeOpen++ >= closeTime)
+        {
+            timeOpen = 0;
+            this.isOpen = false;
+            BlockLockedDoor.activateDoor(this);
+        }
+    }
 
-	@Override
-	public String getChannel()
-	{
-		return GreaterSecurity.CHANNEL;
-	}
+    @Override
+    public String getChannel()
+    {
+        return GreaterSecurity.CHANNEL;
+    }
 
-	@Override
-	public boolean canConnect(ForgeDirection direction)
-	{
-		return false;
-	}
+    @Override
+    public boolean canConnect(ForgeDirection direction)
+    {
+        return false;
+    }
 
-	@Override
-	public float getRequest(ForgeDirection side)
-	{
-		return 0;
-	}
+    @Override
+    public float getRequest(ForgeDirection side)
+    {
+        return 0;
+    }
 
 }

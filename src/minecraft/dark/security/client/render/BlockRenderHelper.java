@@ -14,40 +14,40 @@ import dark.security.common.GreaterSecurity;
 
 public class BlockRenderHelper implements ISimpleBlockRenderingHandler
 {
-	public static BlockRenderHelper instance = new BlockRenderHelper();
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-	private ModelLaserEmitter laser = new ModelLaserEmitter();
+    public static BlockRenderHelper instance = new BlockRenderHelper();
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+    private ModelLaserEmitter laser = new ModelLaserEmitter();
 
-	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
-	{
-		if (block.blockID == GreaterSecurity.blockLaserFence.blockID)
-		{
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) 0.0F, (float) 1.1F, (float) 0.0F);
-			GL11.glRotatef(180f, 0f, 0f, 1f);
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(new ResourceLocation(GreaterSecurity.instance.DOMAIN,GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png"));
-			laser.render(0.0725F);
-			GL11.glPopMatrix();
-		}
-		else if (block.blockID == GreaterSecurity.blockElectroFence.blockID)
-		{
-		}
+    @Override
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
+    {
+        if (block.blockID == GreaterSecurity.blockLaserFence.blockID)
+        {
+            GL11.glPushMatrix();
+            GL11.glTranslatef((float) 0.0F, (float) 1.1F, (float) 0.0F);
+            GL11.glRotatef(180f, 0f, 0f, 1f);
+            FMLClientHandler.instance().getClient().renderEngine.func_110577_a(new ResourceLocation(GreaterSecurity.instance.DOMAIN, GreaterSecurity.MODEL_DIRECTORY + "LaserEmitter.png"));
+            laser.render(0.0725F);
+            GL11.glPopMatrix();
+        }
+        else if (block.blockID == GreaterSecurity.blockElectroFence.blockID)
+        {
+        }
 
-	}
+    }
 
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
-	{
-		return false;
-	}
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
+    {
+        return false;
+    }
 
-	public boolean shouldRender3DInInventory()
-	{
-		return true;
-	}
+    public boolean shouldRender3DInInventory()
+    {
+        return true;
+    }
 
-	public int getRenderId()
-	{
-		return renderID;
-	}
+    public int getRenderId()
+    {
+        return renderID;
+    }
 }

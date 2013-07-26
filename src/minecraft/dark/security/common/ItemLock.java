@@ -1,6 +1,5 @@
 package dark.security.common;
 
-
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -21,84 +20,84 @@ import dark.security.common.chest.TileEntityLockedChest;
 public class ItemLock extends Item
 {
 
-	public ItemLock(int par1)
-	{
-		super(par1);
-		this.setHasSubtypes(true);
-		this.setUnlocalizedName("Lock");
-		maxStackSize = 10;
-		setMaxDamage(0);
-		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
-	}
+    public ItemLock(int par1)
+    {
+        super(par1);
+        this.setHasSubtypes(true);
+        this.setUnlocalizedName("Lock");
+        maxStackSize = 10;
+        setMaxDamage(0);
+        this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.instance.PREFIX + "lock");
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister)
+    {
+        this.itemIcon = par1IconRegister.registerIcon(GreaterSecurity.instance.PREFIX + "lock");
+    }
 
-	@Override
-	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-	{
-		par3List.add(new ItemStack(this, 1, 0));
-	}
+    @Override
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    {
+        par3List.add(new ItemStack(this, 1, 0));
+    }
 
-	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float par8, float par9, float par10)
-	{
-		if (entityplayer != null && !world.isRemote)
-		{
-			TileEntity entity = world.getBlockTileEntity(i, j, k);
+    @Override
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float par8, float par9, float par10)
+    {
+        if (entityplayer != null && !world.isRemote)
+        {
+            TileEntity entity = world.getBlockTileEntity(i, j, k);
 
-			if (entity != null && entity.getClass().equals(TileEntityChest.class))
-			{
-				// // Get current chest //
-				TileEntityChest chest = ((TileEntityChest) entity);
-				ItemStack[] chestItems = new ItemStack[chest.getSizeInventory()];
-				// // Get current chest inventory //
-				for (int slot = 0; slot < chest.getSizeInventory(); slot++)
-				{
-					chestItems[slot] = chest.getStackInSlot(slot);
-					chest.setInventorySlotContents(slot, null);
-				}
-				// // replace chest with locked chest //
-				if (world.setBlock(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, 3))
-				{
+            if (entity != null && entity.getClass().equals(TileEntityChest.class))
+            {
+                // // Get current chest //
+                TileEntityChest chest = ((TileEntityChest) entity);
+                ItemStack[] chestItems = new ItemStack[chest.getSizeInventory()];
+                // // Get current chest inventory //
+                for (int slot = 0; slot < chest.getSizeInventory(); slot++)
+                {
+                    chestItems[slot] = chest.getStackInSlot(slot);
+                    chest.setInventorySlotContents(slot, null);
+                }
+                // // replace chest with locked chest //
+                if (world.setBlock(i, j, k, GreaterSecurity.blockLockedChest.blockID, 0, 3))
+                {
 
-					TileEntity newChest = world.getBlockTileEntity(i, j, k);
-					if (newChest instanceof TileEntityLockedChest)
-					{
-						TileEntityLockedChest lockedChest = (TileEntityLockedChest) newChest;
-						TileEntityLockedChest connectedChest = lockedChest.getAdjacentChest();
+                    TileEntity newChest = world.getBlockTileEntity(i, j, k);
+                    if (newChest instanceof TileEntityLockedChest)
+                    {
+                        TileEntityLockedChest lockedChest = (TileEntityLockedChest) newChest;
+                        TileEntityLockedChest connectedChest = lockedChest.getAdjacentChest();
 
-						if (connectedChest != null)
-						{
-							for (UserAccess user : connectedChest.getUsers())
-							{
-								lockedChest.addUserAccess(user.username, user.level, user.shouldSave);
-							}
-						}
-						else
-						{
-							lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
-						}
-						// // add chest inv to new locked chest //
-						for (int b = 0; b < lockedChest.chestInv.getSizeInventory(); b++)
-						{
-							lockedChest.chestInv.setInventorySlotContents(b, chestItems[b]);
+                        if (connectedChest != null)
+                        {
+                            for (UserAccess user : connectedChest.getUsers())
+                            {
+                                lockedChest.addUserAccess(user.username, user.level, user.shouldSave);
+                            }
+                        }
+                        else
+                        {
+                            lockedChest.addUserAccess(entityplayer.username, AccessLevel.OWNER, true);
+                        }
+                        // // add chest inv to new locked chest //
+                        for (int b = 0; b < lockedChest.chestInv.getSizeInventory(); b++)
+                        {
+                            lockedChest.chestInv.setInventorySlotContents(b, chestItems[b]);
 
-						}
-					}
+                        }
+                    }
 
-				}
-				else
-				{
+                }
+                else
+                {
 
-				}
-			}
-		}
-		return true;
+                }
+            }
+        }
+        return true;
 
-	}
+    }
 }

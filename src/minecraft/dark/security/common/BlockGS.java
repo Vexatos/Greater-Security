@@ -6,10 +6,10 @@ import dark.core.blocks.BlockMachine;
 public abstract class BlockGS extends BlockMachine
 {
 
-	protected BlockGS(String name, int blockID, Material material)
-	{
-		super(name, GreaterSecurity.config, blockID, material);
-		this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
-	}
+    protected BlockGS(String name, int blockID, Material material)
+    {
+        super(name, GreaterSecurity.config, blockID, material);
+        this.setCreativeTab(GreaterSecurity.tabGreaterSecurity);
+    }
 
 }
