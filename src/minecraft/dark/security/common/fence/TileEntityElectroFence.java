@@ -9,43 +9,37 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
-import dark.api.INetworkPart;
+import dark.api.INetworkEnergyPart;
 import dark.api.PowerSystems;
 import dark.core.blocks.TileEntityMachine;
 import dark.core.tile.network.NetworkSharedPower;
 import dark.core.tile.network.NetworkTileEntities;
 import dark.security.common.CommonProxy;
 
-public class TileEntityElectroFence extends TileEntityMachine implements INetworkPart
+public class TileEntityElectroFence extends TileEntityMachine implements INetworkEnergyPart
 {
+    public static final float WATT_PER_SHOCK = 30;
 
-    private static final float WATT_PER_SHOCK = 30;
-    private static final float WATT_PER_TICK = 1;
-    public List<TileEntity> connections = new ArrayList<TileEntity>();
-    private NetworkSharedPower powerNetwork;
+    protected List<TileEntity> connections = new ArrayList<TileEntity>();
+
+    protected NetworkSharedPower powerNetwork;
     /** How many blocks should the player be knocked-back when shocked? */
     private static final int KNOCKBACK = 3;
 
-    @Override
-    public void updateEntity()
+    public TileEntityElectroFence()
     {
-        super.updateEntity();
-        if (!PowerSystems.runPowerLess(PowerSystems.UE_SUPPORTED_SYSTEMS) && !this.runWithOutPower && this.canRun())
-        {
-            ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_TICK, true);
-        }
+        super(1, (WATT_PER_SHOCK * 10) + 20);
     }
 
     /** Called by the block on collision to apply shock damage if it has power */
     public void shockEntity(Entity entity)
     {
-        if (entity != null && this.canRun() && (PowerSystems.runPowerLess(PowerSystems.UE_SUPPORTED_SYSTEMS) || this.runWithOutPower || ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_SHOCK, false)))
+        if (entity != null && this.canRun() && this.consumePower(WATT_PER_SHOCK, true))
         {
-            ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_SHOCK, true);
-
             /* DAMAGE PER TICK OF COLLISION (20ticks a sec) */
             entity.attackEntityFrom(CustomDamageSource.electrocution.setDeathMessage("%1$s tried to climb an electric fence!"), 1);
 
+            //TODO change to angle of entity compared to fence
             CommonProxy.entityPush(entity, KNOCKBACK, false);
             entity.motionY += KNOCKBACK;
 
@@ -53,21 +47,39 @@ public class TileEntityElectroFence extends TileEntityMachine implements INetwor
     }
 
     @Override
-    public boolean canRun()
+    public boolean consumePower(float watts, boolean doDrain)
     {
-        return PowerSystems.runPowerLess(PowerSystems.UE_SUPPORTED_SYSTEMS) || this.runWithOutPower || ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, WATT_PER_TICK, false);
+        return ((NetworkSharedPower) this.getTileNetwork()).drainPower(this, watts, doDrain);
     }
 
     @Override
-    public boolean canConnect(ForgeDirection direction)
+    public float getRequest(ForgeDirection direction)
     {
-        return true;
+        return this.WATTS_PER_TICK;
+    }
+
+    @Override
+    public void togglePowerMode()
+    {
+        ((NetworkSharedPower) this.getTileNetwork()).setPowerLess(this.runPowerLess());
+    }
+
+    @Override
+    public float getEnergyStored()
+    {
+        return ((NetworkSharedPower) this.getTileNetwork()).getEnergyStored();
     }
 
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
         return INFINITE_EXTENT_AABB;
+    }
+
+    @Override
+    public boolean canConnect(ForgeDirection direction)
+    {
+        return true;
     }
 
     @Override
@@ -100,7 +112,7 @@ public class TileEntityElectroFence extends TileEntityMachine implements INetwor
     @Override
     public NetworkTileEntities getTileNetwork()
     {
-        if (this.powerNetwork == null)
+        if (!(this.powerNetwork instanceof NetworkSharedPower))
         {
             this.powerNetwork = new NetworkSharedPower(this);
         }
@@ -120,7 +132,24 @@ public class TileEntityElectroFence extends TileEntityMachine implements INetwor
     @Override
     public boolean mergeDamage(String result)
     {
-        // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public float getPartEnergy()
+    {
+        return this.energyStored;
+    }
+
+    @Override
+    public float getPartMaxEnergy()
+    {
+        return this.MAX_WATTS;
+    }
+
+    @Override
+    public void setPartEnergy(float energy)
+    {
+        this.energyStored = energy;
     }
 }
