@@ -1,6 +1,7 @@
 package dark.security.common.fence;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -11,6 +12,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 import dark.api.ISpecialAccess;
 import dark.core.terminal.TileEntityTerminal;
@@ -21,35 +23,59 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
 
     public static final int MAX_LASER_RANGE = 10;
     public static final int UPDATE_RATE = 3;
-    public static final float WattTick = 10;
 
     private Color beamColor = Color.red;
 
-    Vector3 fenceLocation = null;
+    public static List<Block> laserPassBlocks = new ArrayList<Block>();
+
+    static
+    {
+        registerLaserPassBlock(Block.fire);
+        registerLaserPassBlock(Block.tallGrass);
+        registerLaserPassBlock(Block.crops);
+        registerLaserPassBlock(Block.deadBush);
+        registerLaserPassBlock(Block.mushroomRed);
+        registerLaserPassBlock(Block.mushroomBrown);
+        registerLaserPassBlock(Block.netherStalk);
+        registerLaserPassBlock(Block.sapling);
+        registerLaserPassBlock(Block.melonStem);
+        registerLaserPassBlock(Block.pumpkinStem);
+        registerLaserPassBlock(Block.torchWood);
+    }
+
+    public TileEntityLaserFence()
+    {
+        this.WATTS_PER_TICK = 5;
+        this.MAX_WATTS = this.WATTS_PER_TICK * 20;
+    }
+
+    public static void registerLaserPassBlock(Block block)
+    {
+        if (block != null && !laserPassBlocks.contains(block))
+        {
+            laserPassBlocks.add(block);
+        }
+    }
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
 
-        if (fenceLocation == null)
-        {
-            fenceLocation = new Vector3(this);
-        }
-        /* TICK REDUCTION UPDATE */
         if (this.ticks % UPDATE_RATE == 0)
         {
-            /* LASER GRID SETUP */
             int gridSize = this.getGridSize();
-            /* HAS REDSTONE POWER, CAN GENERATE LASER, HAS POWER CHECKS */
-            if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && this.canDeployGrid(gridSize) && this.getEnergyStored() >= TileEntityLaserFence.WattTick)
+            if (this.canRun() && this.canDeployGrid(gridSize))
             {
-                /* POWER DRAIN */
-                this.setEnergyStored(this.getEnergyStored() - TileEntityLaserFence.WattTick);
-                /* DEPLOY GRID */
                 this.deployGrid(gridSize);
             }
         }
+    }
+
+    @Override
+    public boolean canRun()
+    {
+        return super.canRun() && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
     }
 
     public boolean canDeployGrid(int gridSize)
@@ -58,7 +84,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
         {
             for (int blockDistance = 1; blockDistance < gridSize; blockDistance++)
             {
-                if (!this.canRenderThrew(fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), blockDistance)))
+                if (!this.canBeamPassThrew(new Vector3(this).clone().modifyPositionFromSide(this.getFacingDirection(), blockDistance)))
                 {
                     // System.out.println("Can't create lasers :: "+loc.toString());
                     return false;
@@ -71,42 +97,40 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
     }
 
     /** Can the laser pass threw the block without being sloped
-     * 
+     *
      * @param vec - location of the block
      * @return true if it can */
-    public boolean canRenderThrew(Vector3 vec)
+    public boolean canBeamPassThrew(Vector3 vec)
     {
         int blockID = vec.getBlockID(this.worldObj);
         Block block = Block.blocksList[blockID];
 
-        if (blockID != 0)
-            return true;
-        if (blockID != Block.fire.blockID)
-            return true;
-        if (blockID != Block.tallGrass.blockID)
-            return true;
-        if (blockID != Block.blockSnow.blockID)
-            return true;
         if (block != null)
         {
-            if (block instanceof BlockFlower)
+            if (block instanceof BlockFluid || block instanceof IFluidBlock)
+            {
                 return true;
-            if (block instanceof BlockMushroom)
+            }
+            if (laserPassBlocks.contains(block))
+            {
                 return true;
-            if (block instanceof BlockFluid)
+            }
+            if (blockID == 0 || block.isAirBlock(worldObj, vec.intX(), vec.intY(), vec.intZ()))
+            {
                 return true;
+            }
         }
         return false;
     }
 
     /** Gets the max size of the laser grid
-     * 
+     *
      * @return neg one if grid can't be created too a size. */
     public int getGridSize()
     {
         for (int tileDistance = TileEntityLaserFence.MAX_LASER_RANGE; tileDistance > 0; tileDistance--)
         {
-            Vector3 tileLoc = fenceLocation.clone().modifyPositionFromSide(this.getFacingDirection(), tileDistance);
+            Vector3 tileLoc = new Vector3(this).clone().modifyPositionFromSide(this.getFacingDirection(), tileDistance);
 
             if (tileLoc.getTileEntity(worldObj) instanceof TileEntityLaserFence && tileLoc.getTileEntity(worldObj) != this)
             {
@@ -122,7 +146,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
     }
 
     /** Creates or renews the laser grid by size
-     * 
+     *
      * @param gridLength - size of laser grid from emitter */
     public void deployGrid(int gridLength)
     {
@@ -253,7 +277,7 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
     }
 
     /** is this block rotated on its facing side
-     * 
+     *
      * @return true if its been rotated 90 degrees more than normal */
     public boolean isRotated()
     {
@@ -274,12 +298,6 @@ public class TileEntityLaserFence extends TileEntityTerminal implements ISpecial
     public String getChannel()
     {
         return GreaterSecurity.CHANNEL;
-    }
-
-    @Override
-    public float getRequest(ForgeDirection side)
-    {
-        return TileEntityLaserFence.WattTick;
     }
 
     @Override
