@@ -15,6 +15,7 @@ import dark.core.blocks.TileEntityMachine;
 import dark.core.tile.network.NetworkSharedPower;
 import dark.core.tile.network.NetworkTileEntities;
 import dark.security.common.CommonProxy;
+import dark.security.common.GreaterSecurity;
 
 public class TileEntityElectroFence extends TileEntityMachine implements INetworkEnergyPart
 {
@@ -151,5 +152,11 @@ public class TileEntityElectroFence extends TileEntityMachine implements INetwor
     public void setPartEnergy(float energy)
     {
         this.energyStored = energy;
+    }
+
+    @Override
+    public String getChannel()
+    {
+        return GreaterSecurity.CHANNEL;
     }
 }
